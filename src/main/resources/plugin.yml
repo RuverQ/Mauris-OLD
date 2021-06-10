@@ -1,0 +1,10 @@
+name: Mauris
+version: ${project.version}
+main: com.ruverq.mauris.Mauris
+api-version: 1.16
+prefix: Mauris
+authors: [ RuverQ ]
+description: FREE plugin for custom block and custom items
+commands:
+  mauris:
+    description: ebat
