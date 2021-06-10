@@ -101,57 +101,57 @@ public class MaurisItem {
     }
 
     public boolean isGenerated(){
-        int i = DataHelper.getId(folder, name);
+        int i = DataHelper.getId(folder, name, "items." + material.name());
         return i != -1;
     }
 
     public void generate(){
         if(isGenerated()){
             DataHelper.deleteFile("resource_pack/assets/" + folder + "/models/" + name + ".json");
+            DataHelper.deleteFile("resource_pack/assets/minecraft/models/item/" + material.name() + ".json");
         }
 
         if(generateModel){
-            System.out.println(isBlock);
-            if(!isBlock){
 
-                //First DIR
-                JsonObject customItemJson = new JsonObject();
-                customItemJson.addProperty("parent", "item/generated");
+            //First DIR
+            JsonObject customItemJson = new JsonObject();
+            customItemJson.addProperty("parent", "item/generated");
 
-                JsonObject jsonTextures = new JsonObject();
-                int layeri = 0;
-                String fff = "";
-                if(!folder.isEmpty()){
-                    fff = folder + ":";
-                }
-                for(String tex : textures){
+            JsonObject jsonTextures = new JsonObject();
+            int layeri = 0;
+            String fff = "";
+            if(!folder.isEmpty()){
+                fff = folder + ":";
+            }
 
-                    jsonTextures.addProperty("layer" + layeri, fff + tex);
-                    layeri++;
-                }
+            for(String tex : textures){
 
-                customItemJson.add("textures", jsonTextures);
+                jsonTextures.addProperty("layer" + layeri, fff + tex);
+                layeri++;
+            }
 
-                DataHelper.createFolder("resource_pack/assets/" + folder + "/models");
-                DataHelper.createFolder("resource_pack/assets/" + folder + "/textures");
-                DataHelper.createFile("resource_pack/assets/" + folder + "/models/" + name + ".json", customItemJson.toString());
+            customItemJson.add("textures", jsonTextures);
 
-                //Second DIR
-                File itemFileJson = DataHelper.getFile("resource_pack/assets/minecraft/models/item/" + material.name() + ".json");
-                JsonObject itemJson = new JsonObject();
-                if(itemFileJson == null){
-                    itemJson.addProperty("parent", "minecraft:item/generated");
-                    JsonObject jsonItemTextures = new JsonObject();
-                    jsonItemTextures.addProperty("layer0", "minecraft:item/" + material.name().toLowerCase());
-                    itemJson.add("textures", jsonItemTextures);
-                }else{
-                    itemJson = DataHelper.FileToJson(itemFileJson);
-                }
+            DataHelper.createFolder("resource_pack/assets/" + folder + "/models");
+            DataHelper.createFolder("resource_pack/assets/" + folder + "/textures");
+            DataHelper.createFile("resource_pack/assets/" + folder + "/models/" + name + ".json", customItemJson.toString());
 
-                if(itemJson == null){
-                    Bukkit.getLogger().warning("ERROR");
-                    return;
-                }
+            //Second DIR
+            File itemFileJson = DataHelper.getFile("resource_pack/assets/minecraft/models/item/" + material.name().toLowerCase() + ".json");
+            JsonObject itemJson = new JsonObject();
+            if(itemFileJson == null){
+                itemJson.addProperty("parent", "minecraft:item/generated");
+                JsonObject jsonItemTextures = new JsonObject();
+                jsonItemTextures.addProperty("layer0", "minecraft:item/" + material.name().toLowerCase());
+                itemJson.add("textures", jsonItemTextures);
+            }else{
+                itemJson = DataHelper.FileToJson(itemFileJson);
+            }
+
+            if(itemJson == null){
+                Bukkit.getLogger().warning("ERROR");
+                return;
+            }
 
                 JsonArray overrides = new JsonArray();
                 if(itemJson.has("overrides")){
@@ -165,24 +165,21 @@ public class MaurisItem {
                     }
                 }
 
-                JsonObject override = new JsonObject();
-                JsonObject predicate = new JsonObject();
+            JsonObject override = new JsonObject();
+            JsonObject predicate = new JsonObject();
 
-                predicate.addProperty("custom_model_data", DataHelper.addId(folder, name));
-                override.add("predicate", predicate);
-                override.addProperty("model", fff + name);
+            predicate.addProperty("custom_model_data", DataHelper.addId(folder, name, "items." + material.name()));
+            override.add("predicate", predicate);
+            override.addProperty("model", fff + name);
 
-                overrides.add(override);
+            overrides.add(override);
 
-                itemJson.remove("overrides");
-                itemJson.add("overrides", overrides);
+            itemJson.remove("overrides");
+            itemJson.add("overrides", overrides);
 
-                DataHelper.createFolder("resource_pack/assets/minecraft/models/item");
-                DataHelper.createFile("resource_pack/assets/minecraft/models/item/" + material.name().toLowerCase() + ".json", itemJson.toString());
+            DataHelper.createFolder("resource_pack/assets/minecraft/models/item");
+            DataHelper.createFile("resource_pack/assets/minecraft/models/item/" + material.name().toLowerCase() + ".json", itemJson.toString());
 
-            }else{
-
-            }
         }
     }
 

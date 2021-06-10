@@ -23,7 +23,8 @@ public class MaurisBuilder {
     File file;
 
     public MaurisItem build(){
-        return new MaurisItem(folder,name,textures,displayName,lore,material,generateModel,isBlock,maurisBlock, file);
+        if(isBlock) return new MaurisBlock(folder,name,textures,displayName,lore,material,generateModel, true,maurisBlock,file);
+        return new MaurisItem(folder,name,textures,displayName,lore,material,generateModel, false,maurisBlock, file);
     }
 
     public MaurisBuilder addTexture(String path){

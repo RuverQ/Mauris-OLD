@@ -10,6 +10,7 @@ import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.util.FileUtil;
 
 import java.io.*;
+import java.util.Arrays;
 
 public class DataHelper {
 
@@ -21,30 +22,68 @@ public class DataHelper {
         createFolder("mauris/namespace");
 
         createFolder("resource_pack/assets/minecraft");
-        createFile("ids.json", "{ }");
+        createFile("ids.yml", "");
     }
 
-    public static int getId(String folder, String name){
+    public static int getId(String folder, String name, String path){
+
+        YamlConfiguration ys = YamlConfiguration.loadConfiguration(getFile("ids.yml"));
+
         String namespace = folder + ":" + name;
-        JsonObject jsonObject = FileToJson(getFile("ids.json"));
 
-        JsonElement je = jsonObject.get(namespace);
+        ConfigurationSection rightCS = ys.getConfigurationSection(path);
 
-        if(je == null) return -1;
+        if (rightCS != null) {
+            if (rightCS.contains(namespace)) return rightCS.getInt(namespace);
+        }
 
-        return je.getAsInt();
+        return -1;
+
     }
 
-    public static int addId(String folder, String name){
+    public static int addId(String folder, String name, String path){
+
+        File file = getFile("ids.yml");
+
+        YamlConfiguration ys = YamlConfiguration.loadConfiguration(file);
+
         String namespace = folder + ":" + name;
-        JsonObject jsonObject = FileToJson(getFile("ids.json"));
-        System.out.println("a");
-        if(jsonObject.get(namespace) != null) return jsonObject.get(namespace).getAsInt();
-        System.out.println("b");
-        int id = jsonObject.entrySet().size() + 1;
-        jsonObject.addProperty(namespace, id);
-        updateFile("ids.json", jsonObject.toString());
-        return id;
+
+        ConfigurationSection rightCS = ys.getConfigurationSection(path);
+
+        if(rightCS == null) {
+            createSections(ys, path);
+            rightCS = ys.getConfigurationSection(path);
+        }else{
+            if(rightCS.contains(namespace)) return rightCS.getInt(namespace);
+        }
+
+        int newId = rightCS.getKeys(false).size() + 1;
+
+        ys.set(path + "." + namespace, newId);
+
+        try {
+            System.out.println(ys.get(path + "." + namespace));
+            ys.save(file);
+        } catch (IOException e) {
+            e.printStackTrace();
+            return -1;
+        }
+
+        return newId;
+    }
+
+    private static YamlConfiguration createSections(YamlConfiguration config, String path){
+        StringBuilder sb = new StringBuilder();
+
+        String[] paths = path.split("\\.");
+        for(String p : paths){
+            sb.append(p);
+            config.createSection(sb.toString());
+            sb.append(".");
+        }
+
+        return config;
     }
 
     public static JsonObject FileToJson(File file){
@@ -120,7 +159,9 @@ public class DataHelper {
 
     public static File createFile(String path, String value){
         try {
-            File file = createFile(path);
+            File file = getFile(path);
+            if(file == null) return null;
+            file = createFile(path);
 
             FileWriter fileWriter = new FileWriter(file);
             PrintWriter printWriter = new PrintWriter(fileWriter);

@@ -18,6 +18,7 @@ public class ItemsLoader {
             Bukkit.getLogger().warning("ITEMS CANNOT LOAD WTF");
             return;
         }
+
         File[] dirListFiles = dir.listFiles();
         if(dirListFiles == null){
             Bukkit.getLogger().warning("ITEMS CANNOT LOAD WTF");
@@ -29,7 +30,7 @@ public class ItemsLoader {
             if(!dirItems.isDirectory()) continue;
             currentFolder = dirItems.getName();
             File[] files = dirItems.listFiles();
-            if(files == null) return;
+            if(files == null) continue;
 
             for(File file : files){
 
