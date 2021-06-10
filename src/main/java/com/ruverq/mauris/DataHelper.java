@@ -160,7 +160,7 @@ public class DataHelper {
     public static File createFile(String path, String value){
         try {
             File file = getFile(path);
-            if(file == null) return null;
+            if(file != null) return null;
             file = createFile(path);
 
             FileWriter fileWriter = new FileWriter(file);
