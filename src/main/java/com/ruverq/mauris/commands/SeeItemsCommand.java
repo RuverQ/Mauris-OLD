@@ -28,6 +28,5 @@ public class SeeItemsCommand implements SimpleCommand{
         foldersGUI.setDefaultSettings();
 
         foldersGUI.open();
-
     }
 }

@@ -1,6 +1,7 @@
 package com.ruverq.mauris.gui;
 
 import lombok.Getter;
+import net.md_5.bungee.api.ChatColor;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -11,6 +12,8 @@ import org.bukkit.inventory.Inventory;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class GUI implements Listener {
 
@@ -51,7 +54,18 @@ public class GUI implements Listener {
     }
 
     public void setDisplayName(String displayName) {
-        this.displayName = displayName;
+        this.displayName = format(displayName);
+    }
+
+    private static final Pattern pattern = Pattern.compile("#[a-fA-F0-9]{6}");
+    public static String format(String msg){
+        Matcher matcher = pattern.matcher(msg);
+        while(matcher.find()){
+            String color = msg.substring(matcher.start(), matcher.end());
+            msg = msg.replace(color, String.valueOf(ChatColor.of(color)));
+            matcher = pattern.matcher(msg);
+        }
+        return ChatColor.translateAlternateColorCodes('&', msg);
     }
 
     public static GUI getGUI(Inventory inventory){

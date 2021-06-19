@@ -1,5 +1,6 @@
 package com.ruverq.mauris;
 
+import com.google.gson.JsonObject;
 import com.ruverq.mauris.utils.ZipUtils;
 import com.sun.net.httpserver.Headers;
 import com.sun.net.httpserver.HttpExchange;
@@ -13,6 +14,7 @@ import java.io.*;
 import java.net.InetSocketAddress;
 import java.nio.file.Files;
 import java.util.Arrays;
+import java.util.Date;
 
 public class ResourcePackHelper {
 
@@ -36,12 +38,27 @@ public class ResourcePackHelper {
         File rpzip = new File(file.getAbsolutePath() + File.separator + "rp.zip");
         rpzip.delete();
 
+        generateMCMETA();
+
         ZipFile zipFile = new ZipFile(file.getAbsolutePath() + File.separator + "rp.zip");
         zipFile.addFile(file.getAbsoluteFile() + File.separator + "pack.png");
         zipFile.addFile(file.getAbsoluteFile() + File.separator + "pack.mcmeta");
         zipFile.addFolder(DataHelper.getDir("resource_pack/assets"));
 
         isZiped = true;
+    }
+
+    public void generateMCMETA(){
+        DataHelper.deleteFile("resource_pack/pack.mcmeta");
+
+        JsonObject jsonObject = new JsonObject();
+        JsonObject packObject = new JsonObject();
+        packObject.addProperty("description", new Date(System.currentTimeMillis()).toString());
+        packObject.addProperty("pack_format", 6);
+
+        jsonObject.add("pack", packObject);
+
+        DataHelper.createFile("resource_pack/pack.mcmeta", jsonObject.toString());
     }
 
     @SneakyThrows

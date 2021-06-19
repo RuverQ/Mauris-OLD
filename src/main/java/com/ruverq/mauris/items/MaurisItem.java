@@ -128,7 +128,6 @@ public class MaurisItem {
 
         if(isGenerated()){
             DataHelper.deleteFile("resource_pack/assets/" + folderName + "/models/" + name + ".json");
-            DataHelper.deleteFile("resource_pack/assets/minecraft/models/item/" + material.name().toLowerCase() + ".json");
         }
 
         if(generateModel){
@@ -170,9 +169,13 @@ public class MaurisItem {
                 return;
             }
 
-                JsonArray overrides = new JsonArray();
-            /*
-                if(itemJson.has("overrides")){
+            // TODO 2 предмета не работает
+
+            JsonArray overrides = new JsonArray();
+
+            this.id = DataHelper.addId(getFolder(), name, "items." + material.name());
+
+            if(itemJson.has("overrides")){
                     overrides = itemJson.getAsJsonArray("overrides");
                     for (JsonElement element : overrides) {
                          JsonObject tempOverride = element.getAsJsonObject();
@@ -180,17 +183,14 @@ public class MaurisItem {
                          JsonElement tempModel = tempOverride.get("model");
                          String model = tempModel.getAsString();
                          if(model.equalsIgnoreCase(fff + name)) {
-                             DataHelper.deleteFile("resource_pack/assets/minecraft/models/item/" + material.name().toLowerCase() + ".json");
-                             break;
+                             return;
                          }
                     }
-                }
-             */
+            }
 
             JsonObject override = new JsonObject();
             JsonObject predicate = new JsonObject();
 
-            this.id = DataHelper.addId(getFolder(), name, "items." + material.name());
             System.out.println("newid " + id);
             predicate.addProperty("custom_model_data", id);
             override.add("predicate", predicate);
@@ -201,8 +201,8 @@ public class MaurisItem {
             itemJson.remove("overrides");
             itemJson.add("overrides", overrides);
 
-            System.out.println(itemJson.toString());
             DataHelper.createFolder("resource_pack/assets/minecraft/models/item");
+            DataHelper.deleteFile("resource_pack/assets/minecraft/models/item/" + material.name().toLowerCase() + ".json");
             DataHelper.createFile("resource_pack/assets/minecraft/models/item/" + material.name().toLowerCase() + ".json", itemJson.toString());
         }
     }
