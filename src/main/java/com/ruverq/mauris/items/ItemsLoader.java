@@ -2,14 +2,22 @@ package com.ruverq.mauris.items;
 
 import com.ruverq.mauris.DataHelper;
 import org.bukkit.Bukkit;
+import org.bukkit.craftbukkit.libs.it.unimi.dsi.fastutil.Hash;
+import org.bukkit.inventory.ItemStack;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Set;
 
 public class ItemsLoader {
 
+    //Please help
     static List<MaurisItem> itemsLoaded = new ArrayList<>();
+    static HashMap<String, MaurisItem> itemsByName = new HashMap<>();
+    static HashMap<ItemStack, MaurisItem> itemsByItemStack = new HashMap<>();
+    static HashMap<String, List<MaurisItem>> itemsByFolder = new HashMap<>();
 
     public static void load(){
 
@@ -25,26 +33,62 @@ public class ItemsLoader {
             return;
         }
 
-        String currentFolder = "";
-        for(File dirItems : dirListFiles){
-            if(!dirItems.isDirectory()) continue;
-            currentFolder = dirItems.getName();
-            File[] files = dirItems.listFiles();
-            if(files == null) continue;
-
-            for(File file : files){
-
-                List<MaurisItem> itemsToLoad = MaurisItem.loadFromFile(file, currentFolder);
-                for(MaurisItem mi : itemsToLoad){
-                    mi.generate();
-                    System.out.println("Loaded " + mi.name);
-                    itemsLoaded.add(mi);
-                }
-
-            }
-
+        List<MaurisItem> items = new ArrayList<>();
+        for(MaurisFolder folder : MaurisFolder.getAllFolders()){
+            List<MaurisItem> folderItems = folder.getAllItems(true);
+            items.addAll(folderItems);
         }
 
+        loadForStructure(items);
+
+    }
+
+    public static Set<String> getLoadedFolders(){
+        return itemsByFolder.keySet();
+    }
+
+    public static List<MaurisItem> getMaurisItems(String folder){
+        return itemsByFolder.get(folder);
+    }
+
+    public static List<MaurisItem> getMaurisItems(){
+        return itemsLoaded;
+    }
+
+    public static MaurisItem getMaurisItem(int index){
+        return itemsLoaded.get(index);
+    }
+
+    public static MaurisItem getMaurisItem(ItemStack itemStack){
+        return itemsByItemStack.get(itemStack);
+    }
+
+    public static MaurisItem getMaurisItem(String name){
+        return itemsByName.get(name);
+    }
+
+    private static void loadForStructure(List<MaurisItem> items){
+        for(MaurisItem item : items){
+            loadForStructure(item);
+        }
+    }
+
+    private static void loadForStructure(MaurisItem item){
+        itemsLoaded.add(item);
+        itemsByName.put(item.name, item);
+        itemsByItemStack.put(item.getAsItemStack(), item);
+
+        System.out.println("id " + item.id);
+
+        List<MaurisItem> items = itemsByFolder.get(item.folder.getName());
+        if(items == null){
+            items = new ArrayList<>();
+            items.add(item);
+        }else{
+            items.add(item);
+            itemsByFolder.remove(item.folder.getName());
+        }
+        itemsByFolder.put(item.folder.getName(), items);
 
     }
 

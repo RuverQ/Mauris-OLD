@@ -20,6 +20,7 @@ public class CommandManager implements CommandExecutor, TabCompleter {
         Bukkit.getPluginCommand(getMain()).setExecutor(new CommandManager());
 
         addCommand(new RPZipCommand());
+        addCommand(new SeeItemsCommand());
     }
 
     public static String getMain() {
@@ -34,7 +35,7 @@ public class CommandManager implements CommandExecutor, TabCompleter {
         Matcher matcher = pattern.matcher(msg);
         while(matcher.find()){
             String color = msg.substring(matcher.start(), matcher.end());
-            msg = msg.replace(color, ChatColor.of(color) + "");
+            msg = msg.replace(color, String.valueOf(ChatColor.of(color)));
             matcher = pattern.matcher(msg);
         }
         return ChatColor.translateAlternateColorCodes('&', msg);

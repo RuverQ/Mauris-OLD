@@ -5,13 +5,4 @@ example:
   lore:
     - "&7bruh"
   textures:
-    - blocks/example.png
-  block:
-    hardness:
-      default: 1
-      stone_packaxe: 0.10
-      diamond_pickaxe: 0.20
-    sounds:
-      place:
-      break:
-      step:
+    - example.png

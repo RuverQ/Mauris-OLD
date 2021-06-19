@@ -3,14 +3,12 @@ package com.ruverq.mauris;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-import com.google.gson.stream.JsonReader;
+import com.ruverq.mauris.items.MaurisFolder;
 import lombok.SneakyThrows;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.YamlConfiguration;
-import org.bukkit.util.FileUtil;
 
 import java.io.*;
-import java.util.Arrays;
 
 public class DataHelper {
 
@@ -25,29 +23,33 @@ public class DataHelper {
         createFile("ids.yml", "");
     }
 
-    public static int getId(String folder, String name, String path){
+    public static int getId(MaurisFolder folder, String name, String path){
 
         YamlConfiguration ys = YamlConfiguration.loadConfiguration(getFile("ids.yml"));
 
-        String namespace = folder + ":" + name;
+        String namespace = folder.getName() + ":" + name;
 
         ConfigurationSection rightCS = ys.getConfigurationSection(path);
 
-        if (rightCS != null) {
-            if (rightCS.contains(namespace)) return rightCS.getInt(namespace);
+        if (rightCS != null && rightCS.contains(namespace)) {
+            return rightCS.getInt(namespace);
         }
 
         return -1;
 
     }
 
-    public static int addId(String folder, String name, String path){
+    public static int addId(MaurisFolder folder, String name, String path){
+        int tempId = getId(folder, name, path);
+        if(tempId >= 0){
+            return tempId;
+        }
 
         File file = getFile("ids.yml");
 
         YamlConfiguration ys = YamlConfiguration.loadConfiguration(file);
 
-        String namespace = folder + ":" + name;
+        String namespace = folder.getName() + ":" + name;
 
         ConfigurationSection rightCS = ys.getConfigurationSection(path);
 
@@ -63,7 +65,6 @@ public class DataHelper {
         ys.set(path + "." + namespace, newId);
 
         try {
-            System.out.println(ys.get(path + "." + namespace));
             ys.save(file);
         } catch (IOException e) {
             e.printStackTrace();
@@ -80,7 +81,7 @@ public class DataHelper {
         for(String p : paths){
             sb.append(p);
             config.createSection(sb.toString());
-            sb.append(".");
+            sb.append('.');
         }
 
         return config;
@@ -95,21 +96,19 @@ public class DataHelper {
 
     private static String readFile(File file) {
         try{
-            BufferedReader reader = new BufferedReader(new FileReader(file));
-            String         line = null;
-            StringBuilder  stringBuilder = new StringBuilder();
-            String         ls = System.getProperty("line.separator");
 
-            try {
-                while((line = reader.readLine()) != null) {
+            try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
+                String line = null;
+                StringBuilder stringBuilder = new StringBuilder();
+                String ls = System.getProperty("line.separator");
+                while ((line = reader.readLine()) != null) {
                     stringBuilder.append(line);
                     stringBuilder.append(ls);
                 }
 
                 return stringBuilder.toString();
-            } finally {
-                reader.close();
             }
+
         }catch(Exception e){
             e.printStackTrace();
             return null;
@@ -145,7 +144,6 @@ public class DataHelper {
         String tempPath = path.replace("/", File.separator);
         File file = new File(dataPath + tempPath);
         if(file.exists()) return file;
-        System.out.println(file.getAbsolutePath());
         file.createNewFile();
         return file;
     }

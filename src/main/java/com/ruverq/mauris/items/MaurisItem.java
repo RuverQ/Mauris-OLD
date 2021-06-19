@@ -3,9 +3,9 @@ package com.ruverq.mauris.items;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
-import com.google.gson.stream.JsonWriter;
 import com.ruverq.mauris.DataHelper;
+import lombok.Getter;
+import lombok.Setter;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.configuration.ConfigurationSection;
@@ -15,7 +15,6 @@ import org.bukkit.inventory.meta.ItemMeta;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 
 import static com.ruverq.mauris.utils.FormatUtils.formatColor;
@@ -23,21 +22,33 @@ import static com.ruverq.mauris.utils.FormatUtils.formatColorList;
 
 public class MaurisItem {
 
-    String folder;
+    @Getter
+    MaurisFolder folder;
+    @Getter
     String name;
 
+    @Getter
     List<String> textures;
+    @Getter
     String displayName;
+    @Getter
     List<String> lore;
+    @Getter
     Material material;
+    @Getter
     boolean generateModel;
 
+    @Getter
     boolean isBlock;
+    @Getter
     MaurisBlock maurisBlock;
 
+    @Getter
     File file;
 
-    public MaurisItem(String folder, String name, List<String> textures, String displayName, List<String> lore, Material material, boolean generateModel, boolean isBlock, MaurisBlock maurisBlock, File file) {
+    int id;
+
+    public MaurisItem(MaurisFolder folder, String name, List<String> textures, String displayName, List<String> lore, Material material, boolean generateModel, boolean isBlock, MaurisBlock maurisBlock, File file) {
         this.folder = folder;
         this.name = name;
         this.textures = textures;
@@ -56,6 +67,8 @@ public class MaurisItem {
         ItemMeta itemMeta = itemStack.getItemMeta();
         itemMeta.setDisplayName(formatColor(displayName));
         itemMeta.setLore(formatColorList(lore));
+        itemMeta.setCustomModelData(id);
+        System.out.println(name + " " + id);
 
         itemStack.setItemMeta(itemMeta);
 
@@ -63,6 +76,10 @@ public class MaurisItem {
     }
 
     public static List<MaurisItem> loadFromFile(File file, String folder){
+        return loadFromFile(file, new MaurisFolder(folder));
+    }
+
+    public static List<MaurisItem> loadFromFile(File file, MaurisFolder folder){
         List<MaurisItem> list = new ArrayList<>();
 
         ConfigurationSection cs = YamlConfiguration.loadConfiguration(file);
@@ -106,23 +123,23 @@ public class MaurisItem {
     }
 
     public void generate(){
+
+        String folderName = getFolder().getName();
+
         if(isGenerated()){
-            DataHelper.deleteFile("resource_pack/assets/" + folder + "/models/" + name + ".json");
-            DataHelper.deleteFile("resource_pack/assets/minecraft/models/item/" + material.name() + ".json");
+            DataHelper.deleteFile("resource_pack/assets/" + folderName + "/models/" + name + ".json");
+            DataHelper.deleteFile("resource_pack/assets/minecraft/models/item/" + material.name().toLowerCase() + ".json");
         }
 
         if(generateModel){
 
             //First DIR
             JsonObject customItemJson = new JsonObject();
-            customItemJson.addProperty("parent", "item/generated");
+            customItemJson.addProperty("parent", "minecraft:item/generated");
 
             JsonObject jsonTextures = new JsonObject();
             int layeri = 0;
-            String fff = "";
-            if(!folder.isEmpty()){
-                fff = folder + ":";
-            }
+            String fff = folderName + ":";
 
             for(String tex : textures){
 
@@ -132,9 +149,9 @@ public class MaurisItem {
 
             customItemJson.add("textures", jsonTextures);
 
-            DataHelper.createFolder("resource_pack/assets/" + folder + "/models");
-            DataHelper.createFolder("resource_pack/assets/" + folder + "/textures");
-            DataHelper.createFile("resource_pack/assets/" + folder + "/models/" + name + ".json", customItemJson.toString());
+            DataHelper.createFolder("resource_pack/assets/" + folderName + "/models");
+            DataHelper.createFolder("resource_pack/assets/" + folderName + "/textures");
+            DataHelper.createFile("resource_pack/assets/" + folderName + "/models/" + name + ".json", customItemJson.toString());
 
             //Second DIR
             File itemFileJson = DataHelper.getFile("resource_pack/assets/minecraft/models/item/" + material.name().toLowerCase() + ".json");
@@ -154,6 +171,7 @@ public class MaurisItem {
             }
 
                 JsonArray overrides = new JsonArray();
+            /*
                 if(itemJson.has("overrides")){
                     overrides = itemJson.getAsJsonArray("overrides");
                     for (JsonElement element : overrides) {
@@ -161,14 +179,20 @@ public class MaurisItem {
                          if(tempOverride == null) continue;
                          JsonElement tempModel = tempOverride.get("model");
                          String model = tempModel.getAsString();
-                         if(model.equalsIgnoreCase(fff + name)) return;
+                         if(model.equalsIgnoreCase(fff + name)) {
+                             DataHelper.deleteFile("resource_pack/assets/minecraft/models/item/" + material.name().toLowerCase() + ".json");
+                             break;
+                         }
                     }
                 }
+             */
 
             JsonObject override = new JsonObject();
             JsonObject predicate = new JsonObject();
 
-            predicate.addProperty("custom_model_data", DataHelper.addId(folder, name, "items." + material.name()));
+            this.id = DataHelper.addId(getFolder(), name, "items." + material.name());
+            System.out.println("newid " + id);
+            predicate.addProperty("custom_model_data", id);
             override.add("predicate", predicate);
             override.addProperty("model", fff + name);
 
@@ -177,9 +201,9 @@ public class MaurisItem {
             itemJson.remove("overrides");
             itemJson.add("overrides", overrides);
 
+            System.out.println(itemJson.toString());
             DataHelper.createFolder("resource_pack/assets/minecraft/models/item");
             DataHelper.createFile("resource_pack/assets/minecraft/models/item/" + material.name().toLowerCase() + ".json", itemJson.toString());
-
         }
     }
 

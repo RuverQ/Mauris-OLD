@@ -7,7 +7,7 @@ import java.util.List;
 
 public class MaurisBuilder {
 
-    String folder;
+    MaurisFolder folder;
 
     String name;
 
@@ -82,8 +82,13 @@ public class MaurisBuilder {
         return this;
     }
 
-    public MaurisBuilder setFolder(String folder){
+    public MaurisBuilder setFolder(MaurisFolder folder){
         this.folder = folder;
+        return this;
+    }
+
+    public MaurisBuilder setFolder(String folder){
+        this.folder = new MaurisFolder(folder);
         return this;
     }
 

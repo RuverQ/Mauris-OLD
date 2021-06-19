@@ -10,6 +10,7 @@ import java.util.zip.ZipEntry;
 import java.util.zip.ZipOutputStream;
 
 // Thanks StackOverflow https://stackoverflow.com/questions/15968883/how-to-zip-a-folder-itself-using-java
+@Deprecated
 public class ZipUtils {
 
     private List <String> fileList;
@@ -20,7 +21,7 @@ public class ZipUtils {
 
         this.OUTPUT_ZIP_FILE = output;
         this.SOURCE_FOLDER = sourcefolder;
-        fileList = new ArrayList < String > ();
+        fileList = new ArrayList <> ();
     }
 
     public void run(){
@@ -37,11 +38,9 @@ public class ZipUtils {
             fos = new FileOutputStream(zipFile);
             zos = new ZipOutputStream(fos);
 
-            System.out.println("Output to Zip : " + zipFile);
             FileInputStream in = null;
 
             for (String file: this.fileList) {
-                System.out.println("File Added : " + file);
                 ZipEntry ze = new ZipEntry(file);
                 zos.putNextEntry(ze);
                 try {
@@ -56,7 +55,6 @@ public class ZipUtils {
             }
 
             zos.closeEntry();
-            System.out.println("Folder successfully compressed");
 
         } catch (IOException ex) {
             ex.printStackTrace();

@@ -6,17 +6,19 @@ import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 import com.sun.net.httpserver.HttpServer;
 import lombok.SneakyThrows;
+import net.lingala.zip4j.ZipFile;
 import org.bukkit.entity.Player;
 
 import java.io.*;
 import java.net.InetSocketAddress;
 import java.nio.file.Files;
+import java.util.Arrays;
 
 public class ResourcePackHelper {
 
-    int port = 8090;
+    int port = 8232;
 
-    String ip = "127.0.0.1";
+    String ip = "localhost";
     String url = "http://" + ip + ":" + port + "/rp.zip";
 
     boolean isHosted;
@@ -28,13 +30,16 @@ public class ResourcePackHelper {
         player.setResourcePack(url);
     }
 
+    @SneakyThrows
     public void zipResourcePack(){
         File file = DataHelper.getDir("resource_pack");
         File rpzip = new File(file.getAbsolutePath() + File.separator + "rp.zip");
         rpzip.delete();
 
-        ZipUtils zipUtils = new ZipUtils(file.getAbsolutePath() + File.separator + "rp.zip", file.getAbsolutePath());
-        zipUtils.run();
+        ZipFile zipFile = new ZipFile(file.getAbsolutePath() + File.separator + "rp.zip");
+        zipFile.addFile(file.getAbsoluteFile() + File.separator + "pack.png");
+        zipFile.addFile(file.getAbsoluteFile() + File.separator + "pack.mcmeta");
+        zipFile.addFolder(DataHelper.getDir("resource_pack/assets"));
 
         isZiped = true;
     }
