@@ -80,7 +80,7 @@ public class DataHelper {
         String[] paths = path.split("\\.");
         for(String p : paths){
             sb.append(p);
-            config.createSection(sb.toString());
+            if(!config.isConfigurationSection(sb.toString())) config.createSection(sb.toString());
             sb.append('.');
         }
 

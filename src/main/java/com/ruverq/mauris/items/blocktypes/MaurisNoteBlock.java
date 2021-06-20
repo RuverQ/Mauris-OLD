@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
-public class MariusNoteBlock implements MaurisBlockType{
+public class MaurisNoteBlock implements MaurisBlockType{
 
     @Override
     public HashMap<String, List<String>> possibleProperties() {
@@ -42,7 +42,7 @@ public class MariusNoteBlock implements MaurisBlockType{
         hashMap.put("note", possibleNotes);
         hashMap.put("powered", pPowered);
 
-        return null;
+        return hashMap;
     }
 
     @Override

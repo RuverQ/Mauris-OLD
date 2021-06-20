@@ -50,7 +50,12 @@ public class MaurisFolder {
         }
 
         return items;
+    }
 
+    public File getFile(String path){
+        path = path.replace("/", File.separator);
+        File file = new File(getDir() + File.separator + path);
+        return file;
     }
 
     public List<MaurisItem> getAllItems(){

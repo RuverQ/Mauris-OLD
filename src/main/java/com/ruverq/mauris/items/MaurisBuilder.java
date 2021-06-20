@@ -1,5 +1,6 @@
 package com.ruverq.mauris.items;
 
+import com.ruverq.mauris.items.blocktypes.MaurisBlockType;
 import org.bukkit.Material;
 
 import java.io.File;
@@ -22,9 +23,18 @@ public class MaurisBuilder {
 
     File file;
 
+    double hardness;
+
+    MaurisBlockType type;
+
     public MaurisItem build(){
-        if(isBlock) return new MaurisBlock(folder,name,textures,displayName,lore,material,generateModel, true,maurisBlock,file);
+        if(isBlock) return new MaurisBlock(folder,name,textures,displayName,lore,material,generateModel, true,maurisBlock,file, type, hardness, null);
         return new MaurisItem(folder,name,textures,displayName,lore,material,generateModel, false,maurisBlock, file);
+    }
+
+    public MaurisBuilder setBlock(MaurisBlock block){
+        this.maurisBlock = block;
+        return this;
     }
 
     public MaurisBuilder addTexture(String path){
@@ -89,6 +99,16 @@ public class MaurisBuilder {
 
     public MaurisBuilder setFolder(String folder){
         this.folder = new MaurisFolder(folder);
+        return this;
+    }
+
+    public MaurisBuilder setHardness(double hardness){
+        this.hardness = hardness;
+        return this;
+    }
+
+    public MaurisBuilder setType(MaurisBlockType type){
+        this.type = type;
         return this;
     }
 

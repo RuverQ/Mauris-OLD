@@ -21,6 +21,7 @@ public class CommandManager implements CommandExecutor, TabCompleter {
 
         addCommand(new RPZipCommand());
         addCommand(new SeeItemsCommand());
+        addCommand(new ReloadCommand());
     }
 
     public static String getMain() {

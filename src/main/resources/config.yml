@@ -1,0 +1,7 @@
+
+
+
+self-host:
+  enabled: true
+  ip: localhost
+  port: 8090

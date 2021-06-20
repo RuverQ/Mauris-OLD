@@ -2,6 +2,7 @@ package com.ruverq.mauris.items;
 
 import com.ruverq.mauris.DataHelper;
 import org.bukkit.Bukkit;
+import org.bukkit.block.data.BlockData;
 import org.bukkit.craftbukkit.libs.it.unimi.dsi.fastutil.Hash;
 import org.bukkit.inventory.ItemStack;
 
@@ -17,6 +18,7 @@ public class ItemsLoader {
     static List<MaurisItem> itemsLoaded = new ArrayList<>();
     static HashMap<String, MaurisItem> itemsByName = new HashMap<>();
     static HashMap<ItemStack, MaurisItem> itemsByItemStack = new HashMap<>();
+    static HashMap<BlockData, MaurisBlock> blockByBlockData = new HashMap<>();
     static HashMap<String, List<MaurisItem>> itemsByFolder = new HashMap<>();
 
     public static void load(){
@@ -51,6 +53,10 @@ public class ItemsLoader {
         return itemsByFolder.get(folder);
     }
 
+    public static MaurisBlock getMaurisBlock(BlockData blockData){
+        return blockByBlockData.get(blockData);
+    }
+
     public static List<MaurisItem> getMaurisItems(){
         return itemsLoaded;
     }
@@ -78,7 +84,10 @@ public class ItemsLoader {
         itemsByName.put(item.name, item);
         itemsByItemStack.put(item.getAsItemStack(), item);
 
-        System.out.println("id " + item.id);
+        if(item.isBlock()){
+            MaurisBlock block = (MaurisBlock) item;
+            blockByBlockData.put(block.getAsBlockData(), block);
+        }
 
         List<MaurisItem> items = itemsByFolder.get(item.folder.getName());
         if(items == null){
