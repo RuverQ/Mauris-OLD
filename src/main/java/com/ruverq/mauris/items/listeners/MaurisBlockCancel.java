@@ -24,7 +24,6 @@ public class MaurisBlockCancel implements Listener {
         BlockData bd = e.getClickedBlock().getBlockData();
         MaurisBlock mb = ItemsLoader.getMaurisBlock(bd);
         if(mb != null && !e.getPlayer().isSneaking()) e.setCancelled(true);
-
     }
 
     @EventHandler
@@ -36,7 +35,7 @@ public class MaurisBlockCancel implements Listener {
         if(mb != null) e.setCancelled(true);
 
         for(Block block : getNearbyBlocks(e.getBlock().getLocation(), 1)){
-            mb = ItemsLoader.getMaurisBlock(bd);
+            mb = ItemsLoader.getMaurisBlock(block.getBlockData());
             if(mb != null) e.setCancelled(true);
         }
     }

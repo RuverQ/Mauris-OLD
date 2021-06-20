@@ -2,6 +2,7 @@ package com.ruverq.mauris.items.listeners;
 
 import com.ruverq.mauris.items.ItemsLoader;
 import com.ruverq.mauris.items.MaurisItem;
+import com.ruverq.mauris.utils.PlayerAnimation;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
@@ -11,6 +12,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.ArrayList;
@@ -19,6 +21,8 @@ import java.util.List;
 import java.util.Set;
 
 public class MaurisBlockPlace implements Listener {
+
+
 
     @EventHandler
     public void onPlace(PlayerInteractEvent e){
@@ -40,6 +44,9 @@ public class MaurisBlockPlace implements Listener {
             BlockData bd = item.getAsMaurisBlock().getAsBlockData();
             newBlock.setBlockData(bd);
         }
+
+        PlayerAnimation.play(e.getPlayer());
+
     }
 
     public Block getBlockPlaceLocation(Player player) {
