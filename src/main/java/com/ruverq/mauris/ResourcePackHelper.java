@@ -15,18 +15,20 @@ import java.net.InetSocketAddress;
 import java.nio.file.Files;
 import java.util.Arrays;
 import java.util.Date;
+import java.util.UUID;
 
 public class ResourcePackHelper {
 
-    int port = 8232;
+    static int port = 8232;
 
-    String ip = "localhost";
-    String url = "http://" + ip + ":" + port + "/rp.zip";
-
+    static String ip = "localhost";
+    static String randomUUID;
+    static String url = "http://" + ip + ":" + port + "/rp.zip";
     boolean isHosted;
     boolean isZiped;
 
     static HttpServer server;
+
 
     public void sendTo(Player player){
         player.setResourcePack(url);
@@ -69,14 +71,17 @@ public class ResourcePackHelper {
             server = null;
         }
 
-        server = HttpServer.create(new InetSocketAddress(port), 0);
-        String path = file.getPath() + File.separator + "rp.zip";
+        randomUUID = UUID.randomUUID().toString();
+        url = "http://" + ip + ":" + port + "/rp.zip#" + randomUUID;
 
-        server.createContext("/rp.zip", new HHandler(path));
+        server = HttpServer.create(new InetSocketAddress(port), 0);
+
+        server.createContext("/rp.zip", new HHandler(file.getPath() + File.separator + "rp.zip"));
         server.setExecutor(null);
 
         server.start();
 
+        System.out.println("Hosted on " + url);
         isHosted = true;
     }
 
