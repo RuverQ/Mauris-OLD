@@ -58,6 +58,14 @@ public interface MaurisBlockType {
         return possibleBlocks;
     }
 
+    default List<String> getListOfBooleans(){
+        List<String> p = new ArrayList<>();
+        p.add("false");
+        p.add("true");
+
+        return p;
+    }
+
     default int getMaxPossibleBlocks(){
         int maxPossibleBlocks = 0;
 

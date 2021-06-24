@@ -5,7 +5,9 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.ruverq.mauris.DataHelper;
 import com.ruverq.mauris.items.blocktypes.MaurisBlockType;
+import com.ruverq.mauris.items.blocktypes.MaurisMushroomStem;
 import com.ruverq.mauris.items.blocktypes.MaurisNoteBlock;
+import com.ruverq.mauris.items.blocktypes.MaurisTripwire;
 import lombok.Getter;
 import lombok.Setter;
 import org.bukkit.Bukkit;
@@ -104,11 +106,17 @@ public class MaurisItem {
                 ConfigurationSection blockcs = cs.getConfigurationSection(name + ".block");
 
                 double hardness = blockcs.getInt("hardness.default", 1);
-                MaurisBlockType type = new MaurisNoteBlock();
+
+                String placeSound = blockcs.getString("sounds.place");
+                String stepSound = blockcs.getString("sounds.step");
+                String breakSound = blockcs.getString("sounds.break");
+
+                MaurisBlockType type = new MaurisTripwire();
 
                 mb.setHardness(hardness);
                 mb.setType(type);
                 mb.isBlock(true);
+                mb.setSounds(breakSound, placeSound, stepSound);
 
             }
 

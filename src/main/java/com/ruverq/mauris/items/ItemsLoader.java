@@ -2,6 +2,7 @@ package com.ruverq.mauris.items;
 
 import com.ruverq.mauris.DataHelper;
 import org.bukkit.Bukkit;
+import org.bukkit.Material;
 import org.bukkit.block.data.BlockData;
 import org.bukkit.craftbukkit.libs.it.unimi.dsi.fastutil.Hash;
 import org.bukkit.inventory.ItemStack;
@@ -71,6 +72,19 @@ public class ItemsLoader {
 
     public static MaurisItem getMaurisItem(String name){
         return itemsByName.get(name);
+    }
+
+    public static ItemStack getMaurisItem(String name, boolean materialIfNull){
+        MaurisItem maurisItem = getMaurisItem(name);
+        if(maurisItem == null){
+            if(!materialIfNull) return null;
+            Material material = Material.matchMaterial(name);
+            if(material == null) return null;
+            return new ItemStack(material);
+        }
+
+        return maurisItem.getAsItemStack();
+
     }
 
     private static void loadForStructure(List<MaurisItem> items){

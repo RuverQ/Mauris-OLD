@@ -21,12 +21,22 @@ import java.util.List;
 
 public class MaurisBlock extends MaurisItem {
 
-    public MaurisBlock(MaurisFolder folder, String name, List<String> textures, String displayName, List<String> lore, Material material, boolean generateModel, boolean isBlock, MaurisBlock maurisBlock, File file, MaurisBlockType type, double hardness, HashMap<MaurisItem, Double> hardnessPerTool) {
+    public MaurisBlock(MaurisFolder folder, String name, List<String> textures, String displayName, List<String> lore, Material material, boolean generateModel, boolean isBlock, MaurisBlock maurisBlock, File file, MaurisBlockType type, double hardness, HashMap<MaurisItem, Double> hardnessPerTool,  String breakSound,  String placeSound,  String stepSound, MaurisLootTable lootTable) {
         super(folder, name, textures, displayName, lore, material, generateModel, isBlock, maurisBlock, file);
         this.type = type;
         this.hardness = hardness;
         this.hardnessPerTool = hardnessPerTool;
+        this.stepSound = stepSound;
+        this.breakSound = breakSound;
+        this.placeSound = placeSound;
+        this.lootTable = lootTable;
     }
+
+    MaurisLootTable lootTable;
+
+    String breakSound;
+    String stepSound;
+    String placeSound;
 
     int blockId;
 
@@ -84,8 +94,6 @@ public class MaurisBlock extends MaurisItem {
 
         this.blockId = DataHelper.addId(folder, name, "blocks." + type.material().name());
 
-        //multipartArray.add(addNormalMultipart());
-
         List<BlockProperty> properties = type.generate(blockId);
         JsonObject mPObject = new JsonObject();
         JsonObject whenObject = new JsonObject();
@@ -106,19 +114,5 @@ public class MaurisBlock extends MaurisItem {
         DataHelper.deleteFile(blockstatePath);
         DataHelper.createFolder("resource_pack/assets/minecraft/blockstates/");
         DataHelper.createFile(blockstatePath, generalBSObject.toString());
-    }
-
-    public static JsonObject addNormalMultipart(){
-        JsonObject mPObject = new JsonObject();
-        JsonObject whenObject = new JsonObject();
-        JsonObject applyObject = new JsonObject();
-
-        whenObject.addProperty("instrument", "harp");
-        applyObject.addProperty("model", "minecraft:block/note_block");
-
-        mPObject.add("when", whenObject);
-        mPObject.add("apply", applyObject);
-
-        return mPObject;
     }
 }

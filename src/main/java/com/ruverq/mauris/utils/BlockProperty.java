@@ -18,6 +18,7 @@ public class BlockProperty {
     public JsonObject smartAdd(JsonObject jsonObject){
 
         if(value.equalsIgnoreCase("false") || value.equalsIgnoreCase("true")){
+            System.out.println(getProperty() + " " + getValue() + " " + getAsBoolean());
             jsonObject.addProperty(property, getAsBoolean());
             return jsonObject;
         }
@@ -46,7 +47,9 @@ public class BlockProperty {
     }
 
     public boolean getAsBoolean(){
-        return Boolean.getBoolean(value);
+        if(value.equalsIgnoreCase("true")) return true;
+        if(value.equalsIgnoreCase("false")) return false;
+        return false;
     }
 
     public int getAsInt(){

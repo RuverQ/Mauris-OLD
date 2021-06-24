@@ -17,21 +17,7 @@ public class RPZipCommand implements SimpleCommand{
     @Override
     public void execute(CommandSender sender, String prefix, String[] args) {
 
-        ResourcePackHelper rph = new ResourcePackHelper();
-
-        rph.zipResourcePack();
-
-        new BukkitRunnable() {
-            @Override
-            public void run() {
-
-                rph.hostResourcePack();
-                for(Player player : Bukkit.getOnlinePlayers()){
-                    rph.sendTo(player);
-                }
-
-            }
-        }.runTaskLater(Mauris.getInstance(), 5);
+        ResourcePackHelper.setupRP();
 
     }
 }

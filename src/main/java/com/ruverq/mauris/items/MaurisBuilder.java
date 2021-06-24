@@ -25,15 +25,26 @@ public class MaurisBuilder {
 
     double hardness;
 
+    String stepSound;
+    String placeSound;
+    String breakSound;
+
     MaurisBlockType type;
 
+    MaurisLootTable lootTable;
+
     public MaurisItem build(){
-        if(isBlock) return new MaurisBlock(folder,name,textures,displayName,lore,material,generateModel, true,maurisBlock,file, type, hardness, null);
+        if(isBlock) return new MaurisBlock(folder,name,textures,displayName,lore,material,generateModel, true,maurisBlock,file, type, hardness, null, breakSound, placeSound, stepSound, lootTable);
         return new MaurisItem(folder,name,textures,displayName,lore,material,generateModel, false,maurisBlock, file);
     }
 
     public MaurisBuilder setBlock(MaurisBlock block){
         this.maurisBlock = block;
+        return this;
+    }
+
+    public MaurisBuilder setLootTable(MaurisLootTable table){
+        this.lootTable = table;
         return this;
     }
 
@@ -74,6 +85,28 @@ public class MaurisBuilder {
 
     public MaurisBuilder setFile(File file){
         this.file = file;
+        return this;
+    }
+
+    public MaurisBuilder setSounds(String breakSound, String placeSound, String stepSound){
+        this.breakSound = breakSound;
+        this.placeSound = placeSound;
+        this.stepSound = stepSound;
+        return this;
+    }
+
+    public MaurisBuilder setBreakSound(String breakSound){
+        this.breakSound = breakSound;
+        return this;
+    }
+
+    public MaurisBuilder setPlaceSound(String placeSound){
+        this.placeSound = placeSound;
+        return this;
+    }
+
+    public MaurisBuilder setStepSound(String stepSound){
+        this.stepSound = stepSound;
         return this;
     }
 

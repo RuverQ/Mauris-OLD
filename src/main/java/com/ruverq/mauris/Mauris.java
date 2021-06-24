@@ -3,6 +3,7 @@ package com.ruverq.mauris;
 import com.ruverq.mauris.commands.CommandManager;
 import com.ruverq.mauris.gui.GUI;
 import com.ruverq.mauris.items.ItemsLoader;
+import com.ruverq.mauris.items.blocktypes.MaurisMushroomStem;
 import com.ruverq.mauris.items.listeners.MaurisBlockCancel;
 import com.ruverq.mauris.items.listeners.MaurisBlockPlace;
 import lombok.Getter;
@@ -24,6 +25,10 @@ public final class Mauris extends JavaPlugin {
         ItemsLoader.load();
 
         CommandManager.setUp();
+
+        ResourcePackHelper.setupRP();
+
+        Bukkit.getPluginManager().registerEvents(new ResourcePackHelper(), this);
 
         Bukkit.getPluginManager().registerEvents(new GUI(), this);
         Bukkit.getPluginManager().registerEvents(new MaurisBlockPlace(), this);

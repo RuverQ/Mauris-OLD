@@ -8,7 +8,12 @@ import com.sun.net.httpserver.HttpHandler;
 import com.sun.net.httpserver.HttpServer;
 import lombok.SneakyThrows;
 import net.lingala.zip4j.ZipFile;
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
+import org.bukkit.event.EventHandler;
+import org.bukkit.event.Listener;
+import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.scheduler.BukkitRunnable;
 
 import java.io.*;
 import java.net.InetSocketAddress;
@@ -17,7 +22,7 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.UUID;
 
-public class ResourcePackHelper {
+public class ResourcePackHelper implements Listener {
 
     static int port = 8232;
 
@@ -108,8 +113,32 @@ public class ResourcePackHelper {
         }
     }
 
-    public void generateResourcePack(){
+
+    public static void setupRP(){
+
+        ResourcePackHelper rph = new ResourcePackHelper();
+
+        rph.zipResourcePack();
+
+        new BukkitRunnable() {
+            @Override
+            public void run() {
+
+                rph.hostResourcePack();
+                for(Player player : Bukkit.getOnlinePlayers()){
+                    rph.sendTo(player);
+                }
+
+            }
+        }.runTaskLater(Mauris.getInstance(), 5);
 
     }
+
+
+    @EventHandler
+    public void onJoin(PlayerJoinEvent e){
+        e.getPlayer().setResourcePack(url);
+    }
+
 
 }
