@@ -111,7 +111,9 @@ public class MaurisItem {
                 String stepSound = blockcs.getString("sounds.step");
                 String breakSound = blockcs.getString("sounds.break");
 
-                MaurisBlockType type = new MaurisNoteBlock();
+                String typeS = blockcs.getString("type");
+
+                MaurisBlockType type = MaurisBlockType.getFromName(typeS);
 
                 mb.setHardness(hardness)
                         .setType(type)
