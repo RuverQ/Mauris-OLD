@@ -33,6 +33,7 @@ public class MaurisBlock extends MaurisItem {
         this.lootTable = lootTable;
     }
 
+    @Getter
     MaurisLootTable lootTable;
 
     @Getter
@@ -57,10 +58,13 @@ public class MaurisBlock extends MaurisItem {
         return stepSound;
     }
 
+    @Getter
     int blockId;
 
+    @Getter
     MaurisBlockType type;
 
+    @Getter
     int hardness;
 
     HashMap<ItemStack, Integer> hardnessPerTool;

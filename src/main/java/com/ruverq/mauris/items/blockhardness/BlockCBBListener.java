@@ -23,6 +23,7 @@ import org.bukkit.potion.PotionEffectType;
 
 import java.util.*;
 
+//From this https://www.spigotmc.org/threads/1-8-1-13-custom-block-breaking-change-block-hardness.362586/
 public class BlockCBBListener implements Listener {
 
     @EventHandler

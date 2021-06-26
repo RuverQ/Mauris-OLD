@@ -4,6 +4,7 @@ import com.ruverq.mauris.commands.CommandManager;
 import com.ruverq.mauris.gui.GUI;
 import com.ruverq.mauris.items.ItemsLoader;
 import com.ruverq.mauris.items.blockhardness.BlockCBBListener;
+import com.ruverq.mauris.items.listeners.MaurisBlockBreak;
 import com.ruverq.mauris.items.listeners.MaurisBlockCancel;
 import com.ruverq.mauris.items.listeners.MaurisBlockPlace;
 import lombok.Setter;
@@ -30,8 +31,10 @@ public final class Mauris extends JavaPlugin {
         Bukkit.getPluginManager().registerEvents(new ResourcePackHelper(), this);
 
         Bukkit.getPluginManager().registerEvents(new GUI(), this);
+
         Bukkit.getPluginManager().registerEvents(new MaurisBlockPlace(), this);
         Bukkit.getPluginManager().registerEvents(new MaurisBlockCancel(), this);
+        Bukkit.getPluginManager().registerEvents(new MaurisBlockBreak(), this);
 
         Bukkit.getPluginManager().registerEvents(new BlockCBBListener(), this);
     }

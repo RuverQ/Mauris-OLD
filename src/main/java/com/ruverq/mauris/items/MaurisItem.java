@@ -125,6 +125,9 @@ public class MaurisItem {
                     if(itemStack == null) continue;
                     int tempHardness = blockcs.getInt("hardness." + hardnessToolS);
 
+                    MaurisLootTable lootTable = MaurisLootTable.fromConfigSection(blockcs.getConfigurationSection("lootTable"));
+                    mb.setLootTable(lootTable);
+
                     mb.addHardnessPerTool(itemStack, tempHardness);
                 }
 

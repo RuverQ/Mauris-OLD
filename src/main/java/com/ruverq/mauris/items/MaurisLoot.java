@@ -10,6 +10,7 @@ import org.bukkit.entity.EntityType;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.Random;
+import java.util.concurrent.ThreadLocalRandom;
 
 public class MaurisLoot {
 
@@ -23,7 +24,7 @@ public class MaurisLoot {
 
     @Getter
     @Setter
-    ItemStack itemStack;
+    String item;
 
     @Getter
     @Setter
@@ -33,11 +34,35 @@ public class MaurisLoot {
     @Setter
     int min;
 
+    public ItemStack loot(){
+        int randomAmount = ThreadLocalRandom.current().nextInt(min, max);
+
+        ItemStack item = getItemStack().clone();
+        item.setAmount(randomAmount);
+
+        return item;
+    }
+
+    public ItemStack randomLoot(double luck){
+        if(!isWorked(luck)) return null;
+        int randomAmount = ThreadLocalRandom.current().nextInt(min, max);
+
+        ItemStack item = getItemStack().clone();
+        item.setAmount(randomAmount);
+
+        return item;
+    }
+
     public void drop(Location location){
         World world = location.getWorld();
         if(world == null) return;
 
-        world.dropItemNaturally(location, itemStack);
+        world.dropItemNaturally(location, loot());
+    }
+
+    public void dropWithChance(Location location, double luck){
+        if(!isWorked(luck)) return;
+        drop(location);
     }
 
     public void dropWithChance(Location location){
@@ -58,19 +83,22 @@ public class MaurisLoot {
         this.max = max;
     }
 
+    public ItemStack getItemStack(){
+        return ItemsLoader.getMaurisItem(item, true);
+    }
+
     public static MaurisLoot fromConfigSection(ConfigurationSection section){
         MaurisLoot loot = new MaurisLoot();
 
-        double chance = section.getDouble("chance", 0.5);
+        double chance = section.getDouble("chance", 1);
 
         String itemS = section.getString("item");
-        ItemStack item = ItemsLoader.getMaurisItem(itemS, true);
 
         int min = section.getInt("min", 0);
         int max = section.getInt("max", 3);
 
         loot.setChance(chance);
-        loot.setItemStack(item);
+        loot.setItem(itemS);
         loot.setMinNMaxValue(min,max);
 
         loot.setName(section.getName());
