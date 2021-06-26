@@ -4,6 +4,7 @@ import com.ruverq.mauris.items.ItemsLoader;
 import com.ruverq.mauris.items.MaurisBlock;
 import com.ruverq.mauris.items.MaurisItem;
 import com.ruverq.mauris.utils.PlayerAnimation;
+import org.bukkit.GameMode;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.SoundCategory;
@@ -29,6 +30,7 @@ public class MaurisBlockPlace implements Listener {
 
         ItemStack itemInteract = e.getItem();
         if(itemInteract == null) return;
+        itemInteract = itemInteract.clone();
         itemInteract.setAmount(1);
 
 
@@ -57,8 +59,12 @@ public class MaurisBlockPlace implements Listener {
             newBlock.getLocation().getWorld().playSound(newBlock.getLocation(), mb.getPlaceSoundSafe(), SoundCategory.BLOCKS, 1, 1);
         }
 
-        setCooldown(e.getPlayer());
+        if(e.getPlayer().getGameMode() != GameMode.CREATIVE){
+            e.getItem().setAmount(e.getItem().getAmount() - 1);
+            e.getPlayer().updateInventory();
+        }
 
+        setCooldown(e.getPlayer());
         PlayerAnimation.play(e.getPlayer());
     }
 
