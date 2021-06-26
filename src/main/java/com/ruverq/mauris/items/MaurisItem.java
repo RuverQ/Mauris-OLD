@@ -105,18 +105,28 @@ public class MaurisItem {
             if(cs.isConfigurationSection(name + ".block")){
                 ConfigurationSection blockcs = cs.getConfigurationSection(name + ".block");
 
-                double hardness = blockcs.getInt("hardness.default", 1);
+                int hardness = blockcs.getInt("hardness.default", 1);
 
                 String placeSound = blockcs.getString("sounds.place");
                 String stepSound = blockcs.getString("sounds.step");
                 String breakSound = blockcs.getString("sounds.break");
 
-                MaurisBlockType type = new MaurisTripwire();
+                MaurisBlockType type = new MaurisNoteBlock();
 
-                mb.setHardness(hardness);
-                mb.setType(type);
-                mb.isBlock(true);
-                mb.setSounds(breakSound, placeSound, stepSound);
+                mb.setHardness(hardness)
+                        .setType(type)
+                        .isBlock(true)
+                        .setSounds(breakSound, placeSound, stepSound);
+
+                for(String hardnessToolS : blockcs.getConfigurationSection("hardness").getKeys(false)){
+                    if(hardnessToolS.equalsIgnoreCase("default")) continue;
+
+                    ItemStack itemStack = ItemsLoader.getMaurisItem(hardnessToolS, true);
+                    if(itemStack == null) continue;
+                    int tempHardness = blockcs.getInt("hardness." + hardnessToolS);
+
+                    mb.addHardnessPerTool(itemStack, tempHardness);
+                }
 
             }
 

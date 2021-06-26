@@ -22,7 +22,7 @@ import java.util.List;
 
 public class MaurisBlock extends MaurisItem {
 
-    public MaurisBlock(MaurisFolder folder, String name, List<String> textures, String displayName, List<String> lore, Material material, boolean generateModel, boolean isBlock, MaurisBlock maurisBlock, File file, MaurisBlockType type, double hardness, HashMap<MaurisItem, Double> hardnessPerTool,  String breakSound,  String placeSound,  String stepSound, MaurisLootTable lootTable) {
+    public MaurisBlock(MaurisFolder folder, String name, List<String> textures, String displayName, List<String> lore, Material material, boolean generateModel, boolean isBlock, MaurisBlock maurisBlock, File file, MaurisBlockType type, int hardness, HashMap<ItemStack, Integer> hardnessPerTool,  String breakSound,  String placeSound,  String stepSound, MaurisLootTable lootTable) {
         super(folder, name, textures, displayName, lore, material, generateModel, isBlock, maurisBlock, file);
         this.type = type;
         this.hardness = hardness;
@@ -43,17 +43,17 @@ public class MaurisBlock extends MaurisItem {
     String placeSound;
 
     public String getPlaceSoundSafe() {
-        if(placeSound == null) return material.createBlockData().getSoundGroup().getPlaceSound().getKey().toString();
+        if(placeSound == null) return type.material().createBlockData().getSoundGroup().getPlaceSound().getKey().toString();
         return placeSound;
     }
 
     public String getBreakSoundSafe() {
-        if(breakSound == null) return material.createBlockData().getSoundGroup().getBreakSound().getKey().toString();
+        if(breakSound == null) return type.material().createBlockData().getSoundGroup().getBreakSound().getKey().toString();
         return breakSound;
     }
 
     public String getStepSoundSafe() {
-        if(stepSound == null) return material.createBlockData().getSoundGroup().getStepSound().getKey().toString();
+        if(stepSound == null) return type.material().createBlockData().getSoundGroup().getStepSound().getKey().toString();
         return stepSound;
     }
 
@@ -61,9 +61,16 @@ public class MaurisBlock extends MaurisItem {
 
     MaurisBlockType type;
 
-    double hardness;
+    int hardness;
 
-    HashMap<MaurisItem, Double> hardnessPerTool = new HashMap<>();
+    HashMap<ItemStack, Integer> hardnessPerTool;
+
+    public int getHardnessFromTool(ItemStack itemStack){
+        Object hardnessTool = hardnessPerTool.get(itemStack);
+        if(hardnessTool == null) return hardness;
+
+        return (int) hardnessTool;
+    }
 
     @Override
     public boolean isGenerated(){
@@ -80,7 +87,6 @@ public class MaurisBlock extends MaurisItem {
     public void generate(){
         MaurisItem item = (MaurisItem) this;
         item.generate("minecraft:block/cube_all");
-        System.out.println(id);
 
         String fff = folder.getName() + ":";
 

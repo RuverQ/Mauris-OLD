@@ -18,7 +18,6 @@ public class BlockProperty {
     public JsonObject smartAdd(JsonObject jsonObject){
 
         if(value.equalsIgnoreCase("false") || value.equalsIgnoreCase("true")){
-            System.out.println(getProperty() + " " + getValue() + " " + getAsBoolean());
             jsonObject.addProperty(property, getAsBoolean());
             return jsonObject;
         }

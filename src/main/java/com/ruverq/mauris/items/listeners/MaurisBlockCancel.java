@@ -14,6 +14,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.block.BlockPhysicsEvent;
 import org.bukkit.event.block.BlockRedstoneEvent;
+import org.bukkit.event.block.NotePlayEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.scheduler.BukkitRunnable;
 
@@ -23,8 +24,12 @@ import java.util.List;
 public class MaurisBlockCancel implements Listener {
 
     @EventHandler
-    public void onClick(PlayerInteractEvent e){
+    public void onNote(NotePlayEvent event){
+        event.setCancelled(true);
+    }
 
+    @EventHandler
+    public void onClick(PlayerInteractEvent e){
 
         if(e.getAction() == Action.LEFT_CLICK_BLOCK) return;
 

@@ -2,8 +2,10 @@ package com.ruverq.mauris.items;
 
 import com.ruverq.mauris.items.blocktypes.MaurisBlockType;
 import org.bukkit.Material;
+import org.bukkit.inventory.ItemStack;
 
 import java.io.File;
+import java.util.HashMap;
 import java.util.List;
 
 public class MaurisBuilder {
@@ -23,7 +25,7 @@ public class MaurisBuilder {
 
     File file;
 
-    double hardness;
+    int hardness;
 
     String stepSound;
     String placeSound;
@@ -33,9 +35,19 @@ public class MaurisBuilder {
 
     MaurisLootTable lootTable;
 
+    HashMap<ItemStack, Integer> hardnessPerTool = new HashMap<>();
+
     public MaurisItem build(){
-        if(isBlock) return new MaurisBlock(folder,name,textures,displayName,lore,material,generateModel, true,maurisBlock,file, type, hardness, null, breakSound, placeSound, stepSound, lootTable);
+        if(isBlock) return new MaurisBlock(folder,name,textures,displayName,lore,material,generateModel, true,maurisBlock,file, type, hardness, hardnessPerTool, breakSound, placeSound, stepSound, lootTable);
         return new MaurisItem(folder,name,textures,displayName,lore,material,generateModel, false,maurisBlock, file);
+    }
+
+    public void addHardnessPerTool(ItemStack itemStack, int hardness){
+        hardnessPerTool.put(itemStack, hardness);
+    }
+
+    public void addHardnessPerTool(MaurisItem item, int hardness){
+        hardnessPerTool.put(item.getAsItemStack(), hardness);
     }
 
     public MaurisBuilder setBlock(MaurisBlock block){
@@ -135,7 +147,7 @@ public class MaurisBuilder {
         return this;
     }
 
-    public MaurisBuilder setHardness(double hardness){
+    public MaurisBuilder setHardness(int hardness){
         this.hardness = hardness;
         return this;
     }
