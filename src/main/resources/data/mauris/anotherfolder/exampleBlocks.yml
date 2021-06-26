@@ -2,6 +2,7 @@ exampleBlock:
   displayname: "Example Block"
   material: paper
   generateModel: true
+  selfDrop: true
   lore:
     - "&7bruh"
   textures:

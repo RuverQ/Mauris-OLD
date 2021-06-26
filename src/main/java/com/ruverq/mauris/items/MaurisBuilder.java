@@ -31,6 +31,8 @@ public class MaurisBuilder {
     String placeSound;
     String breakSound;
 
+    boolean selfDrop;
+
     MaurisBlockType type;
 
     MaurisLootTable lootTable;
@@ -38,7 +40,7 @@ public class MaurisBuilder {
     HashMap<ItemStack, Integer> hardnessPerTool = new HashMap<>();
 
     public MaurisItem build(){
-        if(isBlock) return new MaurisBlock(folder,name,textures,displayName,lore,material,generateModel, true,maurisBlock,file, type, hardness, hardnessPerTool, breakSound, placeSound, stepSound, lootTable);
+        if(isBlock) return new MaurisBlock(folder,name,textures,displayName,lore,material,generateModel, true,maurisBlock,file, type, hardness, hardnessPerTool, breakSound, placeSound, stepSound, lootTable, selfDrop);
         return new MaurisItem(folder,name,textures,displayName,lore,material,generateModel, false,maurisBlock, file);
     }
 
@@ -48,6 +50,16 @@ public class MaurisBuilder {
 
     public void addHardnessPerTool(MaurisItem item, int hardness){
         hardnessPerTool.put(item.getAsItemStack(), hardness);
+    }
+
+    public MaurisBuilder setSelfDrop(boolean selfDrop){
+        this.selfDrop = selfDrop;
+        return this;
+    }
+
+    public MaurisBuilder enableSelfDrop(){
+        selfDrop = true;
+        return this;
     }
 
     public MaurisBuilder setBlock(MaurisBlock block){

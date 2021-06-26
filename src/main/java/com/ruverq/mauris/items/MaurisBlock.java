@@ -22,7 +22,7 @@ import java.util.List;
 
 public class MaurisBlock extends MaurisItem {
 
-    public MaurisBlock(MaurisFolder folder, String name, List<String> textures, String displayName, List<String> lore, Material material, boolean generateModel, boolean isBlock, MaurisBlock maurisBlock, File file, MaurisBlockType type, int hardness, HashMap<ItemStack, Integer> hardnessPerTool,  String breakSound,  String placeSound,  String stepSound, MaurisLootTable lootTable) {
+    public MaurisBlock(MaurisFolder folder, String name, List<String> textures, String displayName, List<String> lore, Material material, boolean generateModel, boolean isBlock, MaurisBlock maurisBlock, File file, MaurisBlockType type, int hardness, HashMap<ItemStack, Integer> hardnessPerTool,  String breakSound,  String placeSound,  String stepSound, MaurisLootTable lootTable, boolean selfDrop) {
         super(folder, name, textures, displayName, lore, material, generateModel, isBlock, maurisBlock, file);
         this.type = type;
         this.hardness = hardness;
@@ -31,7 +31,11 @@ public class MaurisBlock extends MaurisItem {
         this.breakSound = breakSound;
         this.placeSound = placeSound;
         this.lootTable = lootTable;
+        this.selfDrop = selfDrop;
     }
+
+    @Getter
+    boolean selfDrop;
 
     @Getter
     MaurisLootTable lootTable;

@@ -111,12 +111,15 @@ public class MaurisItem {
                 String stepSound = blockcs.getString("sounds.step");
                 String breakSound = blockcs.getString("sounds.break");
 
-                String typeS = blockcs.getString("type");
+                String typeS = cs.getString(name + ".type");
+
+                boolean selfDrop = cs.getBoolean(name + ".selfDrop");
 
                 MaurisBlockType type = MaurisBlockType.getFromName(typeS);
 
                 mb.setHardness(hardness)
                         .setType(type)
+                        .setSelfDrop(selfDrop)
                         .isBlock(true)
                         .setSounds(breakSound, placeSound, stepSound);
 

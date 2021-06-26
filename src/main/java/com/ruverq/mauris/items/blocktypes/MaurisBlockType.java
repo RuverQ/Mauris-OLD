@@ -14,6 +14,8 @@ public interface MaurisBlockType {
     Material material();
 
     static MaurisBlockType getFromName(String name){
+        if(name == null) return new MaurisNoteBlock();
+
         if(name.equalsIgnoreCase("NOTE_BLOCK")) return new MaurisNoteBlock();
         if(name.equalsIgnoreCase("MUSROOMSTEM")) return new MaurisMushroomStem();
         if(name.equalsIgnoreCase("TRIPWIRE")) return new MaurisTripwire();
