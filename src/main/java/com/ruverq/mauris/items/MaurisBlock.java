@@ -7,6 +7,7 @@ import com.ruverq.mauris.DataHelper;
 import com.ruverq.mauris.items.blocktypes.MaurisBlockType;
 import com.ruverq.mauris.utils.BlockProperty;
 import com.ruverq.mauris.utils.BlockStateParser;
+import lombok.Getter;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.block.BlockState;
@@ -34,9 +35,27 @@ public class MaurisBlock extends MaurisItem {
 
     MaurisLootTable lootTable;
 
+    @Getter
     String breakSound;
+    @Getter
     String stepSound;
+    @Getter
     String placeSound;
+
+    public String getPlaceSoundSafe() {
+        if(placeSound == null) return material.createBlockData().getSoundGroup().getPlaceSound().getKey().toString();
+        return placeSound;
+    }
+
+    public String getBreakSoundSafe() {
+        if(breakSound == null) return material.createBlockData().getSoundGroup().getBreakSound().getKey().toString();
+        return breakSound;
+    }
+
+    public String getStepSoundSafe() {
+        if(stepSound == null) return material.createBlockData().getSoundGroup().getStepSound().getKey().toString();
+        return stepSound;
+    }
 
     int blockId;
 

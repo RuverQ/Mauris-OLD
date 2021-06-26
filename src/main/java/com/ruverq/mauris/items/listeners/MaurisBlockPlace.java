@@ -1,6 +1,7 @@
 package com.ruverq.mauris.items.listeners;
 
 import com.ruverq.mauris.items.ItemsLoader;
+import com.ruverq.mauris.items.MaurisBlock;
 import com.ruverq.mauris.items.MaurisItem;
 import com.ruverq.mauris.utils.PlayerAnimation;
 import org.bukkit.Location;
@@ -38,7 +39,7 @@ public class MaurisBlockPlace implements Listener {
 
         if(isOnCooldown(e.getPlayer())) return;
 
-        if(isStandingInside(e.getPlayer(), newBlock)) return;
+        if(isInside(e.getPlayer(), newBlock)) return;
         MaurisItem item = ItemsLoader.getMaurisItem(itemInteract);
 
         if(ItemsLoader.getMaurisBlock(e.getClickedBlock().getBlockData()) == null && item == null) return;
@@ -49,10 +50,11 @@ public class MaurisBlockPlace implements Listener {
 
             newBlock.getLocation().getWorld().playSound(newBlock.getLocation(), itemInteract.getType().createBlockData().getSoundGroup().getPlaceSound(), SoundCategory.BLOCKS, 1, 1);
         }else{
-            BlockData bd = item.getAsMaurisBlock().getAsBlockData();
+            MaurisBlock mb = item.getAsMaurisBlock();
+            BlockData bd = mb.getAsBlockData();
             newBlock.setBlockData(bd);
 
-            newBlock.getLocation().getWorld().playSound(newBlock.getLocation(), bd.getSoundGroup().getPlaceSound(), SoundCategory.BLOCKS, 1, 1);
+            newBlock.getLocation().getWorld().playSound(newBlock.getLocation(), mb.getPlaceSoundSafe(), SoundCategory.BLOCKS, 1, 1);
         }
 
         setCooldown(e.getPlayer());
@@ -60,13 +62,10 @@ public class MaurisBlockPlace implements Listener {
         PlayerAnimation.play(e.getPlayer());
     }
 
-    private boolean isStandingInside(Player player, Block block) {
-        Location playerLocation = player.getLocation();
-        Location blockLocation = block.getLocation();
-        return playerLocation.getBlockX() == blockLocation.getBlockX()
-                && (playerLocation.getBlockY() == blockLocation.getBlockY()
-                || playerLocation.getBlockY() + 1 == blockLocation.getBlockY())
-                && playerLocation.getBlockZ() == blockLocation.getBlockZ();
+    private boolean isInside(Player player, Block block) {
+        Location playerLoc = player.getLocation();
+        Location blockLoc = block.getLocation();
+        return playerLoc.getBlockX() == blockLoc.getBlockX() && (playerLoc.getBlockY() == blockLoc.getBlockY() || playerLoc.getBlockY() + 1 == blockLoc.getBlockY()) && playerLoc.getBlockZ() == blockLoc.getBlockZ();
     }
 
     public Block getBlockPlaceLocation(Player player) {
