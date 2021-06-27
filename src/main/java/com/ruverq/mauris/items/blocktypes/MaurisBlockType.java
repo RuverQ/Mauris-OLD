@@ -13,16 +13,6 @@ public interface MaurisBlockType {
     HashMap<String, List<String>> possibleProperties();
     Material material();
 
-    static MaurisBlockType getFromName(String name){
-        if(name == null) return new MaurisNoteBlock();
-
-        if(name.equalsIgnoreCase("NOTE_BLOCK")) return new MaurisNoteBlock();
-        if(name.equalsIgnoreCase("MUSROOMSTEM")) return new MaurisMushroomStem();
-        if(name.equalsIgnoreCase("TRIPWIRE")) return new MaurisTripwire();
-
-        return new MaurisNoteBlock();
-    }
-
     default List<BlockProperty> generate(int seed){
 
         if(seed > getMaxPossibleBlocks()) return null;

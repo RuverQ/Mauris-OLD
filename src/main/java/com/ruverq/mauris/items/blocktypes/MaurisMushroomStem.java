@@ -8,8 +8,6 @@ import java.util.List;
 
 public class MaurisMushroomStem implements MaurisBlockType{
 
-    boolean enabled;
-
     @Override
     public HashMap<String, List<String>> possibleProperties() {
 

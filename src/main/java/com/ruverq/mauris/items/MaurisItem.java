@@ -4,10 +4,7 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.ruverq.mauris.DataHelper;
-import com.ruverq.mauris.items.blocktypes.MaurisBlockType;
-import com.ruverq.mauris.items.blocktypes.MaurisMushroomStem;
-import com.ruverq.mauris.items.blocktypes.MaurisNoteBlock;
-import com.ruverq.mauris.items.blocktypes.MaurisTripwire;
+import com.ruverq.mauris.items.blocktypes.*;
 import lombok.Getter;
 import lombok.Setter;
 import org.bukkit.Bukkit;
@@ -115,7 +112,7 @@ public class MaurisItem {
 
                 boolean selfDrop = cs.getBoolean(name + ".selfDrop");
 
-                MaurisBlockType type = MaurisBlockType.getFromName(typeS);
+                MaurisBlockType type = MaurisBlockTypeManager.getType(typeS);
 
                 mb.setHardness(hardness)
                         .setType(type)

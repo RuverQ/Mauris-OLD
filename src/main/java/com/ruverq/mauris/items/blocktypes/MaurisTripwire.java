@@ -7,8 +7,6 @@ import java.util.List;
 
 public class MaurisTripwire implements MaurisBlockType{
 
-    boolean enabled;
-
     @Override
     public HashMap<String, List<String>> possibleProperties() {
 

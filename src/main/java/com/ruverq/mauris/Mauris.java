@@ -4,6 +4,7 @@ import com.ruverq.mauris.commands.CommandManager;
 import com.ruverq.mauris.gui.GUI;
 import com.ruverq.mauris.items.ItemsLoader;
 import com.ruverq.mauris.items.blockhardness.BlockCBBListener;
+import com.ruverq.mauris.items.blocktypes.MaurisBlockTypeManager;
 import com.ruverq.mauris.items.listeners.MaurisBlockBreak;
 import com.ruverq.mauris.items.listeners.MaurisBlockCancel;
 import com.ruverq.mauris.items.listeners.MaurisBlockPlace;
@@ -27,6 +28,8 @@ public final class Mauris extends JavaPlugin {
         CommandManager.setUp();
 
         ResourcePackHelper.setupRP();
+
+        MaurisBlockTypeManager.setUp();
 
         Bukkit.getPluginManager().registerEvents(new ResourcePackHelper(), this);
 

@@ -41,7 +41,7 @@ public class MaurisBlockCancel implements Listener {
 
     @EventHandler
     public void onPhysics(BlockPhysicsEvent e){
-        if(e.getChangedType() != Material.TRIPWIRE) return;
+
         e.setCancelled(true);
 
         new BukkitRunnable() {
