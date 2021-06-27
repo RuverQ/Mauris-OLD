@@ -20,6 +20,15 @@ public class MaurisBlockTypeManager {
         addType(new MaurisTripwire());
     }
 
+    public static boolean isEnabled(MaurisBlockType type){
+        if(type == null) return false;
+        return typesEnables.get(type);
+    }
+
+    public static boolean isEnabled(String name){
+        return isEnabled(getType(name, false, false));
+    }
+
     private static void addType(MaurisBlockType type){
         Material material = type.material();
         String name = material.name().toLowerCase();

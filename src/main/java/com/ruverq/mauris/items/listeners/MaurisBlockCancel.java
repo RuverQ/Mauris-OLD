@@ -3,6 +3,8 @@ package com.ruverq.mauris.items.listeners;
 import com.ruverq.mauris.Mauris;
 import com.ruverq.mauris.items.ItemsLoader;
 import com.ruverq.mauris.items.MaurisBlock;
+import com.ruverq.mauris.items.blocktypes.MaurisBlockType;
+import com.ruverq.mauris.items.blocktypes.MaurisBlockTypeManager;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
@@ -41,6 +43,7 @@ public class MaurisBlockCancel implements Listener {
 
     @EventHandler
     public void onPhysics(BlockPhysicsEvent e){
+        if(!MaurisBlockTypeManager.isEnabled(e.getChangedType().name())) return;
 
         e.setCancelled(true);
 
