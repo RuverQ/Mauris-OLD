@@ -2,33 +2,88 @@ package com.ruverq.mauris.items.listeners;
 
 import com.ruverq.mauris.Mauris;
 import com.ruverq.mauris.items.ItemsLoader;
-import com.ruverq.mauris.items.MaurisBlock;
-import com.ruverq.mauris.items.blocktypes.MaurisBlockType;
 import com.ruverq.mauris.items.blocktypes.MaurisBlockTypeManager;
-import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
+import org.bukkit.block.BlockFace;
 import org.bukkit.block.data.BlockData;
-import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.block.Action;
-import org.bukkit.event.block.BlockPhysicsEvent;
-import org.bukkit.event.block.BlockRedstoneEvent;
-import org.bukkit.event.block.NotePlayEvent;
+import org.bukkit.event.block.*;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class MaurisBlockCancel implements Listener {
 
     @EventHandler
-    public void onNote(NotePlayEvent event){
-        event.setCancelled(true);
+    public void onNote(NotePlayEvent e){
+        if(MaurisBlockTypeManager.isEnabled("NOTE_BLOCK")) e.setCancelled(true);
     }
+
+    @EventHandler
+    public void onPiston(BlockPistonRetractEvent e){
+
+        int maxPiston = 8;
+
+        BlockFace bf = e.getDirection();
+        Block block = e.getBlock();
+        for(int i = 0 ; i < maxPiston ; i++){
+            block = block.getRelative(bf);
+            if(block.getType().isAir()) break;
+            if(ItemsLoader.getMaurisBlock(block.getBlockData()) != null) {
+                e.setCancelled(true);
+                return;
+            }
+        }
+
+    }
+
+    @EventHandler
+    public void onPiston(BlockPistonExtendEvent e){
+
+        int maxPiston = 8;
+
+        BlockFace bf = e.getDirection();
+        Block block = e.getBlock();
+        for(int i = 0 ; i < maxPiston ; i++){
+            block = block.getRelative(bf);
+            if(block.getType().isAir()) break;
+            if(ItemsLoader.getMaurisBlock(block.getBlockData()) != null) {
+                e.setCancelled(true);
+                return;
+            }
+        }
+
+    }
+
+    @EventHandler
+    public void onPlace(BlockPlaceEvent e){
+        if(MaurisBlockTypeManager.isEnabled(e.getBlock().getType().name())) e.setCancelled(true);
+
+        /*
+        HashMap<Block, BlockData> toUpdate = new HashMap<>();
+        Block blockAbove = e.getBlock().getRelative(BlockFace.UP);
+        while(blockAbove.getType() == Material.NOTE_BLOCK){
+            toUpdate.put(blockAbove, blockAbove.getBlockData());
+            blockAbove = blockAbove.getRelative(BlockFace.UP);
+        }
+
+        new BukkitRunnable() {
+            @Override
+            public void run() {
+                for(Block block : toUpdate.keySet()){
+                    block.setBlockData(toUpdate.get(block));
+                }
+            }
+        }.runTask(Mauris.getInstance());
+         */
+    }
+
 
     @EventHandler
     public void onClick(PlayerInteractEvent e){
@@ -36,25 +91,33 @@ public class MaurisBlockCancel implements Listener {
         if(e.getAction() == Action.LEFT_CLICK_BLOCK) return;
 
         if(e.getClickedBlock() == null) return;
-        BlockData bd = e.getClickedBlock().getBlockData();
-        MaurisBlock mb = ItemsLoader.getMaurisBlock(bd);
-        if(mb != null) e.setCancelled(true);
+        if(MaurisBlockTypeManager.isEnabled(e.getClickedBlock().getType().name())) e.setCancelled(true);
     }
+
+
 
     @EventHandler
     public void onPhysics(BlockPhysicsEvent e){
-        if(!MaurisBlockTypeManager.isEnabled(e.getChangedType().name())) return;
+        if(MaurisBlockTypeManager.isEnabled("NOTE_BLOCK")){
+            Block blockAbove = e.getBlock().getRelative(BlockFace.UP);
 
-        e.setCancelled(true);
-
-        new BukkitRunnable() {
-            @Override
-            public void run() {
-                for(Player player : Bukkit.getOnlinePlayers()){
-                    player.sendBlockChange(e.getSourceBlock().getLocation(), e.getSourceBlock().getBlockData());
-                }
+            if(blockAbove.getType() == Material.NOTE_BLOCK){
+                updateAndCheck(e.getBlock());
+                e.setCancelled(true);
             }
-        }.runTaskLater(Mauris.getInstance(), 1);
+        }else if(MaurisBlockTypeManager.isEnabled(e.getChangedType().name())) {
+            e.setCancelled(true);
+        }
+    }
+
+    // Author MMoneyKiller | https://www.spigotmc.org/threads/prevent-noteblock-blockstate-updating.483242/
+    public void updateAndCheck(Block block) {
+        Block b = block.getRelative(BlockFace.UP);
+        if (b.getType() == Material.NOTE_BLOCK)
+            b.getState().update(true, true);
+        Block nextBlock = block.getRelative(BlockFace.UP);
+        if (nextBlock.getType() == Material.NOTE_BLOCK)
+            updateAndCheck(b);
     }
 
     public static List<Block> getNearbyBlocks(Location location, int radius) {

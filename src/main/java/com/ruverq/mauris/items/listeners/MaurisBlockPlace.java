@@ -1,5 +1,6 @@
 package com.ruverq.mauris.items.listeners;
 
+import com.ruverq.mauris.Mauris;
 import com.ruverq.mauris.items.ItemsLoader;
 import com.ruverq.mauris.items.MaurisBlock;
 import com.ruverq.mauris.items.MaurisItem;
@@ -17,7 +18,9 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.scheduler.BukkitRunnable;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -51,6 +54,7 @@ public class MaurisBlockPlace implements Listener {
             newBlock.setBlockData(itemInteract.getType().createBlockData());
 
             newBlock.getLocation().getWorld().playSound(newBlock.getLocation(), itemInteract.getType().createBlockData().getSoundGroup().getPlaceSound(), SoundCategory.BLOCKS, 1, 1);
+
         }else{
             MaurisBlock mb = item.getAsMaurisBlock();
             BlockData bd = mb.getAsBlockData();
