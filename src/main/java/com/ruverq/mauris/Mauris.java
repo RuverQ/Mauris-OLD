@@ -22,14 +22,14 @@ public final class Mauris extends JavaPlugin {
 
         setInstance(this);
 
+        MaurisBlockTypeManager.setUp();
+
         DataHelper.setUp();
         ItemsLoader.load();
 
         CommandManager.setUp();
 
         ResourcePackHelper.setupRP();
-
-        MaurisBlockTypeManager.setUp();
 
         Bukkit.getPluginManager().registerEvents(new ResourcePackHelper(), this);
 

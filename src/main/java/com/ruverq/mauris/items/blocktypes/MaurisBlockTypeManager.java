@@ -54,6 +54,13 @@ public class MaurisBlockTypeManager {
     }
 
     public static MaurisBlockType getType(String name, boolean defaultIfNull, boolean enable){
+        if(defaultIfNull && name == null){
+            MaurisBlockType defaultType = getType(Material.NOTE_BLOCK);
+
+            enable(defaultType);
+            return defaultType;
+        }
+
         name = name.toLowerCase();
 
         MaurisBlockType bt = typesByName.get(name);
@@ -63,7 +70,7 @@ public class MaurisBlockTypeManager {
         }
 
         if(!defaultIfNull) return null;
-        MaurisBlockType defaultType = getType("NOTE_BLOCK");
+        MaurisBlockType defaultType = getType(Material.NOTE_BLOCK);
 
         enable(defaultType);
         return defaultType;
