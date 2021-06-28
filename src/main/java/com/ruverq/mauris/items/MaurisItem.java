@@ -9,6 +9,7 @@ import lombok.Getter;
 import lombok.Setter;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
+import org.bukkit.configuration.Configuration;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.inventory.ItemStack;
@@ -29,7 +30,7 @@ public class MaurisItem {
     String name;
 
     @Getter
-    List<String> textures;
+    MaurisTextures textures;
     @Getter
     String displayName;
     @Getter
@@ -48,7 +49,7 @@ public class MaurisItem {
 
     int id;
 
-    public MaurisItem(MaurisFolder folder, String name, List<String> textures, String displayName, List<String> lore, Material material, boolean generateModel, boolean isBlock, MaurisBlock maurisBlock, File file) {
+    public MaurisItem(MaurisFolder folder, String name, MaurisTextures textures, String displayName, List<String> lore, Material material, boolean generateModel, boolean isBlock, MaurisBlock maurisBlock, File file) {
         this.folder = folder;
         this.name = name;
         this.textures = textures;
@@ -102,7 +103,10 @@ public class MaurisItem {
             if(cs.isConfigurationSection(name + ".block")){
                 ConfigurationSection blockcs = cs.getConfigurationSection(name + ".block");
 
-                int hardness = blockcs.getInt("hardness.default", 1);
+                int hardness = blockcs.getInt("hardness.default");
+                if(hardness <= 0){
+                    hardness = blockcs.getInt("hardness", 20);
+                }
 
                 String placeSound = blockcs.getString("sounds.place");
                 String stepSound = blockcs.getString("sounds.step");
@@ -119,19 +123,35 @@ public class MaurisItem {
                         .isBlock(true)
                         .setSounds(breakSound, placeSound, stepSound);
 
-                for(String hardnessToolS : blockcs.getConfigurationSection("hardness").getKeys(false)){
-                    if(hardnessToolS.equalsIgnoreCase("default")) continue;
-
-                    ItemStack itemStack = ItemsLoader.getMaurisItem(hardnessToolS, true);
-                    if(itemStack == null) continue;
-                    int tempHardness = blockcs.getInt("hardness." + hardnessToolS);
-
-                    MaurisLootTable lootTable = MaurisLootTable.fromConfigSection(blockcs.getConfigurationSection("lootTable"));
-                    mb.setLootTable(lootTable);
-
-                    mb.addHardnessPerTool(itemStack, tempHardness);
+                ConfigurationSection blTexCs = blockcs.getConfigurationSection("textures");
+                if(blTexCs != null && blTexCs.getKeys(false).size() > 0){
+                    MaurisTextures mTextures = new MaurisTextures().loadFromConfigSection(blTexCs);
+                    mb.setTextures(mTextures);
+                }else{
+                    MaurisTextures mTextures = new MaurisTextures();
+                    mTextures.setTextures(textures);
+                    mb.setTextures(mTextures);
                 }
 
+                ConfigurationSection hardnessCS = blockcs.getConfigurationSection("hardness");
+                if(hardnessCS != null){
+                    for(String hardnessToolS : hardnessCS.getKeys(false)){
+                        if(hardnessToolS.equalsIgnoreCase("default")) continue;
+
+                        ItemStack itemStack = ItemsLoader.getMaurisItem(hardnessToolS, true);
+                        if(itemStack == null) continue;
+                        int tempHardness = blockcs.getInt("hardness." + hardnessToolS);
+
+                        mb.addHardnessPerTool(itemStack, tempHardness);
+                    }
+                }
+
+                MaurisLootTable lootTable = MaurisLootTable.fromConfigSection(blockcs.getConfigurationSection("lootTable"));
+                mb.setLootTable(lootTable);
+
+
+            }else{
+                mb.setTextures(textures);
             }
 
             mb
@@ -140,8 +160,7 @@ public class MaurisItem {
                     .setName(name)
                     .setFolder(folder)
                     .setMaterial(material)
-                    .setGenerateModel(generateModel)
-                    .setTextures(textures);
+                    .setGenerateModel(generateModel);
 
             list.add(mb.build());
         }
@@ -163,11 +182,12 @@ public class MaurisItem {
 
         String folderName = getFolder().getName();
 
+        this.id = DataHelper.addId(getFolder(), name, "items." + material.name());
+
+        if(!generateModel) return;
         if(isGenerated()){
             DataHelper.deleteFile("resource_pack/assets/" + folderName + "/models/" + name + ".json");
         }
-
-        if(!generateModel) return;
 
         //First DIR
         JsonObject customItemJson = new JsonObject();
@@ -177,7 +197,7 @@ public class MaurisItem {
         int layeri = 0;
         String fff = folderName + ":";
 
-        for(String tex : textures){
+        for(String tex : textures.getTextures()){
 
             jsonTextures.addProperty("layer" + layeri, fff + tex);
             layeri++;
@@ -208,7 +228,6 @@ public class MaurisItem {
 
         JsonArray overrides = new JsonArray();
 
-        this.id = DataHelper.addId(getFolder(), name, "items." + material.name());
 
         if(itemJson.has("overrides")){
             overrides = itemJson.getAsJsonArray("overrides");

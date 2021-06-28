@@ -64,24 +64,6 @@ public class MaurisBlockCancel implements Listener {
     @EventHandler
     public void onPlace(BlockPlaceEvent e){
         if(MaurisBlockTypeManager.isEnabled(e.getBlock().getType().name())) e.setCancelled(true);
-
-        /*
-        HashMap<Block, BlockData> toUpdate = new HashMap<>();
-        Block blockAbove = e.getBlock().getRelative(BlockFace.UP);
-        while(blockAbove.getType() == Material.NOTE_BLOCK){
-            toUpdate.put(blockAbove, blockAbove.getBlockData());
-            blockAbove = blockAbove.getRelative(BlockFace.UP);
-        }
-
-        new BukkitRunnable() {
-            @Override
-            public void run() {
-                for(Block block : toUpdate.keySet()){
-                    block.setBlockData(toUpdate.get(block));
-                }
-            }
-        }.runTask(Mauris.getInstance());
-         */
     }
 
 
@@ -110,7 +92,7 @@ public class MaurisBlockCancel implements Listener {
         }
     }
 
-    // Author MMoneyKiller | https://www.spigotmc.org/threads/prevent-noteblock-blockstate-updating.483242/
+    // Author: MMoneyKiller | https://www.spigotmc.org/threads/prevent-noteblock-blockstate-updating.483242/
     public void updateAndCheck(Block block) {
         Block b = block.getRelative(BlockFace.UP);
         if (b.getType() == Material.NOTE_BLOCK)
@@ -121,7 +103,7 @@ public class MaurisBlockCancel implements Listener {
     }
 
     public static List<Block> getNearbyBlocks(Location location, int radius) {
-        List<Block> blocks = new ArrayList<Block>();
+        List<Block> blocks = new ArrayList<>();
         for(int x = location.getBlockX() - radius; x <= location.getBlockX() + radius; x++) {
             for(int y = location.getBlockY() - radius; y <= location.getBlockY() + radius; y++) {
                 for(int z = location.getBlockZ() - radius; z <= location.getBlockZ() + radius; z++) {

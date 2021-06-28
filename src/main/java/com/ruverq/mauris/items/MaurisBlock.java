@@ -22,7 +22,7 @@ import java.util.List;
 
 public class MaurisBlock extends MaurisItem {
 
-    public MaurisBlock(MaurisFolder folder, String name, List<String> textures, String displayName, List<String> lore, Material material, boolean generateModel, boolean isBlock, MaurisBlock maurisBlock, File file, MaurisBlockType type, int hardness, HashMap<ItemStack, Integer> hardnessPerTool,  String breakSound,  String placeSound,  String stepSound, MaurisLootTable lootTable, boolean selfDrop) {
+    public MaurisBlock(MaurisFolder folder, String name, MaurisTextures textures, String displayName, List<String> lore, Material material, boolean generateModel, boolean isBlock, MaurisBlock maurisBlock, File file, MaurisBlockType type, int hardness, HashMap<ItemStack, Integer> hardnessPerTool,  String breakSound,  String placeSound,  String stepSound, MaurisLootTable lootTable, boolean selfDrop) {
         super(folder, name, textures, displayName, lore, material, generateModel, isBlock, maurisBlock, file);
         this.type = type;
         this.hardness = hardness;
@@ -93,8 +93,10 @@ public class MaurisBlock extends MaurisItem {
 
     @Override
     public void generate(){
-        MaurisItem item = (MaurisItem) this;
+        MaurisItem item = this;
         item.generate("minecraft:block/cube_all");
+
+        this.blockId = DataHelper.addId(folder, name, "blocks." + type.material().name());
 
         String fff = folder.getName() + ":";
 
@@ -103,9 +105,7 @@ public class MaurisBlock extends MaurisItem {
         JsonObject modelObject = new JsonObject();
         modelObject.addProperty("parent", "minecraft:block/cube_all");
 
-        JsonObject texturesObject = new JsonObject();
-        texturesObject.addProperty("all", fff + textures.get(0));
-        texturesObject.addProperty("particle", fff + textures.get(0));
+        JsonObject texturesObject = textures.getAsBlockJsonObject(folder.getName());
 
         modelObject.add("textures", texturesObject);
 
@@ -121,6 +121,7 @@ public class MaurisBlock extends MaurisItem {
         File blockstateFile = DataHelper.getFile(blockstatePath);
         if(blockstateFile != null){
             generalBSObject = DataHelper.FileToJson(blockstateFile);
+            assert generalBSObject != null;
             multipartArray = generalBSObject.getAsJsonArray("multipart");
 
             for(JsonElement je : multipartArray){
@@ -129,8 +130,6 @@ public class MaurisBlock extends MaurisItem {
                 if(apply.get("model").getAsString().equalsIgnoreCase(fff + name)) return;
             }
         }
-
-        this.blockId = DataHelper.addId(folder, name, "blocks." + type.material().name());
 
         List<BlockProperty> properties = type.generate(blockId);
         JsonObject mPObject = new JsonObject();

@@ -32,7 +32,6 @@ public class BlockStateParser {
         sb.deleteCharAt(sb.length() - 1);
 
         sb.append("]");
-
         return Bukkit.createBlockData(sb.toString());
     }
 

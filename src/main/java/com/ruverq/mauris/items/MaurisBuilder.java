@@ -14,7 +14,7 @@ public class MaurisBuilder {
 
     String name;
 
-    List<String> textures;
+    MaurisTextures textures;
     String displayName;
     List<String> lore;
     Material material;
@@ -72,8 +72,22 @@ public class MaurisBuilder {
         return this;
     }
 
+    public MaurisBuilder addTexture(String side, String path){
+
+        if(textures == null){
+            MaurisTextures mTextures = new MaurisTextures();
+            mTextures.addTexture(side, path);
+
+            this.textures = mTextures;
+        }else{
+            textures.addTexture(side, path);
+        }
+
+        return this;
+    }
+
     public MaurisBuilder addTexture(String path){
-        textures.add(path);
+        addTexture("asdijha0oisdhoasjdopahsd", path);
         return this;
     }
 
@@ -87,8 +101,15 @@ public class MaurisBuilder {
         return this;
     }
 
-    public MaurisBuilder setTextures(List<String> textures){
+    public MaurisBuilder setTextures(MaurisTextures textures){
         this.textures = textures;
+        return this;
+    }
+
+    public MaurisBuilder setTextures(List<String> textures){
+        MaurisTextures mTextures = new MaurisTextures();
+        mTextures.setTextures(textures);
+        this.textures = mTextures;
         return this;
     }
 

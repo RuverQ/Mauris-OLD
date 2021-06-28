@@ -7,11 +7,18 @@ exampleBlock:
   textures:
     - blocks/example.png
   block:
+    textures:
+      top:
+      bottom:
+      east:
+      west:
+      south:
+      north:
     type: NOTE_BLOCK
     hardness:
-      default: 1
-      stone_packaxe: 0.10
-      diamond_pickaxe: 0.20
+      default: 20
+      stone_packaxe: 10
+      diamond_pickaxe: 5
     sounds:
       place:
       break:
