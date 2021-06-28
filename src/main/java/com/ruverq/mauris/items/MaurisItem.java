@@ -108,9 +108,8 @@ public class MaurisItem {
                 String stepSound = blockcs.getString("sounds.step");
                 String breakSound = blockcs.getString("sounds.break");
 
-                String typeS = cs.getString(name + ".type");
-
-                boolean selfDrop = cs.getBoolean(name + ".selfDrop");
+                String typeS = blockcs.getString("type");
+                boolean selfDrop = blockcs.getBoolean("selfDrop");
 
                 MaurisBlockType type = MaurisBlockTypeManager.getType(typeS);
 

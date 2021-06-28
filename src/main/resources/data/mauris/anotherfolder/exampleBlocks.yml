@@ -2,7 +2,6 @@ exampleBlock:
   displayname: "Example Block"
   material: paper
   generateModel: true
-  selfDrop: true
   lore:
     - "&7bruh"
   textures:
@@ -17,6 +16,7 @@ exampleBlock:
       place:
       break:
       step:
+    selfDrop: true
     lootTable:
       1:
         chance: 0.1

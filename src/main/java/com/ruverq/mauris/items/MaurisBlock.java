@@ -114,7 +114,6 @@ public class MaurisBlock extends MaurisItem {
         DataHelper.createFile("resource_pack/assets/" + folder.getName() +"/models/" + name + ".json", modelObject.toString());
 
         //Second DIR
-
         JsonObject generalBSObject = new JsonObject();
 
         JsonArray multipartArray = new JsonArray();
@@ -123,6 +122,12 @@ public class MaurisBlock extends MaurisItem {
         if(blockstateFile != null){
             generalBSObject = DataHelper.FileToJson(blockstateFile);
             multipartArray = generalBSObject.getAsJsonArray("multipart");
+
+            for(JsonElement je : multipartArray){
+                JsonObject jo = je.getAsJsonObject();
+                JsonObject apply = jo.get("apply").getAsJsonObject();
+                if(apply.get("model").getAsString().equalsIgnoreCase(fff + name)) return;
+            }
         }
 
         this.blockId = DataHelper.addId(folder, name, "blocks." + type.material().name());
