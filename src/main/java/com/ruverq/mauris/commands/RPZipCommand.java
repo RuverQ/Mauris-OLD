@@ -18,6 +18,7 @@ public class RPZipCommand implements SimpleCommand{
     public void execute(CommandSender sender, String prefix, String[] args) {
 
         ResourcePackHelper.setupRP();
+        sender.sendMessage(CommandManager.getPrefix() + " Zipped and selfhosted!");
 
     }
 }

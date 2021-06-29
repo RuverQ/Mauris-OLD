@@ -23,6 +23,12 @@ public class ItemsLoader {
     static HashMap<String, List<MaurisItem>> itemsByFolder = new HashMap<>();
 
     public static void load(){
+        itemsLoaded.clear();
+        itemsByName.clear();
+        itemsByItemStack.clear();
+        blockByBlockData.clear();
+        itemsByFolder.clear();
+
 
         File dir = DataHelper.getDir("mauris");
         if(dir == null){

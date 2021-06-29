@@ -12,15 +12,22 @@ import lombok.Setter;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import java.io.File;
+
 public final class Mauris extends JavaPlugin {
 
     @Setter
     private static Mauris instance;
 
+    static File config;
+
     @Override
     public void onEnable() {
+        //TODO Reformat this below pls
 
         setInstance(this);
+
+        config = setupConfig();
 
         MaurisBlockTypeManager.setUp();
 
@@ -44,6 +51,16 @@ public final class Mauris extends JavaPlugin {
 
     public static Mauris getInstance() {
         return instance;
+    }
+
+    private File setupConfig() {
+        File config = new File(getDataFolder() + File.separator + "config.yml");
+        if (!config.exists()) {
+            getLogger().info("Creating config file...");
+            getConfig().options().copyDefaults(true);
+            saveDefaultConfig();
+        }
+        return config;
     }
 
     @Override

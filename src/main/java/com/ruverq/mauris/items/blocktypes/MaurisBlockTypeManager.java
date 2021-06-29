@@ -15,6 +15,11 @@ public class MaurisBlockTypeManager {
     private static HashMap<MaurisBlockType, Boolean> typesEnables = new HashMap<>();
 
     public static void setUp(){
+        types.clear();
+        typesByName.clear();
+        typesByMaterial.clear();
+        typesEnables.clear();
+
         addType(new MaurisNoteBlock());
         addType(new MaurisMushroomStem());
         addType(new MaurisTripwire());
