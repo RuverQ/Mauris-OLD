@@ -9,10 +9,12 @@ import com.sun.net.httpserver.HttpServer;
 import lombok.SneakyThrows;
 import net.lingala.zip4j.ZipFile;
 import org.bukkit.Bukkit;
+import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.event.player.PlayerResourcePackStatusEvent;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.io.*;
@@ -21,6 +23,8 @@ import java.nio.file.Files;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.UUID;
+
+import static com.ruverq.mauris.commands.CommandManager.format;
 
 public class ResourcePackHelper implements Listener {
 
@@ -31,6 +35,11 @@ public class ResourcePackHelper implements Listener {
     static String url = "http://" + ip + ":" + port + "/rp.zip";
     boolean isHosted;
     boolean isZiped;
+
+    static boolean kickEnabled;
+    static String kickMessage = "bruh";
+    static String kickMessageFailure = "bruh";
+    static String bypassKickPermission = "";
 
     static HttpServer server;
 
@@ -120,11 +129,27 @@ public class ResourcePackHelper implements Listener {
 
         rph.zipResourcePack();
 
+        ConfigurationSection config = Mauris.getInstance().getConfig();
+
+        kickEnabled = config.getBoolean("kick-on-decline.enabled");
+        if(kickEnabled){
+            kickMessage = format(config.getString("kick-on-decline.message", "kicked"));
+            kickMessageFailure = format(config.getString("kick-on-decline.failure-message", "kicked"));
+            bypassKickPermission = config.getString("kick-on-decline.bypass-permission");
+        }
+
+        boolean enabled = config.getBoolean("self-host.enabled", true);
+        if(!enabled) return;
+
+        ip = config.getString("self-host.ip", Bukkit.getServer().getIp());
+        port = config.getInt("self-host.port", 8080);
+
+        rph.hostResourcePack();
+
         new BukkitRunnable() {
             @Override
             public void run() {
 
-                rph.hostResourcePack();
                 for(Player player : Bukkit.getOnlinePlayers()){
                     rph.sendTo(player);
                 }
@@ -134,11 +159,22 @@ public class ResourcePackHelper implements Listener {
 
     }
 
-
     @EventHandler
     public void onJoin(PlayerJoinEvent e){
         e.getPlayer().setResourcePack(url);
     }
+
+    @EventHandler
+    public void onStatus(PlayerResourcePackStatusEvent e){
+        if(!kickEnabled) return;
+        if((bypassKickPermission != null && !bypassKickPermission.isEmpty()) && e.getPlayer().hasPermission(bypassKickPermission)) return;
+
+        if(e.getStatus() == PlayerResourcePackStatusEvent.Status.ACCEPTED) return;
+        if(e.getStatus() == PlayerResourcePackStatusEvent.Status.DECLINED) e.getPlayer().kickPlayer(kickMessage);
+        if(e.getStatus() == PlayerResourcePackStatusEvent.Status.DECLINED) e.getPlayer().kickPlayer(kickMessageFailure);
+    }
+
+
 
 
 }

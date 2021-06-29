@@ -28,6 +28,7 @@ public final class Mauris extends JavaPlugin {
         setInstance(this);
 
         config = setupConfig();
+        reloadConfig();
 
         MaurisBlockTypeManager.setUp();
 
@@ -45,6 +46,8 @@ public final class Mauris extends JavaPlugin {
         Bukkit.getPluginManager().registerEvents(new MaurisBlockPlace(), this);
         Bukkit.getPluginManager().registerEvents(new MaurisBlockCancel(), this);
         Bukkit.getPluginManager().registerEvents(new MaurisBlockBreak(), this);
+
+        Bukkit.getPluginManager().registerEvents(new ResourcePackHelper(), this);
 
         Bukkit.getPluginManager().registerEvents(new BlockCBBListener(), this);
     }

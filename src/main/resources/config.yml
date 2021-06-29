@@ -1,4 +1,10 @@
 
+kick-on-decline:
+  enabled: true
+  bypass-permission: "Mauris.bypassDeclineRP"
+  message: "accept the resourcepack please"
+  failure-message: "strange........."
+
 self-host:
   enabled: true
   ip: localhost
