@@ -98,7 +98,6 @@ public class MaurisBlockBreak implements Listener {
         if(mb.getLootTable() == null) return;
 
         mb.getLootTable().dropAll(e.getBlock().getLocation());
-
     }
 
 }

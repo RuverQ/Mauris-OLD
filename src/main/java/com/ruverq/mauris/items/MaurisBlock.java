@@ -5,6 +5,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.ruverq.mauris.DataHelper;
 import com.ruverq.mauris.items.blocktypes.MaurisBlockType;
+import com.ruverq.mauris.items.blocktypes.MaurisBlockTypeManager;
 import com.ruverq.mauris.utils.BlockProperty;
 import com.ruverq.mauris.utils.BlockStateParser;
 import lombok.Getter;
@@ -12,6 +13,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.block.BlockState;
 import org.bukkit.block.data.BlockData;
+import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.inventory.ItemStack;
 
 import javax.xml.crypto.Data;
@@ -90,6 +92,59 @@ public class MaurisBlock extends MaurisItem {
         List<BlockProperty> properties = type.generate(blockId);
         return BlockStateParser.createData(type.material(), properties);
     }
+
+    protected static void loadFromConfigurationSection(MaurisBuilder mb, ConfigurationSection cs){
+
+        ConfigurationSection blockcs = cs.getConfigurationSection("block");
+        if(blockcs == null) return;
+
+        int hardness = blockcs.getInt("hardness.default");
+        if(hardness <= 0){
+            hardness = blockcs.getInt("hardness", 20);
+        }
+
+        String placeSound = blockcs.getString("sounds.place");
+        String stepSound = blockcs.getString("sounds.step");
+        String breakSound = blockcs.getString("sounds.break");
+
+        String typeS = blockcs.getString("type");
+        boolean selfDrop = blockcs.getBoolean("selfDrop");
+
+        MaurisBlockType type = MaurisBlockTypeManager.getType(typeS);
+
+        mb.setHardness(hardness)
+                .setType(type)
+                .setSelfDrop(selfDrop)
+                .isBlock(true)
+                .setSounds(breakSound, placeSound, stepSound);
+
+        ConfigurationSection blTexCs = blockcs.getConfigurationSection("textures");
+        if(blTexCs != null && blTexCs.getKeys(false).size() > 0){
+            MaurisTextures mTextures = new MaurisTextures().loadFromConfigSection(blTexCs);
+            mb.setTextures(mTextures);
+        }else{
+            MaurisTextures mTextures = new MaurisTextures();
+            mTextures.setTextures(cs.getStringList("textures"));
+            mb.setTextures(mTextures);
+        }
+
+        ConfigurationSection hardnessCS = blockcs.getConfigurationSection("hardness");
+        if(hardnessCS != null){
+            for(String hardnessToolS : hardnessCS.getKeys(false)){
+                if(hardnessToolS.equalsIgnoreCase("default")) continue;
+
+                ItemStack itemStack = ItemsLoader.getMaurisItem(hardnessToolS, true);
+                if(itemStack == null) continue;
+                int tempHardness = blockcs.getInt("hardness." + hardnessToolS);
+
+                mb.addHardnessPerTool(itemStack, tempHardness);
+            }
+        }
+
+        MaurisLootTable lootTable = MaurisLootTable.fromConfigSection(blockcs.getConfigurationSection("lootTable"));
+        mb.setLootTable(lootTable);
+    }
+
 
     @Override
     public void generate(){

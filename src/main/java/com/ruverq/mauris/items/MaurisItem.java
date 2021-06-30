@@ -75,6 +75,26 @@ public class MaurisItem {
         return itemStack;
     }
 
+    protected static void loadFromConfigurationSection(MaurisBuilder mb, ConfigurationSection cs){
+
+        String displayname = cs.getString("displayname");
+        String material = cs.getString("material");
+        boolean generateModel = cs.getBoolean("generateModel");
+        List<String> lore = cs.getStringList("lore");
+        List<String> textures = cs.getStringList("textures");
+
+        mb.setTextures(textures);
+
+        mb
+                .setDisplayName(displayname)
+                .setLore(lore)
+                .setName(cs.getName())
+                .setMaterial(material)
+                .setGenerateModel(generateModel);
+
+        return;
+    }
+
     public MaurisBlock getAsMaurisBlock(){
         if(this instanceof MaurisBlock) return (MaurisBlock) this;
         return null;
@@ -90,77 +110,15 @@ public class MaurisItem {
         ConfigurationSection cs = YamlConfiguration.loadConfiguration(file);
 
         for(String name : cs.getKeys(false)){
-
             MaurisBuilder mb = new MaurisBuilder();
             mb.setFile(file);
+            mb.setName(name);
+            mb.setFolder(folder);
 
-            String displayname = cs.getString(name + ".displayname");
-            String material = cs.getString(name + ".material");
-            boolean generateModel = cs.getBoolean(name + ".generateModel");
-            List<String> lore = cs.getStringList(name + ".lore");
-            List<String> textures = cs.getStringList(name + ".textures");
+            ConfigurationSection itemSection = cs.getConfigurationSection(name);
 
-            if(cs.isConfigurationSection(name + ".block")){
-                ConfigurationSection blockcs = cs.getConfigurationSection(name + ".block");
-
-                int hardness = blockcs.getInt("hardness.default");
-                if(hardness <= 0){
-                    hardness = blockcs.getInt("hardness", 20);
-                }
-
-                String placeSound = blockcs.getString("sounds.place");
-                String stepSound = blockcs.getString("sounds.step");
-                String breakSound = blockcs.getString("sounds.break");
-
-                String typeS = blockcs.getString("type");
-                boolean selfDrop = blockcs.getBoolean("selfDrop");
-
-                MaurisBlockType type = MaurisBlockTypeManager.getType(typeS);
-
-                mb.setHardness(hardness)
-                        .setType(type)
-                        .setSelfDrop(selfDrop)
-                        .isBlock(true)
-                        .setSounds(breakSound, placeSound, stepSound);
-
-                ConfigurationSection blTexCs = blockcs.getConfigurationSection("textures");
-                if(blTexCs != null && blTexCs.getKeys(false).size() > 0){
-                    MaurisTextures mTextures = new MaurisTextures().loadFromConfigSection(blTexCs);
-                    mb.setTextures(mTextures);
-                }else{
-                    MaurisTextures mTextures = new MaurisTextures();
-                    mTextures.setTextures(textures);
-                    mb.setTextures(mTextures);
-                }
-
-                ConfigurationSection hardnessCS = blockcs.getConfigurationSection("hardness");
-                if(hardnessCS != null){
-                    for(String hardnessToolS : hardnessCS.getKeys(false)){
-                        if(hardnessToolS.equalsIgnoreCase("default")) continue;
-
-                        ItemStack itemStack = ItemsLoader.getMaurisItem(hardnessToolS, true);
-                        if(itemStack == null) continue;
-                        int tempHardness = blockcs.getInt("hardness." + hardnessToolS);
-
-                        mb.addHardnessPerTool(itemStack, tempHardness);
-                    }
-                }
-
-                MaurisLootTable lootTable = MaurisLootTable.fromConfigSection(blockcs.getConfigurationSection("lootTable"));
-                mb.setLootTable(lootTable);
-
-
-            }else{
-                mb.setTextures(textures);
-            }
-
-            mb
-                    .setDisplayName(displayname)
-                    .setLore(lore)
-                    .setName(name)
-                    .setFolder(folder)
-                    .setMaterial(material)
-                    .setGenerateModel(generateModel);
+            MaurisItem.loadFromConfigurationSection(mb, itemSection);
+            MaurisBlock.loadFromConfigurationSection(mb, itemSection);
 
             list.add(mb.build());
         }
