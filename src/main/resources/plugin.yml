@@ -5,6 +5,8 @@ api-version: 1.16
 prefix: Mauris
 authors: [ RuverQ ]
 description: FREE plugin for custom block and custom items
+softdepend:
+  - PlaceholderAPI
 commands:
   mauris:
     description: ebat

@@ -5,6 +5,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.ruverq.mauris.DataHelper;
 import com.ruverq.mauris.utils.unicode.UnicodeUtils;
+import lombok.Getter;
 import lombok.SneakyThrows;
 import org.apache.commons.lang.StringEscapeUtils;
 import org.bukkit.Material;
@@ -20,6 +21,9 @@ public class MaurisIcon extends MaurisItem {
     public MaurisIcon(MaurisFolder folder, String name, MaurisTextures textures, String displayName, List<String> lore, Material material, boolean generateModel, boolean isBlock, MaurisBlock maurisBlock, File file, int height, int ascent) {
         super(folder, name, textures, displayName, lore, material, generateModel, isBlock, maurisBlock, file);
     }
+
+    @Getter
+    Character symbol;
 
     int symbolId;
 
@@ -49,12 +53,18 @@ public class MaurisIcon extends MaurisItem {
 
         JsonArray chars = new JsonArray();
 
-        Character symbol = UnicodeUtils.getPossibleSymbols().get(symbolId);
+        symbol = UnicodeUtils.getPossibleSymbols().get(symbolId);
         //String hexSymbol = String.format("%04x", (int) symbol);
 
+        int i = 0;
         for(JsonElement providerObject : providers){
             String a = providerObject.getAsJsonObject().get("file").getAsString();
-            if(a.equals(texturePath)) return;
+            if(a.equals(texturePath)){
+                this.symbolId = i;
+                symbol = UnicodeUtils.getPossibleSymbols().get(symbolId);
+                return;
+            }
+            i++;
         }
 
         chars.add(symbol);
