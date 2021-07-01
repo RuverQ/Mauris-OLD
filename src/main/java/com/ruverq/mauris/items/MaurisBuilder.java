@@ -39,7 +39,12 @@ public class MaurisBuilder {
 
     HashMap<ItemStack, Integer> hardnessPerTool = new HashMap<>();
 
+    int iconHeight;
+    int iconAscent;
+    boolean isIcon;
+
     public MaurisItem build(){
+        if(isIcon) return new MaurisIcon(folder, name, textures, displayName, lore, material, generateModel, isBlock, maurisBlock, file, iconHeight, iconAscent);
         if(isBlock) return new MaurisBlock(folder,name,textures,displayName,lore,material,generateModel, true,maurisBlock,file, type, hardness, hardnessPerTool, breakSound, placeSound, stepSound, lootTable, selfDrop);
         return new MaurisItem(folder,name,textures,displayName,lore,material,generateModel, false,maurisBlock, file);
     }
@@ -91,6 +96,21 @@ public class MaurisBuilder {
         return this;
     }
 
+    public MaurisBuilder setIcon(boolean isIcon) {
+        this.isIcon = isIcon;
+        return this;
+    }
+
+    public MaurisBuilder setIconHeight(int iconHeight) {
+        this.iconHeight = iconHeight;
+        return this;
+    }
+
+    public MaurisBuilder setIconAscent(int iconAscent) {
+        this.iconAscent = iconAscent;
+        return this;
+    }
+
     public MaurisBuilder setDisplayName(String displayName){
         this.displayName = displayName;
         return this;
@@ -124,6 +144,7 @@ public class MaurisBuilder {
     }
 
     public MaurisBuilder setMaterial(String material){
+        if(material == null) return this;
         this.material = Material.matchMaterial(material);
         return this;
     }

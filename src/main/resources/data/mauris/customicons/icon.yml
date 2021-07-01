@@ -1,0 +1,7 @@
+exampleIcon:
+  textures:
+    - "symbols/exampleIcon.png"
+  icon:
+    enabled: true
+    height: 12
+    ascent: 5

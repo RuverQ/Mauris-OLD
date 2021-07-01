@@ -3,6 +3,7 @@ package com.ruverq.mauris.gui;
 import org.bukkit.event.inventory.ClickType;
 import org.bukkit.inventory.ItemStack;
 
+//ahaha lol lower case letter lol wtf lol ol oefeasd
 public class slotGUI {
 
     boolean lock;

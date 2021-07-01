@@ -117,6 +117,7 @@ public class MaurisItem {
 
             ConfigurationSection itemSection = cs.getConfigurationSection(name);
 
+            MaurisIcon.loadFromConfigurationSection(mb, itemSection);
             MaurisItem.loadFromConfigurationSection(mb, itemSection);
             MaurisBlock.loadFromConfigurationSection(mb, itemSection);
 

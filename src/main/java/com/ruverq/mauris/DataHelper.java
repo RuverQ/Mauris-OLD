@@ -5,10 +5,15 @@ import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import com.ruverq.mauris.items.MaurisFolder;
 import lombok.SneakyThrows;
+import org.apache.commons.lang.StringEscapeUtils;
+import org.apache.logging.log4j.core.util.FileUtils;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.YamlConfiguration;
 
 import java.io.*;
+import java.nio.charset.StandardCharsets;
+import java.nio.file.Files;
+import java.util.List;
 
 public class DataHelper {
 
@@ -94,26 +99,20 @@ public class DataHelper {
         return je.getAsJsonObject();
     }
 
+    @SneakyThrows
     private static String readFile(File file) {
-        try{
-
-            try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
-                String line = null;
-                StringBuilder stringBuilder = new StringBuilder();
-                String ls = System.getProperty("line.separator");
-                while ((line = reader.readLine()) != null) {
-                    stringBuilder.append(line);
-                    stringBuilder.append(ls);
-                }
-
-                return stringBuilder.toString();
-            }
-
-        }catch(Exception e){
-            e.printStackTrace();
-            return null;
+        StringBuilder sb = new StringBuilder();
+        List<String> read = Files.readAllLines(file.toPath(), StandardCharsets.UTF_8);
+        for(String r : read){
+            sb.append(r);
+            sb.append("\n");
         }
+        sb.deleteCharAt(sb.length() - 1);
+
+        return sb.toString();
     }
+
+
 
     public static ConfigurationSection getFileAsYAML(String path){
         String tempPath = path.replace("/", File.separator);
@@ -160,11 +159,12 @@ public class DataHelper {
             File file = getFile(path);
             if(file != null) return null;
             file = createFile(path);
+                FileOutputStream fos = new FileOutputStream(file);
 
-            FileWriter fileWriter = new FileWriter(file);
-            PrintWriter printWriter = new PrintWriter(fileWriter);
-            printWriter.print(value);
-            printWriter.close();
+                BufferedWriter bufferedWriter = new BufferedWriter(
+                        new OutputStreamWriter(fos, StandardCharsets.UTF_8));
+                bufferedWriter.write(value);
+                bufferedWriter.close();
 
             return file;
         }catch (Exception e){

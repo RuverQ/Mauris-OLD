@@ -23,7 +23,7 @@ public class ReloadCommand implements SimpleCommand{
         DataHelper.setUp();
         ItemsLoader.load();
 
-        ResourcePackHelper.setupRP();
+        //ResourcePackHelper.setupRP();
 
         sender.sendMessage(CommandManager.getPrefix() + " Reloaded config!");
     }

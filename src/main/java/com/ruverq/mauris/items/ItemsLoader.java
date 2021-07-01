@@ -102,6 +102,9 @@ public class ItemsLoader {
     private static void loadForStructure(MaurisItem item){
         itemsLoaded.add(item);
         itemsByName.put(item.name, item);
+
+        if(item instanceof MaurisIcon) return;
+
         itemsByItemStack.put(item.getAsItemStack(), item);
 
         if(item.isBlock()){
