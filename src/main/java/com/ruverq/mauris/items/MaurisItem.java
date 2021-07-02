@@ -145,7 +145,7 @@ public class MaurisItem {
 
         if(!generateModel) return;
         if(isGenerated()){
-            DataHelper.deleteFile("resource_pack/assets/" + folderName + "/models/" + name + ".json");
+            DataHelper.deleteFile("resource_pack/assets/" + folderName + "/models/generated/" + name + ".json");
         }
 
         //First DIR
@@ -164,9 +164,9 @@ public class MaurisItem {
 
         customItemJson.add("textures", jsonTextures);
 
-        DataHelper.createFolder("resource_pack/assets/" + folderName + "/models");
+        DataHelper.createFolder("resource_pack/assets/" + folderName + "/models/generated");
         DataHelper.createFolder("resource_pack/assets/" + folderName + "/textures");
-        DataHelper.createFile("resource_pack/assets/" + folderName + "/models/" + name + ".json", customItemJson.toString());
+        DataHelper.createFile("resource_pack/assets/" + folderName + "/models/generated/" + name + ".json", customItemJson.toString());
 
         //Second DIR
         File itemFileJson = DataHelper.getFile("resource_pack/assets/minecraft/models/item/" + material.name().toLowerCase() + ".json");
@@ -206,7 +206,7 @@ public class MaurisItem {
 
         predicate.addProperty("custom_model_data", id);
         override.add("predicate", predicate);
-        override.addProperty("model", fff + name);
+        override.addProperty("model", fff + "generated/" + name);
 
         overrides.add(override);
 

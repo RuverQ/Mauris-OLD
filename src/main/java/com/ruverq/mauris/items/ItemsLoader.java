@@ -43,13 +43,13 @@ public class ItemsLoader {
         }
 
         List<MaurisItem> items = new ArrayList<>();
+
         for(MaurisFolder folder : MaurisFolder.getAllFolders()){
             List<MaurisItem> folderItems = folder.getAllItems(true);
             items.addAll(folderItems);
         }
 
         loadForStructure(items);
-
     }
 
     public static Set<String> getLoadedFolders(){

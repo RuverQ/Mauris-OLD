@@ -164,9 +164,9 @@ public class MaurisBlock extends MaurisItem {
 
         modelObject.add("textures", texturesObject);
 
-        DataHelper.deleteFile("resource_pack/assets/" + folder.getName() +"/models/" + name + ".json");
-        DataHelper.createFolder("resource_pack/assets/" + folder.getName() +"/models");
-        DataHelper.createFile("resource_pack/assets/" + folder.getName() +"/models/" + name + ".json", modelObject.toString());
+        DataHelper.deleteFile("resource_pack/assets/" + folder.getName() +"/models/generated/" + name + ".json");
+        DataHelper.createFolder("resource_pack/assets/" + folder.getName() +"/models/generated");
+        DataHelper.createFile("resource_pack/assets/" + folder.getName() +"/models/generated/" + name + ".json", modelObject.toString());
 
         //Second DIR
         JsonObject generalBSObject = new JsonObject();
@@ -196,7 +196,7 @@ public class MaurisBlock extends MaurisItem {
 
         mPObject.add("when", whenObject);
 
-        applyObject.addProperty("model", fff + name);
+        applyObject.addProperty("model", fff + "generated/" + name);
         mPObject.add("apply", applyObject);
 
         multipartArray.add(mPObject);
