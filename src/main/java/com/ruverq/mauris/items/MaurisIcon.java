@@ -30,9 +30,7 @@ public class MaurisIcon extends MaurisItem {
     @SneakyThrows
     @Override
     public void generate(){
-        System.out.println("a");
         if(textures == null || textures.getTextures().isEmpty()) return;
-        System.out.println("b");
         File file = DataHelper.getFile("resource_pack/assets/minecraft/font/default.json");
         JsonObject main = new JsonObject();
 

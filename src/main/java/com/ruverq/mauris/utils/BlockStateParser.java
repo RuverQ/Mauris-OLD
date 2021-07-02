@@ -35,6 +35,18 @@ public class BlockStateParser {
         return Bukkit.createBlockData(sb.toString());
     }
 
+    public static String createFormattedData(List<BlockProperty> properties){
+
+        StringBuilder sb = new StringBuilder();
+
+        for(BlockProperty property : properties){
+            sb.append(property.getProperty()).append("=").append(property.getValue()).append(",");
+        }
+        sb.deleteCharAt(sb.length() - 1);
+
+        return sb.toString();
+    }
+
 
     public static String createFormattedData(Material material, List<BlockProperty> properties){
 

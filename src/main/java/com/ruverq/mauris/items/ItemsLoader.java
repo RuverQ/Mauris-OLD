@@ -44,12 +44,28 @@ public class ItemsLoader {
 
         List<MaurisItem> items = new ArrayList<>();
 
+        deleteGeneratedFolders();
+
         for(MaurisFolder folder : MaurisFolder.getAllFolders()){
             List<MaurisItem> folderItems = folder.getAllItems(true);
             items.addAll(folderItems);
         }
 
         loadForStructure(items);
+    }
+
+    //TODO Create a service that will not fuck files and that will delete all needed files at the start
+    private static void deleteGeneratedFolders(){
+
+        DataHelper.deleteFile("resource_pack/assets/minecraft/font/default.json");
+        DataHelper.deleteFile("resource_pack/assets/minecraft/blockstates/note_block.json");
+        DataHelper.deleteFile("resource_pack/assets/minecraft/blockstates/mushroom_stem.json");
+        DataHelper.deleteFile("resource_pack/assets/minecraft/blockstates/tripwire.json");
+
+        for(MaurisFolder mf : MaurisFolder.getAllFolders()){
+            DataHelper.deleteFile("resource_pack/assets/" + mf.getName() + "/" + "models/generated");
+        }
+
     }
 
     public static Set<String> getLoadedFolders(){

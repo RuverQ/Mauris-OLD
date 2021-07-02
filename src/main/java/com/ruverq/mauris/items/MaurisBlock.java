@@ -171,37 +171,23 @@ public class MaurisBlock extends MaurisItem {
         //Second DIR
         JsonObject generalBSObject = new JsonObject();
 
-        JsonArray multipartArray = new JsonArray();
         String blockstatePath = "resource_pack/assets/minecraft/blockstates/" + type.material().name().toLowerCase() + ".json";
+
+        JsonObject variantsObject = new JsonObject();
         File blockstateFile = DataHelper.getFile(blockstatePath);
         if(blockstateFile != null){
             generalBSObject = DataHelper.FileToJson(blockstateFile);
-            assert generalBSObject != null;
-            multipartArray = generalBSObject.getAsJsonArray("multipart");
-
-            for(JsonElement je : multipartArray){
-                JsonObject jo = je.getAsJsonObject();
-                JsonObject apply = jo.get("apply").getAsJsonObject();
-                if(apply.get("model").getAsString().equalsIgnoreCase(fff + name)) return;
-            }
+            variantsObject = generalBSObject.getAsJsonObject("variants");
         }
 
         List<BlockProperty> properties = type.generate(blockId);
-        JsonObject mPObject = new JsonObject();
-        JsonObject whenObject = new JsonObject();
-        JsonObject applyObject = new JsonObject();
-        for(BlockProperty property : properties){
-            whenObject = property.smartAdd(whenObject);
-        }
 
-        mPObject.add("when", whenObject);
+        JsonObject propertiesObject = new JsonObject();
+        propertiesObject.addProperty("model", fff + "generated/" + name);
 
-        applyObject.addProperty("model", fff + "generated/" + name);
-        mPObject.add("apply", applyObject);
+        variantsObject.add(BlockStateParser.createFormattedData(properties), propertiesObject);
 
-        multipartArray.add(mPObject);
-
-        generalBSObject.add("multipart", multipartArray);
+        generalBSObject.add("variants", variantsObject);
 
         DataHelper.deleteFile(blockstatePath);
         DataHelper.createFolder("resource_pack/assets/minecraft/blockstates/");
