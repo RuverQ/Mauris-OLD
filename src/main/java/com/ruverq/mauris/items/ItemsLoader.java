@@ -4,6 +4,7 @@ import com.ruverq.mauris.DataHelper;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.block.data.BlockData;
+import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.craftbukkit.libs.it.unimi.dsi.fastutil.Hash;
 import org.bukkit.inventory.ItemStack;
 
@@ -17,6 +18,7 @@ public class ItemsLoader {
 
     //Please help
     static List<MaurisItem> itemsLoaded = new ArrayList<>();
+    static HashMap<String, MaurisItem> itemsByFullName = new HashMap<>();
     static HashMap<String, MaurisItem> itemsByName = new HashMap<>();
     static HashMap<ItemStack, MaurisItem> itemsByItemStack = new HashMap<>();
     static HashMap<BlockData, MaurisBlock> blockByBlockData = new HashMap<>();
@@ -28,6 +30,7 @@ public class ItemsLoader {
         itemsByItemStack.clear();
         blockByBlockData.clear();
         itemsByFolder.clear();
+        itemsByFullName.clear();
 
 
         File dir = DataHelper.getDir("mauris");
@@ -52,6 +55,21 @@ public class ItemsLoader {
         }
 
         loadForStructure(items);
+        deleteUnnecessaryIDs();
+    }
+
+    //Cringe
+    private static void deleteUnnecessaryIDs(){
+        ConfigurationSection cs = DataHelper.getFileAsYAML("ids.yml");
+        for(String sec : cs.getConfigurationSection("").getKeys(false)){
+            for(String dopSec : cs.getConfigurationSection(sec).getKeys(false)){
+                for(String name : cs.getConfigurationSection(sec + "." + dopSec).getKeys(false)){
+                    MaurisItem mi = getMaurisItem(name);
+                    if(mi != null) continue;
+                    DataHelper.removeId(name, sec + "." + dopSec);
+                }
+            }
+        }
     }
 
     //TODO Create a service that will not fuck files and that will delete all needed files at the start
@@ -118,6 +136,8 @@ public class ItemsLoader {
     private static void loadForStructure(MaurisItem item){
         itemsLoaded.add(item);
         itemsByName.put(item.name, item);
+
+        itemsByName.put(item.getFolder().getName() + ":" + item.getName(), item);
 
         if(item instanceof MaurisIcon) return;
 

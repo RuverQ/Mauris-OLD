@@ -3,6 +3,7 @@ package com.ruverq.mauris;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import com.mysql.fabric.xmlrpc.base.Array;
 import com.ruverq.mauris.items.MaurisFolder;
 import lombok.SneakyThrows;
 import org.apache.commons.lang.StringEscapeUtils;
@@ -13,6 +14,7 @@ import org.bukkit.configuration.file.YamlConfiguration;
 import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
+import java.util.ArrayList;
 import java.util.List;
 
 public class DataHelper {
@@ -26,6 +28,42 @@ public class DataHelper {
 
         createFolder("resource_pack/assets/minecraft");
         createFile("ids.yml", "");
+    }
+
+    public static void removeId(String name, String path){
+
+        File file = getFile("ids.yml");
+        YamlConfiguration ys = YamlConfiguration.loadConfiguration(file);
+
+        String namespace = name;
+
+        ConfigurationSection rightCS = ys.getConfigurationSection(path);
+        rightCS.set(name, null);
+
+        try {
+            ys.save(file);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+    }
+
+    public static void removeId(MaurisFolder folder, String name, String path){
+
+        File file = getFile("ids.yml");
+        YamlConfiguration ys = YamlConfiguration.loadConfiguration(file);
+
+        String namespace = folder.getName() + ":" + name;
+
+        ConfigurationSection rightCS = ys.getConfigurationSection(path);
+        rightCS.set(name, null);
+
+        try {
+            ys.save(file);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
     }
 
     public static int getId(MaurisFolder folder, String name, String path){
@@ -42,6 +80,20 @@ public class DataHelper {
 
         return -1;
 
+    }
+
+    private static int generateNewId(ConfigurationSection rightCS){
+        List<Integer> ints = new ArrayList<>();
+        for(String bruh : rightCS.getKeys(false)){
+            ints.add(rightCS.getInt(bruh));
+        }
+
+        int i = 1;
+        while(ints.contains(i)){
+            i++;
+        }
+
+        return i;
     }
 
     public static int addId(MaurisFolder folder, String name, String path){
@@ -65,8 +117,7 @@ public class DataHelper {
             if(rightCS.contains(namespace)) return rightCS.getInt(namespace);
         }
 
-        int newId = rightCS.getKeys(false).size() + 1;
-
+        int newId = generateNewId(rightCS);
         ys.set(path + "." + namespace, newId);
 
         try {
