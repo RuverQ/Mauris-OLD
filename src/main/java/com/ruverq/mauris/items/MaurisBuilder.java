@@ -1,5 +1,6 @@
 package com.ruverq.mauris.items;
 
+import com.ruverq.mauris.items.blocksounds.BlockSounds;
 import com.ruverq.mauris.items.blocktypes.MaurisBlockType;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
@@ -27,9 +28,7 @@ public class MaurisBuilder {
 
     int hardness;
 
-    String stepSound;
-    String placeSound;
-    String breakSound;
+    BlockSounds sounds;
 
     boolean selfDrop;
 
@@ -46,7 +45,7 @@ public class MaurisBuilder {
 
     public MaurisItem build(){
         if(isIcon) return new MaurisIcon(folder, name, textures, displayName, lore, material, generateModel, isBlock, maurisBlock, file, sizeMultiplier, align, yOffset);
-        if(isBlock) return new MaurisBlock(folder,name,textures,displayName,lore,material,generateModel, true,maurisBlock,file, type, hardness, hardnessPerTool, breakSound, placeSound, stepSound, lootTable, selfDrop);
+        if(isBlock) return new MaurisBlock(folder,name,textures,displayName,lore,material,generateModel, true,maurisBlock,file, type, hardness, hardnessPerTool, sounds, lootTable, selfDrop);
         return new MaurisItem(folder,name,textures,displayName,lore,material,generateModel, false,maurisBlock, file);
     }
 
@@ -160,27 +159,21 @@ public class MaurisBuilder {
         return this;
     }
 
-    public MaurisBuilder setSounds(String breakSound, String placeSound, String stepSound){
-        this.breakSound = breakSound;
-        this.placeSound = placeSound;
-        this.stepSound = stepSound;
+    public MaurisBuilder setSounds(BlockSounds sounds){
+        this.sounds = sounds;
         return this;
     }
 
-    public MaurisBuilder setBreakSound(String breakSound){
-        this.breakSound = breakSound;
+    public MaurisBuilder setSounds(String breakSound, String placeSound, String stepSound, String hitSound){
+        BlockSounds bs = new BlockSounds();
+        bs.setBreakSound(breakSound);
+        bs.setPlaceSound(placeSound);
+        bs.setStepSound(stepSound);
+        bs.setHitSound(hitSound);
+        this.sounds = bs;
         return this;
     }
 
-    public MaurisBuilder setPlaceSound(String placeSound){
-        this.placeSound = placeSound;
-        return this;
-    }
-
-    public MaurisBuilder setStepSound(String stepSound){
-        this.stepSound = stepSound;
-        return this;
-    }
 
     public MaurisBuilder setGenerateModel(boolean generateModel){
         this.generateModel = generateModel;

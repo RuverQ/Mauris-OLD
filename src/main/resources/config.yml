@@ -2,7 +2,6 @@
 icons:
   placeholderSupport: true
 
-
 kick-on-decline:
   enabled: true
   bypass-permission: "Mauris.bypassDeclineRP"

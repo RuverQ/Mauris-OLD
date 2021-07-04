@@ -4,6 +4,7 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.ruverq.mauris.DataHelper;
+import com.ruverq.mauris.items.blocksounds.BlockSounds;
 import com.ruverq.mauris.items.blocktypes.MaurisBlockType;
 import com.ruverq.mauris.items.blocktypes.MaurisBlockTypeManager;
 import com.ruverq.mauris.utils.BlockProperty;
@@ -24,14 +25,12 @@ import java.util.List;
 
 public class MaurisBlock extends MaurisItem {
 
-    public MaurisBlock(MaurisFolder folder, String name, MaurisTextures textures, String displayName, List<String> lore, Material material, boolean generateModel, boolean isBlock, MaurisBlock maurisBlock, File file, MaurisBlockType type, int hardness, HashMap<ItemStack, Integer> hardnessPerTool,  String breakSound,  String placeSound,  String stepSound, MaurisLootTable lootTable, boolean selfDrop) {
+    public MaurisBlock(MaurisFolder folder, String name, MaurisTextures textures, String displayName, List<String> lore, Material material, boolean generateModel, boolean isBlock, MaurisBlock maurisBlock, File file, MaurisBlockType type, int hardness, HashMap<ItemStack, Integer> hardnessPerTool, BlockSounds sounds, MaurisLootTable lootTable, boolean selfDrop) {
         super(folder, name, textures, displayName, lore, material, generateModel, isBlock, maurisBlock, file);
         this.type = type;
         this.hardness = hardness;
         this.hardnessPerTool = hardnessPerTool;
-        this.stepSound = stepSound;
-        this.breakSound = breakSound;
-        this.placeSound = placeSound;
+        this.sounds = sounds;
         this.lootTable = lootTable;
         this.selfDrop = selfDrop;
     }
@@ -43,26 +42,7 @@ public class MaurisBlock extends MaurisItem {
     MaurisLootTable lootTable;
 
     @Getter
-    String breakSound;
-    @Getter
-    String stepSound;
-    @Getter
-    String placeSound;
-
-    public String getPlaceSoundSafe() {
-        if(placeSound == null) return type.material().createBlockData().getSoundGroup().getPlaceSound().getKey().toString();
-        return placeSound;
-    }
-
-    public String getBreakSoundSafe() {
-        if(breakSound == null) return type.material().createBlockData().getSoundGroup().getBreakSound().getKey().toString();
-        return breakSound;
-    }
-
-    public String getStepSoundSafe() {
-        if(stepSound == null) return type.material().createBlockData().getSoundGroup().getStepSound().getKey().toString();
-        return stepSound;
-    }
+    BlockSounds sounds;
 
     @Getter
     int blockId;
@@ -106,17 +86,27 @@ public class MaurisBlock extends MaurisItem {
         String placeSound = blockcs.getString("sounds.place");
         String stepSound = blockcs.getString("sounds.step");
         String breakSound = blockcs.getString("sounds.break");
+        String hitSound = blockcs.getString("sounds.hit");
+        String fallSound = blockcs.getString("sounds.fall");
 
         String typeS = blockcs.getString("type");
         boolean selfDrop = blockcs.getBoolean("selfDrop");
 
         MaurisBlockType type = MaurisBlockTypeManager.getType(typeS);
 
+        BlockSounds sounds = new BlockSounds();
+        sounds.setPlaceSound(placeSound);
+        sounds.setStepSound(stepSound);
+        sounds.setBreakSound(breakSound);
+        sounds.setHitSound(hitSound);
+        sounds.setFallSound(fallSound);
+        sounds.setDefaultSounds(type.material().createBlockData().getSoundGroup());
+
         mb.setHardness(hardness)
                 .setType(type)
                 .setSelfDrop(selfDrop)
                 .isBlock(true)
-                .setSounds(breakSound, placeSound, stepSound);
+                .setSounds(sounds);
 
         ConfigurationSection blTexCs = blockcs.getConfigurationSection("textures");
         if(blTexCs != null && blTexCs.getKeys(false).size() > 0){
@@ -148,6 +138,7 @@ public class MaurisBlock extends MaurisItem {
 
     @Override
     public void generate(){
+
         MaurisItem item = this;
         item.generate("minecraft:block/cube_all");
 

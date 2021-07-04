@@ -11,8 +11,7 @@ public class BlockMorphUtils {
 
     public static void playBlockSound(Block block){
         MaurisBlock mb = ItemsLoader.getMaurisBlock(block.getBlockData());
-
-        block.getWorld().playSound(block.getLocation(), mb.getBreakSoundSafe(), SoundCategory.BLOCKS,1, 1f);
+        mb.getSounds().executeBreakSound(block.getLocation());
     }
 
 

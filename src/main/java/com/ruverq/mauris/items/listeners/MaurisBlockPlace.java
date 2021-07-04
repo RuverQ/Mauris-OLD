@@ -60,7 +60,7 @@ public class MaurisBlockPlace implements Listener {
             BlockData bd = mb.getAsBlockData();
             newBlock.setBlockData(bd);
 
-            newBlock.getLocation().getWorld().playSound(newBlock.getLocation(), mb.getPlaceSoundSafe(), SoundCategory.BLOCKS, 1, 1);
+            mb.getSounds().executePlaceSound(newBlock.getLocation());
         }
 
         if(e.getPlayer().getGameMode() != GameMode.CREATIVE){
