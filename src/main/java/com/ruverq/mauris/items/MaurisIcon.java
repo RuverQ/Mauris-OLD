@@ -18,9 +18,23 @@ import java.util.List;
 
 public class MaurisIcon extends MaurisItem {
 
-    public MaurisIcon(MaurisFolder folder, String name, MaurisTextures textures, String displayName, List<String> lore, Material material, boolean generateModel, boolean isBlock, MaurisBlock maurisBlock, File file, int height, int ascent) {
-        super(folder, name, textures, displayName, lore, material, generateModel, isBlock, maurisBlock, file);
+    enum IconAlign{
+        CENTER,
+        BOTTOM,
+        TOP;
     }
+
+    public MaurisIcon(MaurisFolder folder, String name, MaurisTextures textures, String displayName, List<String> lore, Material material, boolean generateModel, boolean isBlock, MaurisBlock maurisBlock, File file, double sizeMultiplier, IconAlign align, int yOffset) {
+        super(folder, name, textures, displayName, lore, material, generateModel, isBlock, maurisBlock, file);
+        this.sizeMultiplier = sizeMultiplier;
+        this.align = align;
+        this.yOffset = yOffset;
+    }
+
+    double sizeMultiplier;
+    IconAlign align;
+    int yOffset;
+
 
     @Getter
     Character symbol;
@@ -74,7 +88,17 @@ public class MaurisIcon extends MaurisItem {
 
         BufferedImage bimage = ImageIO.read(textureFile);
         int height = bimage.getHeight();
-        int ascent = bimage.getWidth();
+        int ascent = 0;
+
+        height = (int) (height * sizeMultiplier);
+
+        if(align == IconAlign.BOTTOM){
+            ascent = height;
+        }else if(align == IconAlign.CENTER){
+            ascent = height / 2;
+        }
+
+        ascent += yOffset;
 
         provider.addProperty("height", height);
         provider.addProperty("ascent", ascent);
@@ -109,11 +133,24 @@ public class MaurisIcon extends MaurisItem {
         boolean enabled = cs.getBoolean("icon.enabled");
         mb.setIcon(enabled);
 
-        int height = cs.getInt("icon.height");
-        int ascent = cs.getInt("icon.ascent");
+        int yOffset = cs.getInt("icon.yOffset");
+        double sizeMultiplier = cs.getDouble("icon.sizeMultiplier", 1);
+        if(sizeMultiplier < 1){
+            sizeMultiplier = 1;
+        }
 
-        mb.setIconHeight(height);
-        mb.setIconAscent(ascent);
+        String alignS = cs.getString("icon.align", "bottom");
+        IconAlign align = IconAlign.BOTTOM;
+        for(MaurisIcon.IconAlign iconAlign : MaurisIcon.IconAlign.values()){
+            if(iconAlign.name().equalsIgnoreCase(alignS)) {
+                align = iconAlign;
+                break;
+            }
+        }
+
+        mb.setYOffset(yOffset)
+        .setSizeMultiplier(sizeMultiplier)
+        .setAlign(align);
     }
 
 }

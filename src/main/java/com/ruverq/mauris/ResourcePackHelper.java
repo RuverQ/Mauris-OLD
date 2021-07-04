@@ -171,7 +171,7 @@ public class ResourcePackHelper implements Listener {
 
         if(e.getStatus() == PlayerResourcePackStatusEvent.Status.ACCEPTED) return;
         if(e.getStatus() == PlayerResourcePackStatusEvent.Status.DECLINED) e.getPlayer().kickPlayer(kickMessage);
-        if(e.getStatus() == PlayerResourcePackStatusEvent.Status.DECLINED) e.getPlayer().kickPlayer(kickMessageFailure);
+        if(e.getStatus() == PlayerResourcePackStatusEvent.Status.FAILED_DOWNLOAD) e.getPlayer().kickPlayer(kickMessageFailure);
     }
 
 

@@ -39,12 +39,13 @@ public class MaurisBuilder {
 
     HashMap<ItemStack, Integer> hardnessPerTool = new HashMap<>();
 
-    int iconHeight;
-    int iconAscent;
+    double sizeMultiplier;
+    int yOffset;
+    MaurisIcon.IconAlign align;
     boolean isIcon;
 
     public MaurisItem build(){
-        if(isIcon) return new MaurisIcon(folder, name, textures, displayName, lore, material, generateModel, isBlock, maurisBlock, file, iconHeight, iconAscent);
+        if(isIcon) return new MaurisIcon(folder, name, textures, displayName, lore, material, generateModel, isBlock, maurisBlock, file, sizeMultiplier, align, yOffset);
         if(isBlock) return new MaurisBlock(folder,name,textures,displayName,lore,material,generateModel, true,maurisBlock,file, type, hardness, hardnessPerTool, breakSound, placeSound, stepSound, lootTable, selfDrop);
         return new MaurisItem(folder,name,textures,displayName,lore,material,generateModel, false,maurisBlock, file);
     }
@@ -55,6 +56,21 @@ public class MaurisBuilder {
 
     public void addHardnessPerTool(MaurisItem item, int hardness){
         hardnessPerTool.put(item.getAsItemStack(), hardness);
+    }
+
+    public MaurisBuilder setAlign(MaurisIcon.IconAlign align){
+        this.align = align;
+        return this;
+    }
+
+    public MaurisBuilder setYOffset(int yOffset){
+        this.yOffset = yOffset;
+        return this;
+    }
+
+    public MaurisBuilder setSizeMultiplier(double sizeMultiplier){
+        this.sizeMultiplier = sizeMultiplier;
+        return this;
     }
 
     public MaurisBuilder setSelfDrop(boolean selfDrop){
@@ -98,16 +114,6 @@ public class MaurisBuilder {
 
     public MaurisBuilder setIcon(boolean isIcon) {
         this.isIcon = isIcon;
-        return this;
-    }
-
-    public MaurisBuilder setIconHeight(int iconHeight) {
-        this.iconHeight = iconHeight;
-        return this;
-    }
-
-    public MaurisBuilder setIconAscent(int iconAscent) {
-        this.iconAscent = iconAscent;
         return this;
     }
 
