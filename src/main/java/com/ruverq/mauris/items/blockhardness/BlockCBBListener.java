@@ -3,7 +3,9 @@ package com.ruverq.mauris.items.blockhardness;
 import com.ruverq.mauris.Mauris;
 import com.ruverq.mauris.items.ItemsLoader;
 import com.ruverq.mauris.items.MaurisBlock;
+import com.ruverq.mauris.items.blocksounds.HitListener;
 import net.minecraft.server.v1_16_R3.EntityPlayer;
+import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -42,13 +44,13 @@ public class BlockCBBListener implements Listener {
         Set<Material> transparentBlocks = new HashSet<>();
         transparentBlocks.add(Material.WATER);
         transparentBlocks.add(Material.AIR);
+        transparentBlocks.add(Material.SNOW);
         Block block = entityplayer.getBukkitEntity().getTargetBlock(transparentBlocks, 5);
         Location blockPosition = block.getLocation();
 
         if (!BrokenBlocksService.isBrokenBlock(blockPosition)) return;
 
         Player player = entityplayer.getBukkitEntity();
-        ItemStack itemStack = e.getPlayer().getItemInHand();
 
         double distanceX = blockPosition.getX() - entityplayer.locX();
         double distanceY = blockPosition.getY() - entityplayer.locY();
@@ -56,6 +58,10 @@ public class BlockCBBListener implements Listener {
 
         if (distanceX * distanceX + distanceY * distanceY + distanceZ * distanceZ >= 1024.0D) return;
         BrokenBlock brokenBlock = BrokenBlocksService.getBrokenBlock(blockPosition);
+
+        BlockHardnessHitEvent hitEvent = new BlockHardnessHitEvent(player, block, brokenBlock);
+
+        Bukkit.getPluginManager().callEvent(hitEvent);
 
         brokenBlock.incrementDamage(player, 1);
     }

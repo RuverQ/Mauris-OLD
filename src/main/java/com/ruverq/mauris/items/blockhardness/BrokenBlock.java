@@ -15,6 +15,8 @@ public class BrokenBlock {
 
     private int time;
     private int oldAnimation;
+
+    @Getter
     private double damage = -1;
     private final Block block;
 

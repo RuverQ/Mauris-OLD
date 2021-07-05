@@ -28,8 +28,8 @@ public class MaurisSoundsManager {
 
         setUpSoundsJson();
 
-        Bukkit.getPluginManager().registerEvents(new StepListener(), Mauris.getInstance());
-
+        if(stepSoundEnabled) Bukkit.getPluginManager().registerEvents(new StepListener(), Mauris.getInstance());
+        if(hitSoundEnabled) Bukkit.getPluginManager().registerEvents(new HitListener(), Mauris.getInstance());
     }
 
 

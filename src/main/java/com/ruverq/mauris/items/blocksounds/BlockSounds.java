@@ -60,11 +60,11 @@ public class BlockSounds {
 
     public void executeHitSound(Location location){
         if(hitSound == null || hitSound.isEmpty()){
-            location.getWorld().playSound(location, defaultSounds.getHitSound(), SoundCategory.BLOCKS, 1, 1);
+            location.getWorld().playSound(location, defaultSounds.getHitSound(), SoundCategory.BLOCKS, 0.2f, 1);
             return;
         }
 
-        location.getWorld().playSound(location, hitSound, SoundCategory.BLOCKS, 1, 1);
+        location.getWorld().playSound(location, hitSound, SoundCategory.BLOCKS, 0.2f, 1);
     }
 
     public void executeFallSound(Location location){
