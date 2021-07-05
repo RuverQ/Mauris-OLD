@@ -3,6 +3,7 @@ package com.ruverq.mauris.items.blocksounds;
 import lombok.Getter;
 import lombok.Setter;
 import org.bukkit.Location;
+import org.bukkit.Sound;
 import org.bukkit.SoundCategory;
 import org.bukkit.SoundGroup;
 
@@ -50,10 +51,11 @@ public class BlockSounds {
 
     public void executeStepSound(Location location){
         if(stepSound == null || stepSound.isEmpty()){
-            location.getWorld().playSound(location, defaultSounds.getStepSound(), SoundCategory.PLAYERS, 1, 1);
+            location.getWorld().playSound(location, defaultSounds.getStepSound(), SoundCategory.PLAYERS, 0.2f, 1);
             return;
         }
-        location.getWorld().playSound(location, stepSound, SoundCategory.PLAYERS, 1, 1);
+
+        location.getWorld().playSound(location, stepSound, SoundCategory.PLAYERS, 0.2f, 1);
     }
 
     public void executeHitSound(Location location){

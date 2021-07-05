@@ -59,7 +59,7 @@ public class StepListener implements Listener {
         }
 
         if(blockUnder.getBlockData().getSoundGroup().getStepSound() == Sound.BLOCK_WOOD_STEP){
-            world.playSound(loc, "replace.block.wood.step", SoundCategory.PLAYERS, 0.4f, 1);
+            world.playSound(loc, "replace.block.wood.step", SoundCategory.PLAYERS, 0.2f, 1);
         }
     }
 
