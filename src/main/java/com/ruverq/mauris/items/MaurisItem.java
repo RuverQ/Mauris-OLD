@@ -199,6 +199,8 @@ public class MaurisItem {
                     return;
                 }
             }
+        }else{
+            overrides.add(getDefaultPaperObject());
         }
 
         JsonObject override = new JsonObject();
@@ -216,6 +218,19 @@ public class MaurisItem {
         DataHelper.createFolder("resource_pack/assets/minecraft/models/item");
         DataHelper.deleteFile("resource_pack/assets/minecraft/models/item/" + material.name().toLowerCase() + ".json");
         DataHelper.createFile("resource_pack/assets/minecraft/models/item/" + material.name().toLowerCase() + ".json", itemJson.toString());
+    }
+
+    private JsonObject getDefaultPaperObject(){
+        JsonObject override = new JsonObject();
+        JsonObject predicate = new JsonObject();
+
+        predicate.addProperty("custom_model_data", 0);
+
+        override.addProperty("model", "minecraft:item/" + material.name().toLowerCase());
+
+        override.add("predicate", predicate);
+
+        return override;
     }
 
 }
