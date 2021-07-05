@@ -134,8 +134,8 @@ public class ResourcePackHelper implements Listener {
         kickEnabled = config.getBoolean("kick-on-decline.enabled");
         if(kickEnabled){
             kickMessage = format(config.getString("kick-on-decline.message", "kicked"));
-            kickMessageFailure = format(config.getString("kick-on-decline.failure-message", "kicked"));
-            bypassKickPermission = config.getString("kick-on-decline.bypass-permission");
+            kickMessageFailure = format(config.getString("kick-on-decline.failureMessage", "kicked"));
+            bypassKickPermission = config.getString("kick-on-decline.bypassPermission");
         }
 
         boolean enabled = config.getBoolean("self-host.enabled", true);

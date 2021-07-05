@@ -6,6 +6,7 @@ import com.ruverq.mauris.items.ItemsLoader;
 import com.ruverq.mauris.items.MaurisIcon;
 import com.ruverq.mauris.items.MaurisIconPlaceholder;
 import com.ruverq.mauris.items.blockhardness.BlockCBBListener;
+import com.ruverq.mauris.items.blocksounds.MaurisSoundsManager;
 import com.ruverq.mauris.items.blocktypes.MaurisBlockTypeManager;
 import com.ruverq.mauris.items.listeners.MaurisBlockBreak;
 import com.ruverq.mauris.items.listeners.MaurisBlockCancel;
@@ -39,6 +40,8 @@ public final class Mauris extends JavaPlugin {
 
         CommandManager.setUp();
 
+        MaurisSoundsManager.setUp();
+
         ResourcePackHelper.setupRP();
 
         Bukkit.getPluginManager().registerEvents(new ResourcePackHelper(), this);
@@ -56,7 +59,6 @@ public final class Mauris extends JavaPlugin {
         if(Bukkit.getPluginManager().getPlugin("PlaceHolderAPI") != null){
             MaurisIconPlaceholder.loadAll();
         }
-
 
     }
 

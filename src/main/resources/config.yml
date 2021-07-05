@@ -2,11 +2,20 @@
 icons:
   placeholderSupport: true
 
+block:
+  sounds:
+    stepSound:
+      enabled: true
+    hitSound:
+      enabled: true
+    fallSound:
+      enabled: true
+
 kick-on-decline:
   enabled: true
-  bypass-permission: "Mauris.bypassDeclineRP"
+  bypassPermission: "Mauris.bypassDeclineRP"
   message: "accept the resourcepack please"
-  failure-message: "strange........."
+  failureMessage: "strange........."
 
 self-host:
   enabled: true

@@ -33,7 +33,7 @@ public class BlockSounds {
     SoundGroup defaultSounds;
 
     public void executePlaceSound(Location location){
-        if(placeSound == null && placeSound.isEmpty()){
+        if(placeSound == null || placeSound.isEmpty()){
             location.getWorld().playSound(location, defaultSounds.getPlaceSound(), SoundCategory.BLOCKS, 1, 1);
             return;
         }
@@ -41,7 +41,7 @@ public class BlockSounds {
     }
 
     public void executeBreakSound(Location location){
-        if(breakSound == null && breakSound.isEmpty()){
+        if(breakSound == null || breakSound.isEmpty()){
             location.getWorld().playSound(location, defaultSounds.getBreakSound(), SoundCategory.BLOCKS, 1, 1);
             return;
         }
@@ -49,15 +49,15 @@ public class BlockSounds {
     }
 
     public void executeStepSound(Location location){
-        if(stepSound == null && stepSound.isEmpty()){
-            location.getWorld().playSound(location, defaultSounds.getStepSound(), SoundCategory.BLOCKS, 1, 1);
+        if(stepSound == null || stepSound.isEmpty()){
+            location.getWorld().playSound(location, defaultSounds.getStepSound(), SoundCategory.PLAYERS, 1, 1);
             return;
         }
-        location.getWorld().playSound(location, stepSound, SoundCategory.BLOCKS, 1, 1);
+        location.getWorld().playSound(location, stepSound, SoundCategory.PLAYERS, 1, 1);
     }
 
     public void executeHitSound(Location location){
-        if(hitSound == null && hitSound.isEmpty()){
+        if(hitSound == null || hitSound.isEmpty()){
             location.getWorld().playSound(location, defaultSounds.getHitSound(), SoundCategory.BLOCKS, 1, 1);
             return;
         }
@@ -66,7 +66,7 @@ public class BlockSounds {
     }
 
     public void executeFallSound(Location location){
-        if(fallSound == null && fallSound.isEmpty()){
+        if(fallSound == null || fallSound.isEmpty()){
             location.getWorld().playSound(location, defaultSounds.getFallSound(), SoundCategory.BLOCKS, 1, 1);
             return;
         }
