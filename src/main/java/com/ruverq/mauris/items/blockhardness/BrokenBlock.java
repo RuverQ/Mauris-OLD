@@ -1,13 +1,12 @@
 package com.ruverq.mauris.items.blockhardness;
 
 import lombok.Getter;
-import net.minecraft.server.v1_16_R3.BlockPosition;
-import net.minecraft.server.v1_16_R3.PacketPlayOutBlockBreakAnimation;
+import net.minecraft.core.BlockPosition;
+import net.minecraft.network.protocol.game.PacketPlayOutBlockBreakAnimation;
 import org.bukkit.Bukkit;
 import org.bukkit.block.Block;
-import org.bukkit.craftbukkit.v1_16_R3.CraftServer;
-import org.bukkit.craftbukkit.v1_16_R3.CraftWorld;
-import org.bukkit.craftbukkit.v1_16_R3.entity.CraftPlayer;
+import org.bukkit.craftbukkit.v1_17_R1.CraftServer;
+import org.bukkit.craftbukkit.v1_17_R1.CraftWorld;
 import org.bukkit.entity.Player;
 
 //From this https://www.spigotmc.org/threads/1-8-1-13-custom-block-breaking-change-block-hardness.362586/
@@ -58,6 +57,7 @@ public class BrokenBlock {
     }
 
     public void sendBreakPacket(int animation) {
+
         ((CraftServer) Bukkit.getServer()).getHandle().sendPacketNearby(null, block.getX(), block.getY(), block.getZ(), 120, ((CraftWorld) block.getLocation().getWorld()).getHandle().getDimensionKey(),
                 new PacketPlayOutBlockBreakAnimation(getBlockEntityId(block), getBlockPosition(block), animation));
     }
@@ -71,7 +71,7 @@ public class BrokenBlock {
         BlockMorphUtils.playBlockSound(block);
         BlockMorphUtils.playBlockParticles(block);
         if (breaker == null) return;
-        ((CraftPlayer) breaker).getHandle().playerInteractManager.breakBlock(getBlockPosition(block));
+        breaker.breakBlock(block);
     }
 
     public void destroyBlockObject() {

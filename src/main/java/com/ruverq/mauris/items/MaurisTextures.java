@@ -54,8 +54,13 @@ public class MaurisTextures {
     }
 
     public JsonObject getAsBlockJsonObject(String namespace){
+        List<String> textures = new ArrayList<>();
+        for(String texture : this.textures){
+            texture = texture.replace(".png", "");
+            textures.add(texture);
+        }
 
-        String add = namespace + ":";
+        String add = namespace + "/";
 
         JsonObject jsonObject = new JsonObject();
 

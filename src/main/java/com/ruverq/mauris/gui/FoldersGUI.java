@@ -1,14 +1,10 @@
 package com.ruverq.mauris.gui;
 
 import com.ruverq.mauris.items.ItemsLoader;
-import com.ruverq.mauris.items.MaurisFolder;
 import com.ruverq.mauris.items.MaurisItem;
 import com.ruverq.mauris.utils.ItemBuilder;
 import lombok.Getter;
 import lombok.Setter;
-import net.minecraft.server.v1_16_R3.ItemBanner;
-import net.minecraft.server.v1_16_R3.ItemStack;
-import net.minecraft.server.v1_16_R3.Items;
 import org.bukkit.Material;
 
 import java.util.List;

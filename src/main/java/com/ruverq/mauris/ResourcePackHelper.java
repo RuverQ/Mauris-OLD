@@ -70,7 +70,7 @@ public class ResourcePackHelper implements Listener {
         JsonObject jsonObject = new JsonObject();
         JsonObject packObject = new JsonObject();
         packObject.addProperty("description", new Date(System.currentTimeMillis()).toString());
-        packObject.addProperty("pack_format", 6);
+        packObject.addProperty("pack_format", 7);
 
         jsonObject.add("pack", packObject);
 

@@ -154,19 +154,18 @@ public class MaurisItem {
 
         JsonObject jsonTextures = new JsonObject();
         int layeri = 0;
-        String fff = folderName + ":";
 
         for(String tex : textures.getTextures()){
 
-            jsonTextures.addProperty("layer" + layeri, fff + tex);
+            jsonTextures.addProperty("layer" + layeri, folderName + "/" + tex);
             layeri++;
         }
 
         customItemJson.add("textures", jsonTextures);
 
-        DataHelper.createFolder("resource_pack/assets/" + folderName + "/models/generated");
-        DataHelper.createFolder("resource_pack/assets/" + folderName + "/textures");
-        DataHelper.createFile("resource_pack/assets/" + folderName + "/models/generated/" + name + ".json", customItemJson.toString());
+        DataHelper.createFolder("resource_pack/assets/minecraft/models/" + folderName + "/generated");
+        DataHelper.createFolder("resource_pack/assets/minecraft/textures/" + folderName);
+        DataHelper.createFile("resource_pack/assets/minecraft/models/" + folderName + "/generated/" + name + ".json", customItemJson.toString());
 
         //Second DIR
         File itemFileJson = DataHelper.getFile("resource_pack/assets/minecraft/models/item/" + material.name().toLowerCase() + ".json");
@@ -187,7 +186,6 @@ public class MaurisItem {
 
         JsonArray overrides = new JsonArray();
 
-
         if(itemJson.has("overrides")){
             overrides = itemJson.getAsJsonArray("overrides");
             for (JsonElement element : overrides) {
@@ -195,7 +193,7 @@ public class MaurisItem {
                 if(tempOverride == null) continue;
                 JsonElement tempModel = tempOverride.get("model");
                 String model = tempModel.getAsString();
-                if(model.equalsIgnoreCase(fff + name)) {
+                if(model.equalsIgnoreCase(name)) {
                     return;
                 }
             }
@@ -208,7 +206,7 @@ public class MaurisItem {
 
         predicate.addProperty("custom_model_data", id);
         override.add("predicate", predicate);
-        override.addProperty("model", fff + "generated/" + name);
+        override.addProperty("model", folderName + "/generated/" + name);
 
         overrides.add(override);
 

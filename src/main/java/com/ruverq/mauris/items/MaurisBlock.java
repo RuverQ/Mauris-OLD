@@ -149,15 +149,15 @@ public class MaurisBlock extends MaurisItem {
         //First DIR
 
         JsonObject modelObject = new JsonObject();
-        modelObject.addProperty("parent", "minecraft:block/cube_all");
+        modelObject.addProperty("parent", "block/cube_all");
 
         JsonObject texturesObject = textures.getAsBlockJsonObject(folder.getName());
 
         modelObject.add("textures", texturesObject);
 
-        DataHelper.deleteFile("resource_pack/assets/" + folder.getName() +"/models/generated/" + name + ".json");
-        DataHelper.createFolder("resource_pack/assets/" + folder.getName() +"/models/generated");
-        DataHelper.createFile("resource_pack/assets/" + folder.getName() +"/models/generated/" + name + ".json", modelObject.toString());
+        DataHelper.deleteFile("resource_pack/assets/minecraft/models/" + folder.getName() + "/generated/" + name + ".json");
+        DataHelper.createFolder("resource_pack/assets/minecraft/models/" + folder.getName() +"/generated");
+        DataHelper.createFile("resource_pack/assets/minecraft/models/" + folder.getName() + "/generated/" + name + ".json", modelObject.toString());
 
         //Second DIR
         JsonObject generalBSObject = new JsonObject();
@@ -174,7 +174,7 @@ public class MaurisBlock extends MaurisItem {
         List<BlockProperty> properties = type.generate(blockId);
 
         JsonObject propertiesObject = new JsonObject();
-        propertiesObject.addProperty("model", fff + "generated/" + name);
+        propertiesObject.addProperty("model", folder.getName() + "/generated/" + name);
 
         variantsObject.add(BlockStateParser.createFormattedData(properties), propertiesObject);
 

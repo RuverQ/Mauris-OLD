@@ -81,7 +81,8 @@ public class ItemsLoader {
         DataHelper.deleteFile("resource_pack/assets/minecraft/blockstates/tripwire.json");
 
         for(MaurisFolder mf : MaurisFolder.getAllFolders()){
-            DataHelper.deleteFile("resource_pack/assets/" + mf.getName() + "/" + "models/generated");
+            System.out.println("resource_pack/assets/minecraft/models/" + mf.getName() + "/generated");
+            DataHelper.deleteFile("resource_pack/assets/minecraft/models/" + mf.getName() + "/generated");
         }
 
     }
