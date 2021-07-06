@@ -24,27 +24,27 @@ import static com.ruverq.mauris.utils.FormatUtils.formatColorList;
 public class MaurisItem {
 
     @Getter
-    protected MaurisFolder folder;
+    MaurisFolder folder;
     @Getter
-    protected String name;
+    String name;
 
     @Getter
-    protected MaurisTextures textures;
+    MaurisTextures textures;
     @Getter
-    protected String displayName;
+    String displayName;
     @Getter
-    protected List<String> lore;
+    List<String> lore;
     @Getter
-    protected Material material;
+    Material material;
     @Getter
     boolean generateModel;
 
     @Getter
-    protected boolean isBlock;
-    protected MaurisBlock maurisBlock;
+    boolean isBlock;
+    MaurisBlock maurisBlock;
 
     @Getter
-    protected File file;
+    File file;
 
     protected int id;
 
@@ -74,7 +74,7 @@ public class MaurisItem {
         return itemStack;
     }
 
-    protected static void loadFromConfigurationSection(MaurisBuilder mb, ConfigurationSection cs){
+    public static void loadFromConfigurationSection(MaurisBuilder mb, ConfigurationSection cs){
 
         String displayname = cs.getString("displayname");
         String material = cs.getString("material");

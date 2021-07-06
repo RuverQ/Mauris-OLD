@@ -133,7 +133,7 @@ public class MaurisIcon extends MaurisItem {
         return ja;
     }
 
-    protected static void loadFromConfigurationSection(MaurisBuilder mb, ConfigurationSection cs){
+    public static void loadFromConfigurationSection(MaurisBuilder mb, ConfigurationSection cs){
         boolean enabled = cs.getBoolean("icon.enabled");
         mb.setIcon(enabled);
 
