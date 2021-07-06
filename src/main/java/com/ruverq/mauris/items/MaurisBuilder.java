@@ -1,7 +1,10 @@
 package com.ruverq.mauris.items;
 
-import com.ruverq.mauris.items.blocksounds.BlockSounds;
-import com.ruverq.mauris.items.blocktypes.MaurisBlockType;
+import com.ruverq.mauris.items.blocks.MaurisBlock;
+import com.ruverq.mauris.items.blocks.MaurisLootTable;
+import com.ruverq.mauris.items.blocks.blocksounds.BlockSounds;
+import com.ruverq.mauris.items.blocks.blocktypes.MaurisBlockType;
+import com.ruverq.mauris.items.icons.MaurisIcon;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 

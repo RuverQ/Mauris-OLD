@@ -1,11 +1,13 @@
 package com.ruverq.mauris.items;
 
 import com.ruverq.mauris.DataHelper;
+import com.ruverq.mauris.items.blocks.MaurisBlock;
+import com.ruverq.mauris.items.icons.MaurisIcon;
+import lombok.Getter;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.block.data.BlockData;
 import org.bukkit.configuration.ConfigurationSection;
-import org.bukkit.craftbukkit.libs.it.unimi.dsi.fastutil.Hash;
 import org.bukkit.inventory.ItemStack;
 
 import java.io.File;
@@ -17,7 +19,9 @@ import java.util.Set;
 public class ItemsLoader {
 
     //Please help
+    @Getter
     static List<MaurisItem> itemsLoaded = new ArrayList<>();
+
     static HashMap<String, MaurisItem> itemsByFullName = new HashMap<>();
     static HashMap<String, MaurisItem> itemsByName = new HashMap<>();
     static HashMap<ItemStack, MaurisItem> itemsByItemStack = new HashMap<>();

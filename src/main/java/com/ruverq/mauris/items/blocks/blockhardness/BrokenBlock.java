@@ -1,4 +1,4 @@
-package com.ruverq.mauris.items.blockhardness;
+package com.ruverq.mauris.items.blocks.blockhardness;
 
 import lombok.Getter;
 import net.minecraft.core.BlockPosition;

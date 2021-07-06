@@ -1,9 +1,7 @@
-package com.ruverq.mauris.items.blockhardness;
+package com.ruverq.mauris.items.blocks.blockhardness;
 
-import com.ruverq.mauris.Mauris;
 import com.ruverq.mauris.items.ItemsLoader;
-import com.ruverq.mauris.items.MaurisBlock;
-import com.ruverq.mauris.items.blocksounds.HitListener;
+import com.ruverq.mauris.items.blocks.MaurisBlock;
 import net.minecraft.server.level.EntityPlayer;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;

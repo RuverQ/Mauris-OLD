@@ -1,4 +1,4 @@
-package com.ruverq.mauris.items.blocktypes;
+package com.ruverq.mauris.items.blocks.blocktypes;
 
 import org.bukkit.Material;
 

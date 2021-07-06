@@ -1,9 +1,7 @@
-package com.ruverq.mauris.items.listeners;
+package com.ruverq.mauris.items.blocks.listeners;
 
-import com.mysql.jdbc.jdbc2.optional.SuspendableXAConnection;
-import com.ruverq.mauris.Mauris;
 import com.ruverq.mauris.items.ItemsLoader;
-import com.ruverq.mauris.items.MaurisBlock;
+import com.ruverq.mauris.items.blocks.MaurisBlock;
 import org.bukkit.GameMode;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
@@ -12,7 +10,6 @@ import org.bukkit.block.data.BlockData;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockBreakEvent;
-import org.bukkit.event.block.BlockBurnEvent;
 import org.bukkit.event.block.BlockExplodeEvent;
 import org.bukkit.event.block.BlockIgniteEvent;
 import org.bukkit.event.entity.EntityExplodeEvent;

@@ -1,12 +1,11 @@
-package com.ruverq.mauris.items;
+package com.ruverq.mauris.items.blocks;
 
+import com.ruverq.mauris.items.ItemsLoader;
 import lombok.Getter;
 import lombok.Setter;
 import org.bukkit.Location;
-import org.bukkit.Raid;
 import org.bukkit.World;
 import org.bukkit.configuration.ConfigurationSection;
-import org.bukkit.entity.EntityType;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.Random;

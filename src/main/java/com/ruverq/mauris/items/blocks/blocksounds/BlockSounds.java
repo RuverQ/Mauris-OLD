@@ -1,9 +1,8 @@
-package com.ruverq.mauris.items.blocksounds;
+package com.ruverq.mauris.items.blocks.blocksounds;
 
 import lombok.Getter;
 import lombok.Setter;
 import org.bukkit.Location;
-import org.bukkit.Sound;
 import org.bukkit.SoundCategory;
 import org.bukkit.SoundGroup;
 

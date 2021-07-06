@@ -1,7 +1,7 @@
-package com.ruverq.mauris.items.blockhardness;
+package com.ruverq.mauris.items.blocks.blockhardness;
 
 import com.ruverq.mauris.items.ItemsLoader;
-import com.ruverq.mauris.items.MaurisBlock;
+import com.ruverq.mauris.items.blocks.MaurisBlock;
 import org.bukkit.block.Block;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Event;

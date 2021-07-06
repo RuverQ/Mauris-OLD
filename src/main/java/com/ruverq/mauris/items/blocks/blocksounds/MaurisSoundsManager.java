@@ -1,15 +1,13 @@
-package com.ruverq.mauris.items.blocksounds;
+package com.ruverq.mauris.items.blocks.blocksounds;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.ruverq.mauris.DataHelper;
 import com.ruverq.mauris.Mauris;
-import com.ruverq.mauris.items.blocktypes.MaurisBlockTypeManager;
-import com.ruverq.mauris.items.blocktypes.MaurisNoteBlock;
+import com.ruverq.mauris.items.blocks.blocktypes.MaurisBlockTypeManager;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.ConfigurationSection;
 
-import javax.xml.crypto.Data;
 import java.io.File;
 
 public class MaurisSoundsManager {

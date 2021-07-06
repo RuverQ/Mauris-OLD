@@ -1,21 +1,17 @@
-package com.ruverq.mauris.items.listeners;
+package com.ruverq.mauris.items.blocks.listeners;
 
-import com.ruverq.mauris.Mauris;
 import com.ruverq.mauris.items.ItemsLoader;
-import com.ruverq.mauris.items.blocktypes.MaurisBlockTypeManager;
+import com.ruverq.mauris.items.blocks.blocktypes.MaurisBlockTypeManager;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
-import org.bukkit.block.data.BlockData;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.*;
 import org.bukkit.event.player.PlayerInteractEvent;
-import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 public class MaurisBlockCancel implements Listener {

@@ -4,12 +4,11 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.ruverq.mauris.DataHelper;
-import com.ruverq.mauris.items.blocktypes.*;
+import com.ruverq.mauris.items.blocks.MaurisBlock;
+import com.ruverq.mauris.items.icons.MaurisIcon;
 import lombok.Getter;
-import lombok.Setter;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
-import org.bukkit.configuration.Configuration;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.inventory.ItemStack;
@@ -25,29 +24,29 @@ import static com.ruverq.mauris.utils.FormatUtils.formatColorList;
 public class MaurisItem {
 
     @Getter
-    MaurisFolder folder;
+    protected MaurisFolder folder;
     @Getter
-    String name;
+    protected String name;
 
     @Getter
-    MaurisTextures textures;
+    protected MaurisTextures textures;
     @Getter
-    String displayName;
+    protected String displayName;
     @Getter
-    List<String> lore;
+    protected List<String> lore;
     @Getter
-    Material material;
+    protected Material material;
     @Getter
     boolean generateModel;
 
     @Getter
-    boolean isBlock;
-    MaurisBlock maurisBlock;
+    protected boolean isBlock;
+    protected MaurisBlock maurisBlock;
 
     @Getter
-    File file;
+    protected File file;
 
-    int id;
+    protected int id;
 
     public MaurisItem(MaurisFolder folder, String name, MaurisTextures textures, String displayName, List<String> lore, Material material, boolean generateModel, boolean isBlock, MaurisBlock maurisBlock, File file) {
         this.folder = folder;

@@ -1,8 +1,7 @@
-package com.ruverq.mauris.items.blocktypes;
+package com.ruverq.mauris.items.blocks.blocktypes;
 
 import com.ruverq.mauris.utils.BlockProperty;
 import com.ruverq.mauris.utils.BlockStateParser;
-import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.block.data.BlockData;
 

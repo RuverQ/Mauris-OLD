@@ -1,25 +1,20 @@
-package com.ruverq.mauris.items;
+package com.ruverq.mauris.items.blocks;
 
-import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.ruverq.mauris.DataHelper;
-import com.ruverq.mauris.items.blocksounds.BlockSounds;
-import com.ruverq.mauris.items.blocktypes.MaurisBlockType;
-import com.ruverq.mauris.items.blocktypes.MaurisBlockTypeManager;
+import com.ruverq.mauris.items.*;
+import com.ruverq.mauris.items.blocks.blocksounds.BlockSounds;
+import com.ruverq.mauris.items.blocks.blocktypes.MaurisBlockType;
+import com.ruverq.mauris.items.blocks.blocktypes.MaurisBlockTypeManager;
 import com.ruverq.mauris.utils.BlockProperty;
 import com.ruverq.mauris.utils.BlockStateParser;
 import lombok.Getter;
-import org.bukkit.Bukkit;
 import org.bukkit.Material;
-import org.bukkit.block.BlockState;
 import org.bukkit.block.data.BlockData;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.inventory.ItemStack;
 
-import javax.xml.crypto.Data;
 import java.io.File;
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 

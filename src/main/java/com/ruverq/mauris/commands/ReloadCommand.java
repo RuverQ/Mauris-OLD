@@ -2,10 +2,9 @@ package com.ruverq.mauris.commands;
 
 import com.ruverq.mauris.DataHelper;
 import com.ruverq.mauris.Mauris;
-import com.ruverq.mauris.ResourcePackHelper;
 import com.ruverq.mauris.items.ItemsLoader;
-import com.ruverq.mauris.items.MaurisIconPlaceholder;
-import com.ruverq.mauris.items.blocktypes.MaurisBlockTypeManager;
+import com.ruverq.mauris.items.icons.MaurisIconPlaceholder;
+import com.ruverq.mauris.items.blocks.blocktypes.MaurisBlockTypeManager;
 import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
 

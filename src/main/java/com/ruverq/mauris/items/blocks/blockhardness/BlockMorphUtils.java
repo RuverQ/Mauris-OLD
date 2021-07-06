@@ -1,10 +1,9 @@
-package com.ruverq.mauris.items.blockhardness;
+package com.ruverq.mauris.items.blocks.blockhardness;
 
 import com.ruverq.mauris.items.ItemsLoader;
-import com.ruverq.mauris.items.MaurisBlock;
+import com.ruverq.mauris.items.blocks.MaurisBlock;
 import org.bukkit.Location;
 import org.bukkit.Particle;
-import org.bukkit.SoundCategory;
 import org.bukkit.block.Block;
 
 public class BlockMorphUtils {

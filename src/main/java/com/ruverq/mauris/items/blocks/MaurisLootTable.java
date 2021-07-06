@@ -1,4 +1,4 @@
-package com.ruverq.mauris.items;
+package com.ruverq.mauris.items.blocks;
 
 import lombok.Getter;
 import lombok.Setter;

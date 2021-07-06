@@ -1,13 +1,11 @@
-package com.ruverq.mauris.items.listeners;
+package com.ruverq.mauris.items.blocks.listeners;
 
-import com.ruverq.mauris.Mauris;
 import com.ruverq.mauris.items.ItemsLoader;
-import com.ruverq.mauris.items.MaurisBlock;
+import com.ruverq.mauris.items.blocks.MaurisBlock;
 import com.ruverq.mauris.items.MaurisItem;
 import com.ruverq.mauris.utils.PlayerAnimation;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
-import org.bukkit.Material;
 import org.bukkit.SoundCategory;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
@@ -18,9 +16,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.scheduler.BukkitRunnable;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 

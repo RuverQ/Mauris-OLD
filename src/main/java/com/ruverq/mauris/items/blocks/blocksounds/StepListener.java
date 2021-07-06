@@ -1,8 +1,8 @@
-package com.ruverq.mauris.items.blocksounds;
+package com.ruverq.mauris.items.blocks.blocksounds;
 
 
 import com.ruverq.mauris.items.ItemsLoader;
-import com.ruverq.mauris.items.MaurisBlock;
+import com.ruverq.mauris.items.blocks.MaurisBlock;
 import org.bukkit.*;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;

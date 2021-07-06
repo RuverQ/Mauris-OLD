@@ -1,13 +1,14 @@
-package com.ruverq.mauris.items;
+package com.ruverq.mauris.items.icons;
 
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.ruverq.mauris.DataHelper;
+import com.ruverq.mauris.items.*;
+import com.ruverq.mauris.items.blocks.MaurisBlock;
 import com.ruverq.mauris.utils.unicode.UnicodeUtils;
 import lombok.Getter;
 import lombok.SneakyThrows;
-import org.apache.commons.lang.StringEscapeUtils;
 import org.bukkit.Material;
 import org.bukkit.configuration.ConfigurationSection;
 
@@ -18,7 +19,8 @@ import java.util.List;
 
 public class MaurisIcon extends MaurisItem {
 
-    enum IconAlign{
+
+    public enum IconAlign{
         CENTER,
         BOTTOM,
         TOP;
@@ -30,6 +32,8 @@ public class MaurisIcon extends MaurisItem {
         this.align = align;
         this.yOffset = yOffset;
     }
+
+    boolean isEmote;
 
     double sizeMultiplier;
     IconAlign align;
@@ -44,7 +48,7 @@ public class MaurisIcon extends MaurisItem {
     @SneakyThrows
     @Override
     public void generate(){
-        if(textures == null || textures.getTextures().isEmpty()) return;
+        if(getTextures() == null || getTextures().getTextures().isEmpty()) return;
         File file = DataHelper.getFile("resource_pack/assets/minecraft/font/default.json");
         JsonObject main = new JsonObject();
 
@@ -58,7 +62,7 @@ public class MaurisIcon extends MaurisItem {
         main.remove("providers");
 
         JsonObject provider = new JsonObject();
-        String texturePath = folder.getName() + ":" + textures.getTextures().get(0);
+        String texturePath = getFolder().getName() + ":" + getTextures().getTextures().get(0);
         provider.addProperty("file", texturePath);
 
         this.symbolId = providers.size();
@@ -82,7 +86,7 @@ public class MaurisIcon extends MaurisItem {
         chars.add(symbol);
         provider.add("chars", chars);
 
-        File textureFile = DataHelper.getFile("resource_pack/assets/" + folder.getName() + "/textures/" + textures.getTextures().get(0));
+        File textureFile = DataHelper.getFile("resource_pack/assets/" + getFolder().getName() + "/textures/" + getTextures().getTextures().get(0));
         if(textureFile == null) return;
 
 

@@ -1,6 +1,8 @@
-package com.ruverq.mauris.items;
+package com.ruverq.mauris.items.icons;
 
 import com.ruverq.mauris.Mauris;
+import com.ruverq.mauris.items.ItemsLoader;
+import com.ruverq.mauris.items.MaurisItem;
 import me.clip.placeholderapi.expansion.PlaceholderExpansion;
 import org.apache.commons.lang.StringEscapeUtils;
 import org.bukkit.configuration.ConfigurationSection;
@@ -24,7 +26,7 @@ public class MaurisIconPlaceholder extends PlaceholderExpansion {
         enabled = config.getBoolean("icons.placeholderSupport");
         if (!enabled) return;
 
-        for (MaurisItem mi : ItemsLoader.itemsLoaded) {
+        for (MaurisItem mi : ItemsLoader.getItemsLoaded()) {
             if (!(mi instanceof MaurisIcon)) continue;
             MaurisIcon ic = (MaurisIcon) mi;
 
