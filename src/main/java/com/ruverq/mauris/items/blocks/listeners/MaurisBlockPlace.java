@@ -6,6 +6,7 @@ import com.ruverq.mauris.items.MaurisItem;
 import com.ruverq.mauris.utils.PlayerAnimation;
 import org.bukkit.GameMode;
 import org.bukkit.Location;
+import org.bukkit.Material;
 import org.bukkit.SoundCategory;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
@@ -29,6 +30,7 @@ public class MaurisBlockPlace implements Listener {
 
         ItemStack itemInteract = e.getItem();
         if(itemInteract == null) return;
+        if(itemInteract.getType() == Material.NOTE_BLOCK) return;
         itemInteract = itemInteract.clone();
         itemInteract.setAmount(1);
 
@@ -86,7 +88,7 @@ public class MaurisBlockPlace implements Listener {
 
     //For very strange double placing bug
     static HashMap<Player, Long> playerCooldownBlock = new HashMap<>();
-    static int cooldown = 2;
+    static int cooldown = 200;
 
     private boolean isOnCooldown(Player player){
         Object get = playerCooldownBlock.get(player);

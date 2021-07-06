@@ -3,11 +3,8 @@ package com.ruverq.mauris;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-import com.mysql.fabric.xmlrpc.base.Array;
 import com.ruverq.mauris.items.MaurisFolder;
 import lombok.SneakyThrows;
-import org.apache.commons.lang.StringEscapeUtils;
-import org.apache.logging.log4j.core.util.FileUtils;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.YamlConfiguration;
 

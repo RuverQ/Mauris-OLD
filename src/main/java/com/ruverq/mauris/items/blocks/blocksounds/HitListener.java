@@ -73,7 +73,7 @@ public class HitListener implements Listener {
     public void onHit(BlockHardnessHitEvent e){
         if(e.getBrokenBlock().getDamage() % 4 != 0) return;
 
-        e.getMaurisBlock().getSounds().executeHitSound(e.getBlock().getLocation());
+        e.getMaurisBlock().getSounds().executeHitSound(e.getBlock().getLocation(), e.getPlayer());
     }
 
 }

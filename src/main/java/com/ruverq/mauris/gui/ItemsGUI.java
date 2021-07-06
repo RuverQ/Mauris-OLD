@@ -32,7 +32,7 @@ public class ItemsGUI extends GUI{
 
             slot++;
         }
-        setSize(18);
+        setSize(54);
 
     }
 

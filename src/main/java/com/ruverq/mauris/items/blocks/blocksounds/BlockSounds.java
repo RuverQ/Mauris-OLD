@@ -5,6 +5,7 @@ import lombok.Setter;
 import org.bukkit.Location;
 import org.bukkit.SoundCategory;
 import org.bukkit.SoundGroup;
+import org.bukkit.entity.Player;
 
 public class BlockSounds {
 
@@ -57,13 +58,13 @@ public class BlockSounds {
         location.getWorld().playSound(location, stepSound, SoundCategory.PLAYERS, 0.2f, 1);
     }
 
-    public void executeHitSound(Location location){
+    public void executeHitSound(Location location, Player player){
         if(hitSound == null || hitSound.isEmpty()){
-            location.getWorld().playSound(location, defaultSounds.getHitSound(), SoundCategory.BLOCKS, 0.2f, 1);
+            player.playSound(location, defaultSounds.getHitSound(), SoundCategory.BLOCKS, 0.2f, 1);
             return;
         }
 
-        location.getWorld().playSound(location, hitSound, SoundCategory.BLOCKS, 0.2f, 1);
+        player.playSound(location, hitSound, SoundCategory.BLOCKS, 0.2f, 1);
     }
 
     public void executeFallSound(Location location){

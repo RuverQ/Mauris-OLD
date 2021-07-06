@@ -19,7 +19,7 @@ public class FoldersGUI extends GUI{
     public void setDefaultSettings(){
 
         setDisplayName("Mauris folders");
-        setSize(9);
+        setSize(54);
 
         int i = 0;
         for(String folder : folders){

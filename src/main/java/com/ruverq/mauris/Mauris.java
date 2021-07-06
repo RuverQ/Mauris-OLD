@@ -12,6 +12,7 @@ import com.ruverq.mauris.items.blocks.listeners.MaurisBlockCancel;
 import com.ruverq.mauris.items.blocks.listeners.MaurisBlockPlace;
 import lombok.Setter;
 import org.bukkit.Bukkit;
+import org.bukkit.Material;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;
@@ -28,6 +29,8 @@ public final class Mauris extends JavaPlugin {
         //TODO Reformat this below pls
 
         setInstance(this);
+
+        System.out.println("ooga booga " + Material.DIRT.createBlockData().getSoundGroup().getPlaceSound().toString());
 
         config = setupConfig();
         reloadConfig();
