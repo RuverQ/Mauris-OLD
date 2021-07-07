@@ -19,6 +19,7 @@ exampleBlock:
       default: 20
       stone_packaxe: 10
       diamond_pickaxe: 5
+    chanceToBeBlownUp: 0
     sounds:
       place:
       break:

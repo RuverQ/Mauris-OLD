@@ -20,7 +20,7 @@ import java.util.List;
 
 public class MaurisBlock extends MaurisItem {
 
-    public MaurisBlock(MaurisFolder folder, String name, MaurisTextures textures, String displayName, List<String> lore, Material material, boolean generateModel, boolean isBlock, MaurisBlock maurisBlock, File file, MaurisBlockType type, int hardness, HashMap<ItemStack, Integer> hardnessPerTool, BlockSounds sounds, MaurisLootTable lootTable, boolean selfDrop) {
+    public MaurisBlock(MaurisFolder folder, String name, MaurisTextures textures, String displayName, List<String> lore, Material material, boolean generateModel, boolean isBlock, MaurisBlock maurisBlock, File file, MaurisBlockType type, int hardness, HashMap<ItemStack, Integer> hardnessPerTool, BlockSounds sounds, MaurisLootTable lootTable, boolean selfDrop, double chanceToBeBlownUp) {
         super(folder, name, textures, displayName, lore, material, generateModel, isBlock, maurisBlock, file);
         this.type = type;
         this.hardness = hardness;
@@ -28,6 +28,7 @@ public class MaurisBlock extends MaurisItem {
         this.sounds = sounds;
         this.lootTable = lootTable;
         this.selfDrop = selfDrop;
+        this.chanceToBeBlownUp = chanceToBeBlownUp;
     }
 
     @Getter
@@ -38,6 +39,9 @@ public class MaurisBlock extends MaurisItem {
 
     @Getter
     BlockSounds sounds;
+
+    @Getter
+    double chanceToBeBlownUp;
 
     @Getter
     int blockId;
@@ -97,11 +101,14 @@ public class MaurisBlock extends MaurisItem {
         sounds.setFallSound(fallSound);
         sounds.setDefaultSounds(type.material().createBlockData().getSoundGroup());
 
+        double chanceToBeBlownUp = blockcs.getDouble("chanceToBeBlownUp", 1.0);
+
         mb.setHardness(hardness)
                 .setType(type)
                 .setSelfDrop(selfDrop)
                 .isBlock(true)
-                .setSounds(sounds);
+                .setSounds(sounds)
+                .setChanceToBeBlownUp(chanceToBeBlownUp);
 
         ConfigurationSection blTexCs = blockcs.getConfigurationSection("textures");
         if(blTexCs != null && blTexCs.getKeys(false).size() > 0){

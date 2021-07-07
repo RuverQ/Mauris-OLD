@@ -12,6 +12,7 @@ import java.io.File;
 import java.util.HashMap;
 import java.util.List;
 
+//TODO Change that system
 public class MaurisBuilder {
 
     MaurisFolder folder;
@@ -34,6 +35,7 @@ public class MaurisBuilder {
     BlockSounds sounds;
 
     boolean selfDrop;
+    double chanceToBeBlownUp;
 
     MaurisBlockType type;
 
@@ -48,7 +50,7 @@ public class MaurisBuilder {
 
     public MaurisItem build(){
         if(isIcon) return new MaurisIcon(folder, name, textures, displayName, lore, material, generateModel, isBlock, maurisBlock, file, sizeMultiplier, align, yOffset);
-        if(isBlock) return new MaurisBlock(folder,name,textures,displayName,lore,material,generateModel, true,maurisBlock,file, type, hardness, hardnessPerTool, sounds, lootTable, selfDrop);
+        if(isBlock) return new MaurisBlock(folder,name,textures,displayName,lore,material,generateModel, true,maurisBlock,file, type, hardness, hardnessPerTool, sounds, lootTable, selfDrop, chanceToBeBlownUp);
         return new MaurisItem(folder,name,textures,displayName,lore,material,generateModel, false,maurisBlock, file);
     }
 
@@ -58,6 +60,11 @@ public class MaurisBuilder {
 
     public void addHardnessPerTool(MaurisItem item, int hardness){
         hardnessPerTool.put(item.getAsItemStack(), hardness);
+    }
+
+    public MaurisBuilder setChanceToBeBlownUp(double changeToBeBlownUp){
+        this.chanceToBeBlownUp = changeToBeBlownUp;
+        return this;
     }
 
     public MaurisBuilder setAlign(MaurisIcon.IconAlign align){
@@ -212,5 +219,4 @@ public class MaurisBuilder {
         this.type = type;
         return this;
     }
-
 }

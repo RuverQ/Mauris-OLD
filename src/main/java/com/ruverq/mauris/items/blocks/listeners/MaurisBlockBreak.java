@@ -16,6 +16,7 @@ import org.bukkit.event.entity.EntityExplodeEvent;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 public class MaurisBlockBreak implements Listener {
 
@@ -39,6 +40,8 @@ public class MaurisBlockBreak implements Listener {
             MaurisBlock mb = ItemsLoader.getMaurisBlock(block.getBlockData());
             if(mb != null) {
                 blocksToRemove.add(block);
+
+                if(!isWorked(mb.getChanceToBeBlownUp())) continue;
                 block.setType(Material.AIR);
 
                 if(mb.isSelfDrop()){
@@ -54,6 +57,13 @@ public class MaurisBlockBreak implements Listener {
         e.blockList().removeAll(blocksToRemove);
     }
 
+    private static boolean isWorked(double chance){
+        if(chance <= 0) return false;
+
+        double random = new Random().nextDouble();
+        return random < chance;
+    }
+
     @EventHandler
     public void onExplode(BlockExplodeEvent e){
 
@@ -62,6 +72,8 @@ public class MaurisBlockBreak implements Listener {
             MaurisBlock mb = ItemsLoader.getMaurisBlock(block.getBlockData());
             if(mb != null) {
                 blocksToRemove.add(block);
+
+                if(!isWorked(mb.getChanceToBeBlownUp())) continue;
                 block.setType(Material.AIR);
 
                 if(mb.isSelfDrop()){
