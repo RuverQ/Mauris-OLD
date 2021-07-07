@@ -76,6 +76,11 @@ public class MaurisBlockCancel implements Listener {
 
     @EventHandler
     public void onPhysics(BlockPhysicsEvent e){
+
+        if(MaurisBlockTypeManager.isEnabled(e.getChangedType().name())){
+            e.setCancelled(true);
+        }
+
         if(MaurisBlockTypeManager.isEnabled("NOTE_BLOCK")){
             Block blockAbove = e.getBlock().getRelative(BlockFace.UP);
 
@@ -83,8 +88,6 @@ public class MaurisBlockCancel implements Listener {
                 updateAndCheck(e.getBlock());
                 e.setCancelled(true);
             }
-        }else if(MaurisBlockTypeManager.isEnabled(e.getChangedType().name())) {
-            e.setCancelled(true);
         }
     }
 

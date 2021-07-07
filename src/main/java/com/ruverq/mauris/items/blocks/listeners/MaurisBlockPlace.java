@@ -88,7 +88,7 @@ public class MaurisBlockPlace implements Listener {
 
     //For very strange double placing bug
     static HashMap<Player, Long> playerCooldownBlock = new HashMap<>();
-    static int cooldown = 200;
+    static int cooldown = 50;
 
     private boolean isOnCooldown(Player player){
         Object get = playerCooldownBlock.get(player);
