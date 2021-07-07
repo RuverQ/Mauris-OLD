@@ -45,13 +45,14 @@ public class HitListener implements Listener {
     }
 
     private int addDamage(Block block){
-        if(!blocksHitting.contains(block)) return -1;
-        int bruh = blockIntegerHashMap.get(block);
-        bruh++;
+        Object bruh = blockIntegerHashMap.get(block);
+        if(bruh == null) return -1;
+        int damage = (int) bruh;
+        damage++;
         blockIntegerHashMap.remove(block);
-        blockIntegerHashMap.put(block, bruh);
+        blockIntegerHashMap.put(block, damage);
 
-        return bruh;
+        return damage;
     }
 
     public int getDamage(Block block){
