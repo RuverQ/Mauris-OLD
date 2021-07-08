@@ -39,13 +39,15 @@ public class MaurisItem {
     @Getter
     boolean generateModel;
 
-    @Getter
-    boolean isBlock;
     MaurisBlock maurisBlock;
 
     @Getter
     File file;
 
+    @Getter
+    boolean isBlock;
+
+    @Getter
     protected int id;
 
     public MaurisItem(MaurisFolder folder, String name, MaurisTextures textures, String displayName, List<String> lore, Material material, boolean generateModel, boolean isBlock, MaurisBlock maurisBlock, File file) {
@@ -56,8 +58,8 @@ public class MaurisItem {
         this.lore = lore;
         this.material = material;
         this.generateModel = generateModel;
-        this.isBlock = isBlock;
         this.maurisBlock = maurisBlock;
+        this.isBlock = isBlock;
         this.file = file;
     }
 

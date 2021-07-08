@@ -19,6 +19,8 @@ public class CommandManager implements TabExecutor {
         addCommand(new RPZipCommand());
         addCommand(new SeeItemsCommand());
         addCommand(new ReloadCommand());
+        addCommand(new InfoCommand());
+        addCommand(new BlockDataListCommand());
     }
 
     public static String getMain() {

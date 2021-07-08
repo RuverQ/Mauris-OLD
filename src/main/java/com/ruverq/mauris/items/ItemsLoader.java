@@ -23,8 +23,12 @@ public class ItemsLoader {
     static List<MaurisItem> itemsLoaded = new ArrayList<>();
 
     static HashMap<String, MaurisItem> itemsByFullName = new HashMap<>();
+
+    @Getter
     static HashMap<String, MaurisItem> itemsByName = new HashMap<>();
     static HashMap<ItemStack, MaurisItem> itemsByItemStack = new HashMap<>();
+
+    @Getter
     static HashMap<BlockData, MaurisBlock> blockByBlockData = new HashMap<>();
     static HashMap<String, List<MaurisItem>> itemsByFolder = new HashMap<>();
 
@@ -116,6 +120,9 @@ public class ItemsLoader {
     }
 
     public static MaurisItem getMaurisItem(String name){
+        MaurisItem item = itemsByFullName.get(name);
+        if(item != null) return item;
+
         return itemsByName.get(name);
     }
 
@@ -142,13 +149,13 @@ public class ItemsLoader {
         itemsLoaded.add(item);
         itemsByName.put(item.name, item);
 
-        itemsByName.put(item.getFolder().getName() + ":" + item.getName(), item);
+        itemsByFullName.put(item.getFolder().getName() + ":" + item.getName(), item);
 
         if(item instanceof MaurisIcon) return;
 
         itemsByItemStack.put(item.getAsItemStack(), item);
 
-        if(item.isBlock()){
+        if(item instanceof MaurisBlock){
             MaurisBlock block = (MaurisBlock) item;
             blockByBlockData.put(block.getAsBlockData(), block);
         }
