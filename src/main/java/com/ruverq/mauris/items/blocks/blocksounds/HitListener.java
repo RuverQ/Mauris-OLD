@@ -37,10 +37,9 @@ public class HitListener implements Listener {
         int damage = addDamage(block);
         if(damage % 5 != 0) return;
 
-        Location loc = block.getLocation();
-        World world = block.getWorld();
+        Location loc = block.getLocation().add(0.5,-0.5,0.5);
 
-        world.playSound(loc, "replace.block.wood.hit", SoundCategory.PLAYERS, 0.2f, 0.83f);
+        e.getPlayer().playSound(loc, "replace.block.wood.hit", SoundCategory.PLAYERS, 0.2f, 0.83f);
 
     }
 
@@ -74,7 +73,7 @@ public class HitListener implements Listener {
     public void onHit(BlockHardnessHitEvent e){
         if(e.getBrokenBlock().getDamage() % 4 != 0) return;
 
-        e.getMaurisBlock().getSounds().executeHitSound(e.getBlock().getLocation(), e.getPlayer());
+        e.getMaurisBlock().getSounds().executeHitSound(e.getBlock().getLocation().add(0.5,-0.5,0.5), e.getPlayer());
     }
 
 }

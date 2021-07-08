@@ -44,6 +44,8 @@ public class StepListener implements Listener {
 
         if(pl.getGameMode() == GameMode.SPECTATOR) return;
 
+        if(pl.isFlying()) return;
+
         if(pl.isInWater()) return;
 
         Block blockUnder = pl.getLocation().getBlock().getRelative(BlockFace.DOWN);
@@ -54,7 +56,7 @@ public class StepListener implements Listener {
         MaurisBlock mBlock = ItemsLoader.getMaurisBlock(blockUnder.getBlockData());
 
         if(mBlock != null){
-            mBlock.getSounds().executeStepSound(loc);
+            mBlock.getSounds().executeStepSound(e.getPlayer().getLocation().add(0,-1,0));
             return;
         }
 
