@@ -61,15 +61,15 @@ public class MaurisBlock extends MaurisItem {
         return (int) hardnessTool;
     }
 
-    @Override
-    public boolean isGenerated(){
-        int i = DataHelper.getId(getFolder(), getName(), "blocks." + type.material().name());
-        return i != -1;
-    }
-
     public BlockData getAsBlockData(){
         List<BlockProperty> properties = type.generate(blockId);
         return BlockStateParser.createData(type.material(), properties);
+    }
+
+    @Override
+    public void generateId(){
+        id = DataHelper.addId(getFolder(), getName(), "items." + getMaterial().name());
+        blockId = DataHelper.addId(getFolder(), getName(), "blocks." + type.material().name());
     }
 
     public static void loadFromConfigurationSection(MaurisBuilder mb, ConfigurationSection cs){
@@ -146,10 +146,6 @@ public class MaurisBlock extends MaurisItem {
 
         MaurisTextures textures = getTextures();
         MaurisFolder folder = getFolder();
-
-        this.blockId = DataHelper.addId(folder, getName(), "blocks." + type.material().name());
-
-        String fff = folder.getName() + ":";
 
         //First DIR
 

@@ -30,8 +30,6 @@ public final class Mauris extends JavaPlugin {
 
         setInstance(this);
 
-        System.out.println("ooga booga " + Material.DIRT.createBlockData().getSoundGroup().getPlaceSound().toString());
-
         config = setupConfig();
         reloadConfig();
 

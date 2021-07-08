@@ -45,6 +45,11 @@ public class MaurisIcon extends MaurisItem {
 
     int symbolId;
 
+    @Override
+    public void generateId(){
+        id = symbolId;
+    }
+
     @SneakyThrows
     @Override
     public void generate(){

@@ -41,10 +41,11 @@ public class MaurisFolder {
 
         for(File file : files){
             List<MaurisItem> itemsToLoad = MaurisItem.loadFromFile(file, this);
-            for(MaurisItem mi : itemsToLoad){
-                if(generate) mi.generate();
-                items.add(mi);
-            }
+            items.addAll(itemsToLoad);
+        }
+
+        if(generate){
+            MaurisItem.generate(items);
         }
 
         return items;

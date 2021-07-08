@@ -58,9 +58,10 @@ public class ItemsLoader {
         deleteGeneratedFolders();
 
         for(MaurisFolder folder : MaurisFolder.getAllFolders()){
-            List<MaurisItem> folderItems = folder.getAllItems(true);
+            List<MaurisItem> folderItems = folder.getAllItems(false);
             items.addAll(folderItems);
         }
+        MaurisItem.generate(items);
 
         loadForStructure(items);
         deleteUnnecessaryIDs();
@@ -89,7 +90,6 @@ public class ItemsLoader {
         DataHelper.deleteFile("resource_pack/assets/minecraft/blockstates/tripwire.json");
 
         for(MaurisFolder mf : MaurisFolder.getAllFolders()){
-            System.out.println("resource_pack/assets/minecraft/models/" + mf.getName() + "/generated");
             DataHelper.deleteFile("resource_pack/assets/minecraft/models/" + mf.getName() + "/generated");
         }
 

@@ -16,6 +16,8 @@ import org.bukkit.inventory.meta.ItemMeta;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.HashMap;
 import java.util.List;
 
 import static com.ruverq.mauris.utils.FormatUtils.formatColor;
@@ -126,28 +128,54 @@ public class MaurisItem {
         }
 
         return list;
-
-    }
-
-    public boolean isGenerated(){
-        int i = DataHelper.getId(folder, name, "items." + material.name());
-        return i != -1;
     }
 
     public void generate(){
         generate("minecraft:item/generated");
     }
 
+    public static void generate(List<MaurisItem> maurisItems){
+        generate(maurisItems, "minecraft:item/generated");
+    }
+
+    public void generateId(){
+        id = DataHelper.addId(getFolder(), getName(), "items." + material.name());
+    }
+
+    public static void generate(List<MaurisItem> maurisItems, String parent){
+
+        HashMap<String, MaurisItem> items = new HashMap<>();
+        for(MaurisItem item : maurisItems){
+            item.generateId();
+            items.put(item.getFolder().getName() + ":" + item.getName(), item);
+        }
+
+        ConfigurationSection ids = DataHelper.getFileAsYAML("ids.yml");
+        for(String section : ids.getConfigurationSection("items").getKeys(false)){
+            Material material = Material.matchMaterial(section);
+            DataHelper.deleteFile("resource_pack/assets/minecraft/models/item/" + material.name().toLowerCase() + ".json");
+
+            for(String item : ids.getConfigurationSection("items." + section).getKeys(false)){
+                MaurisItem mitem = items.get(item);
+                mitem.generate();
+            }
+        }
+
+        for(String otherSection : ids.getConfigurationSection("").getKeys(false)){
+            if(otherSection.equalsIgnoreCase("items")) continue;
+            for(String section : ids.getConfigurationSection(otherSection).getKeys(false)){
+                for(String otherItem : ids.getConfigurationSection(otherSection + "." + section).getKeys(false)){
+                    items.get(otherItem).generate();
+                }
+            }
+        }
+    }
+
     public void generate(String parent){
 
         String folderName = getFolder().getName();
 
-        this.id = DataHelper.addId(getFolder(), name, "items." + material.name());
-
         if(!generateModel) return;
-        if(isGenerated()){
-            DataHelper.deleteFile("resource_pack/assets/" + folderName + "/models/generated/" + name + ".json");
-        }
 
         //First DIR
         JsonObject customItemJson = new JsonObject();
