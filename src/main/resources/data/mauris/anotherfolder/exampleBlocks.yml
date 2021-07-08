@@ -5,7 +5,7 @@ exampleBlock:
   lore:
     - "&7bruh"
   textures:
-    - blocks/example.png
+    - blocks/example
   block:
     textures:
       top:
@@ -24,6 +24,7 @@ exampleBlock:
       place:
       break:
       step:
+      hit:
     selfDrop: true
     lootTable:
       1:

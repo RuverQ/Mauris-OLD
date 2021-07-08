@@ -7,6 +7,8 @@ import org.bukkit.SoundCategory;
 import org.bukkit.SoundGroup;
 import org.bukkit.entity.Player;
 
+import java.util.Locale;
+
 public class BlockSounds {
 
     @Getter
@@ -38,7 +40,7 @@ public class BlockSounds {
             location.getWorld().playSound(location, defaultSounds.getPlaceSound(), SoundCategory.BLOCKS, 1, 1);
             return;
         }
-        location.getWorld().playSound(location, placeSound, SoundCategory.BLOCKS, 1, 1);
+        location.getWorld().playSound(location, placeSound.toLowerCase(), SoundCategory.BLOCKS, 1, 1);
     }
 
     public void executeBreakSound(Location location){
@@ -46,7 +48,7 @@ public class BlockSounds {
             location.getWorld().playSound(location, defaultSounds.getBreakSound(), SoundCategory.BLOCKS, 1, 1);
             return;
         }
-        location.getWorld().playSound(location, breakSound, SoundCategory.BLOCKS, 1, 1);
+        location.getWorld().playSound(location, breakSound.toLowerCase(), SoundCategory.BLOCKS, 1, 1);
     }
 
     public void executeStepSound(Location location){
@@ -55,7 +57,7 @@ public class BlockSounds {
             return;
         }
 
-        location.getWorld().playSound(location, stepSound, SoundCategory.PLAYERS, 0.2f, 1);
+        location.getWorld().playSound(location, stepSound.toLowerCase(), SoundCategory.PLAYERS, 0.2f, 1);
     }
 
     public void executeHitSound(Location location, Player player){
@@ -64,7 +66,7 @@ public class BlockSounds {
             return;
         }
 
-        player.playSound(location, hitSound, SoundCategory.BLOCKS, 0.2f, 1);
+        player.playSound(location, hitSound.toLowerCase(), SoundCategory.BLOCKS, 0.2f, 1);
     }
 
     public void executeFallSound(Location location){
@@ -72,7 +74,7 @@ public class BlockSounds {
             location.getWorld().playSound(location, defaultSounds.getFallSound(), SoundCategory.BLOCKS, 1, 1);
             return;
         }
-        location.getWorld().playSound(location, fallSound, SoundCategory.BLOCKS, 1, 1);
+        location.getWorld().playSound(location, fallSound.toLowerCase(), SoundCategory.BLOCKS, 1, 1);
     }
 
 
