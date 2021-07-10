@@ -59,8 +59,9 @@ public class MaurisBlockPlace implements Listener {
         if(isInside(e.getPlayer(), newBlock)) return;
 
         MaurisItem item = ItemsLoader.getMaurisItem(itemInteract);
+        MaurisBlock mbclick = ItemsLoader.getMaurisBlock(e.getClickedBlock().getBlockData());
 
-        if(ItemsLoader.getMaurisBlock(e.getClickedBlock().getBlockData()) == null && item == null) return;
+        if(mbclick == null && item == null) return;
 
         if(item == null || !item.isBlock()) {
             if(!itemInteract.getType().isBlock()) return;

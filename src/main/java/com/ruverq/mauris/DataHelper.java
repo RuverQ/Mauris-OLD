@@ -12,7 +12,9 @@ import java.io.*;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.TreeMap;
 
 public class DataHelper {
 
@@ -115,7 +117,8 @@ public class DataHelper {
         }
 
         int newId = generateNewId(rightCS);
-        ys.set(path + "." + namespace, newId);
+
+        addInRightPlace(ys, newId, path, namespace);
 
         try {
             ys.save(file);
@@ -125,6 +128,28 @@ public class DataHelper {
         }
 
         return newId;
+    }
+
+    private static void addInRightPlace(YamlConfiguration ys, int newId, String path, String namespace){
+
+        boolean enableExtermination = false;
+
+        TreeMap<Integer, String> memory = new TreeMap<>();
+        for(String name : ys.getConfigurationSection(path).getKeys(false)){
+            int huh = ys.getInt(path + "." + name);
+            if(huh > newId) enableExtermination = true;
+
+            if(enableExtermination){
+                memory.put(huh, name);
+                ys.set(path + "." + name, null);
+            }
+        }
+        ys.set(path + "." + namespace, newId);
+
+        memory.forEach((id, name) ->{
+            ys.set(path + "." + name, id);
+        });
+
     }
 
     private static YamlConfiguration createSections(YamlConfiguration config, String path){

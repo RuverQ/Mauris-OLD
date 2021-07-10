@@ -33,13 +33,6 @@ public class ItemsLoader {
     static HashMap<String, List<MaurisItem>> itemsByFolder = new HashMap<>();
 
     public static void load(){
-        itemsLoaded.clear();
-        itemsByName.clear();
-        itemsByItemStack.clear();
-        blockByBlockData.clear();
-        itemsByFolder.clear();
-        itemsByFullName.clear();
-
 
         File dir = DataHelper.getDir("mauris");
         if(dir == null){
@@ -61,10 +54,13 @@ public class ItemsLoader {
             List<MaurisItem> folderItems = folder.getAllItems(false);
             items.addAll(folderItems);
         }
-        MaurisItem.generate(items);
 
+        //pls kkill me
         loadForStructure(items);
         deleteUnnecessaryIDs();
+
+        MaurisItem.generate(items);
+        loadForStructure(items);
     }
 
     //Cringe
@@ -140,6 +136,13 @@ public class ItemsLoader {
     }
 
     private static void loadForStructure(List<MaurisItem> items){
+        itemsLoaded.clear();
+        itemsByName.clear();
+        itemsByItemStack.clear();
+        blockByBlockData.clear();
+        itemsByFolder.clear();
+        itemsByFullName.clear();
+
         for(MaurisItem item : items){
             loadForStructure(item);
         }

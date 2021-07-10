@@ -134,19 +134,16 @@ public class MaurisItem {
         generate("minecraft:item/generated");
     }
 
-    public static void generate(List<MaurisItem> maurisItems){
-        generate(maurisItems, "minecraft:item/generated");
-    }
-
     public void generateId(){
         id = DataHelper.addId(getFolder(), getName(), "items." + material.name());
     }
 
-    public static void generate(List<MaurisItem> maurisItems, String parent){
+    public static void generate(List<MaurisItem> maurisItems){
 
         HashMap<String, MaurisItem> items = new HashMap<>();
         for(MaurisItem item : maurisItems){
             item.generateId();
+            System.out.println("Added: " + item.getFolder().getName() + ":" + item.getName());
             items.put(item.getFolder().getName() + ":" + item.getName(), item);
         }
 
@@ -157,6 +154,7 @@ public class MaurisItem {
 
             for(String item : ids.getConfigurationSection("items." + section).getKeys(false)){
                 MaurisItem mitem = items.get(item);
+                if(mitem != null) System.out.println("Loaded: " + mitem.getFolder().getName() + ":" + mitem.getName());
                 mitem.generate();
             }
         }

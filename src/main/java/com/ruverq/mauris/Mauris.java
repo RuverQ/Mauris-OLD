@@ -13,7 +13,6 @@ import com.ruverq.mauris.items.blocks.listeners.MaurisBlockPlace;
 import com.ruverq.mauris.items.listeners.MaurisCraftCancel;
 import lombok.Setter;
 import org.bukkit.Bukkit;
-import org.bukkit.Material;
 import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;
