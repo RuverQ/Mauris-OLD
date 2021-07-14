@@ -141,24 +141,32 @@ public class MaurisBlock extends MaurisItem {
     @Override
     public void generate(){
 
+        // ah.. this does not work... okay..
         MaurisItem item = this;
+        // idk how to reformat this
         item.generate("minecraft:block/cube_all");
 
         MaurisTextures textures = getTextures();
         MaurisFolder folder = getFolder();
 
+
+        String modelPath = folder.getName() + "/generated/" + getName();
         //First DIR
+        if(isGenerateModel()){
 
-        JsonObject modelObject = new JsonObject();
-        modelObject.addProperty("parent", "block/cube_all");
+            JsonObject modelObject = new JsonObject();
+            modelObject.addProperty("parent", "block/cube_all");
 
-        JsonObject texturesObject = textures.getAsBlockJsonObject(folder.getName());
+            JsonObject texturesObject = textures.getAsBlockJsonObject(folder.getName());
 
-        modelObject.add("textures", texturesObject);
+            modelObject.add("textures", texturesObject);
 
-        DataHelper.deleteFile("resource_pack/assets/minecraft/models/" + folder.getName() + "/generated/" + getName() + ".json");
-        DataHelper.createFolder("resource_pack/assets/minecraft/models/" + folder.getName() +"/generated");
-        DataHelper.createFile("resource_pack/assets/minecraft/models/" + folder.getName() + "/generated/" + getName() + ".json", modelObject.toString());
+            DataHelper.deleteFile("resource_pack/assets/minecraft/models/" + folder.getName() + "/generated/" + getName() + ".json");
+            DataHelper.createFolder("resource_pack/assets/minecraft/models/" + folder.getName() +"/generated");
+            DataHelper.createFile("resource_pack/assets/minecraft/models/" + modelPath + ".json", modelObject.toString());
+        }else{
+            modelPath = folder.getName() + "/" + getModel();
+        }
 
         //Second DIR
         JsonObject generalBSObject = new JsonObject();
@@ -175,7 +183,7 @@ public class MaurisBlock extends MaurisItem {
         List<BlockProperty> properties = type.generate(blockId);
 
         JsonObject propertiesObject = new JsonObject();
-        propertiesObject.addProperty("model", folder.getName() + "/generated/" + getName());
+        propertiesObject.addProperty("model", modelPath);
 
         variantsObject.add(BlockStateParser.createFormattedData(properties), propertiesObject);
 
