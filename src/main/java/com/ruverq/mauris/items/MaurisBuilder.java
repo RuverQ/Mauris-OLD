@@ -43,15 +43,17 @@ public class MaurisBuilder {
 
     HashMap<ItemStack, Integer> hardnessPerTool = new HashMap<>();
 
+    String model;
+
     double sizeMultiplier;
     int yOffset;
     MaurisIcon.IconAlign align;
     boolean isIcon;
 
     public MaurisItem build(){
-        if(isIcon) return new MaurisIcon(folder, name, textures, displayName, lore, material, generateModel, isBlock, maurisBlock, file, sizeMultiplier, align, yOffset);
-        if(isBlock) return new MaurisBlock(folder,name,textures,displayName,lore,material,generateModel, true,maurisBlock,file, type, hardness, hardnessPerTool, sounds, lootTable, selfDrop, chanceToBeBlownUp);
-        return new MaurisItem(folder,name,textures,displayName,lore,material,generateModel, false,maurisBlock, file);
+        if(isIcon) return new MaurisIcon(folder, name, textures, displayName, lore, material, generateModel, model, isBlock, maurisBlock, file, sizeMultiplier, align, yOffset);
+        if(isBlock) return new MaurisBlock(folder,name,textures,displayName,lore,material,generateModel, model, true,maurisBlock,file, type, hardness, hardnessPerTool, sounds, lootTable, selfDrop, chanceToBeBlownUp);
+        return new MaurisItem(folder,name,textures,displayName,lore,material,generateModel, model, false,maurisBlock, file);
     }
 
     public void addHardnessPerTool(ItemStack itemStack, int hardness){
@@ -138,6 +140,11 @@ public class MaurisBuilder {
 
     public MaurisBuilder setTextures(MaurisTextures textures){
         this.textures = textures;
+        return this;
+    }
+
+    public MaurisBuilder setModel(String model){
+        this.model = model;
         return this;
     }
 

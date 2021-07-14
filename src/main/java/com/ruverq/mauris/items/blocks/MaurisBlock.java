@@ -20,8 +20,8 @@ import java.util.List;
 
 public class MaurisBlock extends MaurisItem {
 
-    public MaurisBlock(MaurisFolder folder, String name, MaurisTextures textures, String displayName, List<String> lore, Material material, boolean generateModel, boolean isBlock, MaurisBlock maurisBlock, File file, MaurisBlockType type, int hardness, HashMap<ItemStack, Integer> hardnessPerTool, BlockSounds sounds, MaurisLootTable lootTable, boolean selfDrop, double chanceToBeBlownUp) {
-        super(folder, name, textures, displayName, lore, material, generateModel, isBlock, maurisBlock, file);
+    public MaurisBlock(MaurisFolder folder, String name, MaurisTextures textures, String displayName, List<String> lore, Material material, boolean generateModel, String model, boolean isBlock, MaurisBlock maurisBlock, File file, MaurisBlockType type, int hardness, HashMap<ItemStack, Integer> hardnessPerTool, BlockSounds sounds, MaurisLootTable lootTable, boolean selfDrop, double chanceToBeBlownUp) {
+        super(folder, name, textures, displayName, lore, material, generateModel, model, isBlock, maurisBlock, file);
         this.type = type;
         this.hardness = hardness;
         this.hardnessPerTool = hardnessPerTool;

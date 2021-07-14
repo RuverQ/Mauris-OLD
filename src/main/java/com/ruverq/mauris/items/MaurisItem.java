@@ -41,6 +41,9 @@ public class MaurisItem {
     @Getter
     boolean generateModel;
 
+    @Getter
+    String model;
+
     MaurisBlock maurisBlock;
 
     @Getter
@@ -52,12 +55,13 @@ public class MaurisItem {
     @Getter
     protected int id;
 
-    public MaurisItem(MaurisFolder folder, String name, MaurisTextures textures, String displayName, List<String> lore, Material material, boolean generateModel, boolean isBlock, MaurisBlock maurisBlock, File file) {
+    public MaurisItem(MaurisFolder folder, String name, MaurisTextures textures, String displayName, List<String> lore, Material material, boolean generateModel, String model, boolean isBlock, MaurisBlock maurisBlock, File file) {
         this.folder = folder;
         this.name = name;
         this.textures = textures;
         this.displayName = displayName;
         this.lore = lore;
+        this.model = model;
         this.material = material;
         this.generateModel = generateModel;
         this.maurisBlock = maurisBlock;
@@ -83,8 +87,11 @@ public class MaurisItem {
         String displayname = cs.getString("displayname");
         String material = cs.getString("material");
         boolean generateModel = cs.getBoolean("generateModel");
+        String model = cs.getString("model");
         List<String> lore = cs.getStringList("lore");
         List<String> textures = cs.getStringList("textures");
+
+        if(model != null) generateModel = false;
 
         mb.setTextures(textures);
 
@@ -93,7 +100,9 @@ public class MaurisItem {
                 .setLore(lore)
                 .setName(cs.getName())
                 .setMaterial(material)
-                .setGenerateModel(generateModel);
+                .setGenerateModel(generateModel)
+                .setModel(model);
+
 
         return;
     }
@@ -143,7 +152,6 @@ public class MaurisItem {
         HashMap<String, MaurisItem> items = new HashMap<>();
         for(MaurisItem item : maurisItems){
             item.generateId();
-            System.out.println("Added: " + item.getFolder().getName() + ":" + item.getName());
             items.put(item.getFolder().getName() + ":" + item.getName(), item);
         }
 
@@ -154,7 +162,6 @@ public class MaurisItem {
 
             for(String item : ids.getConfigurationSection("items." + section).getKeys(false)){
                 MaurisItem mitem = items.get(item);
-                if(mitem != null) System.out.println("Loaded: " + mitem.getFolder().getName() + ":" + mitem.getName());
                 mitem.generate();
             }
         }
@@ -173,26 +180,30 @@ public class MaurisItem {
 
         String folderName = getFolder().getName();
 
-        if(!generateModel) return;
+        String modelPath = folderName + "/generated/" + name;
 
-        //First DIR
-        JsonObject customItemJson = new JsonObject();
-        customItemJson.addProperty("parent", parent);
+        if(generateModel){
+            //First DIR
+            JsonObject customItemJson = new JsonObject();
+            customItemJson.addProperty("parent", parent);
 
-        JsonObject jsonTextures = new JsonObject();
-        int layeri = 0;
+            JsonObject jsonTextures = new JsonObject();
+            int layeri = 0;
 
-        for(String tex : textures.getTextures()){
+            for(String tex : textures.getTextures()){
 
-            jsonTextures.addProperty("layer" + layeri, folderName + "/" + tex);
-            layeri++;
+                jsonTextures.addProperty("layer" + layeri, folderName + "/" + tex);
+                layeri++;
+            }
+
+            customItemJson.add("textures", jsonTextures);
+
+            DataHelper.createFolder("resource_pack/assets/minecraft/models/" + folderName + "/generated");
+            DataHelper.createFolder("resource_pack/assets/minecraft/textures/" + folderName);
+            DataHelper.createFile("resource_pack/assets/minecraft/models/" + modelPath + ".json", customItemJson.toString());
+        }else{
+            modelPath = folderName + "/" + model;
         }
-
-        customItemJson.add("textures", jsonTextures);
-
-        DataHelper.createFolder("resource_pack/assets/minecraft/models/" + folderName + "/generated");
-        DataHelper.createFolder("resource_pack/assets/minecraft/textures/" + folderName);
-        DataHelper.createFile("resource_pack/assets/minecraft/models/" + folderName + "/generated/" + name + ".json", customItemJson.toString());
 
         //Second DIR
         File itemFileJson = DataHelper.getFile("resource_pack/assets/minecraft/models/item/" + material.name().toLowerCase() + ".json");
@@ -233,7 +244,7 @@ public class MaurisItem {
 
         predicate.addProperty("custom_model_data", id);
         override.add("predicate", predicate);
-        override.addProperty("model", folderName + "/generated/" + name);
+        override.addProperty("model", modelPath);
 
         overrides.add(override);
 

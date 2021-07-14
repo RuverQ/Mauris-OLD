@@ -6,3 +6,7 @@ example:
     - "&7bruh"
   textures:
     - example.png
+model_example:
+  displayname: "Example Item"
+  material: diamond_sword
+  model: "bruh_sword"

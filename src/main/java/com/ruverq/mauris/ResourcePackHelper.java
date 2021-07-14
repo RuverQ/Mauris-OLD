@@ -95,7 +95,8 @@ public class ResourcePackHelper implements Listener {
 
         server.start();
 
-        System.out.println("Hosted on " + url);
+        Bukkit.getLogger().info("Hosted on " + url);
+
         isHosted = true;
     }
 
