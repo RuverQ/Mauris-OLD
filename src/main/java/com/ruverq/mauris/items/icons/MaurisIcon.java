@@ -9,6 +9,7 @@ import com.ruverq.mauris.items.blocks.MaurisBlock;
 import com.ruverq.mauris.utils.unicode.UnicodeUtils;
 import lombok.Getter;
 import lombok.SneakyThrows;
+import org.apache.commons.lang.StringEscapeUtils;
 import org.bukkit.Material;
 import org.bukkit.configuration.ConfigurationSection;
 
@@ -33,12 +34,16 @@ public class MaurisIcon extends MaurisItem {
         this.yOffset = yOffset;
     }
 
-    boolean isEmote;
+    public String getNormalizedSymbol(){
+        String hexSymbol = String.format("%04x", (int) this.symbol);
+        String symbol = "\\u" + hexSymbol;
+
+        return StringEscapeUtils.unescapeJava(symbol);
+    }
 
     double sizeMultiplier;
     IconAlign align;
     int yOffset;
-
 
     @Getter
     Character symbol;
@@ -67,14 +72,14 @@ public class MaurisIcon extends MaurisItem {
         main.remove("providers");
 
         JsonObject provider = new JsonObject();
-        String texturePath = getFolder().getName() + ":" + getTextures().getTextures().get(0);
+        String texturePath = getFolder().getName() + "/" + getTextures().getTextures().get(0) + ".png";
         provider.addProperty("file", texturePath);
 
         this.symbolId = providers.size();
 
         JsonArray chars = new JsonArray();
 
-        symbol = UnicodeUtils.getPossibleSymbols().get(symbolId);
+        this.symbol = UnicodeUtils.getPossibleSymbols().get(symbolId);
         //String hexSymbol = String.format("%04x", (int) symbol);
 
         int i = 0;
@@ -82,7 +87,7 @@ public class MaurisIcon extends MaurisItem {
             String a = providerObject.getAsJsonObject().get("file").getAsString();
             if(a.equals(texturePath)){
                 this.symbolId = i;
-                symbol = UnicodeUtils.getPossibleSymbols().get(symbolId);
+                this.symbol = UnicodeUtils.getPossibleSymbols().get(symbolId);
                 return;
             }
             i++;
@@ -91,7 +96,12 @@ public class MaurisIcon extends MaurisItem {
         chars.add(symbol);
         provider.add("chars", chars);
 
-        File textureFile = DataHelper.getFile("resource_pack/assets/" + getFolder().getName() + "/textures/" + getTextures().getTextures().get(0));
+        String texturePathT = "resource_pack/assets/minecraft/textures/" + getFolder().getName() + "/" + getTextures().getTextures().get(0);
+        if(!texturePathT.endsWith(".png")){
+            texturePathT = texturePathT + ".png";
+        }
+
+        File textureFile = DataHelper.getFile(texturePathT);
         if(textureFile == null) return;
 
 

@@ -2,6 +2,7 @@ package com.ruverq.mauris.items;
 
 import com.ruverq.mauris.DataHelper;
 import com.ruverq.mauris.items.blocks.MaurisBlock;
+import com.ruverq.mauris.items.hud.MaurisHUD;
 import com.ruverq.mauris.items.icons.MaurisIcon;
 import lombok.Getter;
 import org.bukkit.Bukkit;
@@ -31,6 +32,11 @@ public class ItemsLoader {
     @Getter
     static HashMap<BlockData, MaurisBlock> blockByBlockData = new HashMap<>();
     static HashMap<String, List<MaurisItem>> itemsByFolder = new HashMap<>();
+
+    @Getter
+    static HashMap<String, MaurisHUD> huds = new HashMap<>();
+    @Getter
+    static HashMap<String, MaurisIcon> icons = new HashMap<>();
 
     public static void load(){
 
@@ -142,6 +148,8 @@ public class ItemsLoader {
         blockByBlockData.clear();
         itemsByFolder.clear();
         itemsByFullName.clear();
+        huds.clear();
+        icons.clear();
 
         for(MaurisItem item : items){
             loadForStructure(item);
@@ -154,7 +162,14 @@ public class ItemsLoader {
 
         itemsByFullName.put(item.getFolder().getName() + ":" + item.getName(), item);
 
-        if(item instanceof MaurisIcon) return;
+        if(item instanceof MaurisIcon) {
+            icons.put(item.getName(), (MaurisIcon) item);
+            return;
+        }
+        if(item instanceof MaurisHUD){
+            huds.put(item.getName(), (MaurisHUD) item);
+            return;
+        }
 
         itemsByItemStack.put(item.getAsItemStack(), item);
 
@@ -162,6 +177,7 @@ public class ItemsLoader {
             MaurisBlock block = (MaurisBlock) item;
             blockByBlockData.put(block.getAsBlockData(), block);
         }
+
 
         List<MaurisItem> items = itemsByFolder.get(item.folder.getName());
         if(items == null){

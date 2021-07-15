@@ -14,15 +14,14 @@ import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
+import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.event.player.PlayerResourcePackStatusEvent;
 import org.bukkit.scheduler.BukkitRunnable;
 
 import java.io.*;
 import java.net.InetSocketAddress;
 import java.nio.file.Files;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.UUID;
+import java.util.*;
 
 import static com.ruverq.mauris.commands.CommandManager.format;
 
@@ -160,17 +159,32 @@ public class ResourcePackHelper implements Listener {
 
     }
 
+    static List<Player> withResourcePack = new ArrayList<>();
+
     @EventHandler
     public void onJoin(PlayerJoinEvent e){
         e.getPlayer().setResourcePack(url);
     }
 
+    public static boolean withResourcePack(Player player){
+        return withResourcePack.contains(player);
+    }
+
+    @EventHandler
+    public void onQuit(PlayerQuitEvent e){
+        withResourcePack.remove(e.getPlayer());
+    }
+
     @EventHandler
     public void onStatus(PlayerResourcePackStatusEvent e){
+        if(e.getStatus() == PlayerResourcePackStatusEvent.Status.ACCEPTED) {
+            withResourcePack.add(e.getPlayer());
+            return;
+        }
+
         if(!kickEnabled) return;
         if((bypassKickPermission != null && !bypassKickPermission.isEmpty()) && e.getPlayer().hasPermission(bypassKickPermission)) return;
 
-        if(e.getStatus() == PlayerResourcePackStatusEvent.Status.ACCEPTED) return;
         if(e.getStatus() == PlayerResourcePackStatusEvent.Status.DECLINED) e.getPlayer().kickPlayer(kickMessage);
     }
 

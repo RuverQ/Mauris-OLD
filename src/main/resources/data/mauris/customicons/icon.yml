@@ -4,6 +4,7 @@ exampleIcon:
   icon:
     enabled: true
     sizeMultiplier: 1
+    yOffset: -10
     align: "bottom"
 exampleIcon2:
   textures:

@@ -3,6 +3,7 @@ package com.ruverq.mauris;
 import com.ruverq.mauris.commands.CommandManager;
 import com.ruverq.mauris.gui.GUI;
 import com.ruverq.mauris.items.ItemsLoader;
+import com.ruverq.mauris.items.hud.PlayerHUDInfoManager;
 import com.ruverq.mauris.items.icons.MaurisIconPlaceholder;
 import com.ruverq.mauris.items.blocks.blockhardness.BlockCBBListener;
 import com.ruverq.mauris.items.blocks.blocksounds.MaurisSoundsManager;
@@ -57,6 +58,10 @@ public final class Mauris extends JavaPlugin {
         Bukkit.getPluginManager().registerEvents(new ResourcePackHelper(), this);
 
         Bukkit.getPluginManager().registerEvents(new BlockCBBListener(), this);
+
+        PlayerHUDInfoManager infoManager = new PlayerHUDInfoManager();
+        PlayerHUDInfoManager.setUp();
+        Bukkit.getPluginManager().registerEvents(infoManager, this);
 
         if(Bukkit.getPluginManager().getPlugin("PlaceHolderAPI") != null){
             MaurisIconPlaceholder.loadAll();

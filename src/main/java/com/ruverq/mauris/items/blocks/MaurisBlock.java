@@ -149,7 +149,6 @@ public class MaurisBlock extends MaurisItem {
         MaurisTextures textures = getTextures();
         MaurisFolder folder = getFolder();
 
-
         String modelPath = folder.getName() + "/generated/" + getName();
         //First DIR
         if(isGenerateModel()){

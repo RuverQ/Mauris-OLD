@@ -1,0 +1,7 @@
+bruh_hud:
+  hud:
+    enabled: true
+    xOffset: 100
+    frames:
+      - "exampleIcon"
+      - "exampleIcon2"

@@ -4,6 +4,7 @@ import com.ruverq.mauris.items.blocks.MaurisBlock;
 import com.ruverq.mauris.items.blocks.MaurisLootTable;
 import com.ruverq.mauris.items.blocks.blocksounds.BlockSounds;
 import com.ruverq.mauris.items.blocks.blocktypes.MaurisBlockType;
+import com.ruverq.mauris.items.hud.MaurisHUD;
 import com.ruverq.mauris.items.icons.MaurisIcon;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
@@ -50,7 +51,13 @@ public class MaurisBuilder {
     MaurisIcon.IconAlign align;
     boolean isIcon;
 
+    int xOffset;
+    boolean hudEnabled;
+    boolean isHUD;
+    List<String> frames;
+
     public MaurisItem build(){
+        if(isHUD) return new MaurisHUD(folder, name, textures, displayName, lore, material, generateModel, model, isBlock, maurisBlock, file, xOffset, hudEnabled, frames);
         if(isIcon) return new MaurisIcon(folder, name, textures, displayName, lore, material, generateModel, model, isBlock, maurisBlock, file, sizeMultiplier, align, yOffset);
         if(isBlock) return new MaurisBlock(folder,name,textures,displayName,lore,material,generateModel, model, true,maurisBlock,file, type, hardness, hardnessPerTool, sounds, lootTable, selfDrop, chanceToBeBlownUp);
         return new MaurisItem(folder,name,textures,displayName,lore,material,generateModel, model, false,maurisBlock, file);
@@ -58,6 +65,26 @@ public class MaurisBuilder {
 
     public void addHardnessPerTool(ItemStack itemStack, int hardness){
         hardnessPerTool.put(itemStack, hardness);
+    }
+
+    public MaurisBuilder setXOffset(int xOffset){
+        this.xOffset = xOffset;
+        return this;
+    }
+
+    public MaurisBuilder setHUD(boolean isHUD){
+        this.isHUD = isHUD;
+        return this;
+    }
+
+    public MaurisBuilder setHudEnabled(boolean enabled){
+        this.hudEnabled = enabled;
+        return this;
+    }
+
+    public MaurisBuilder setFrames(List<String> frames){
+        this.frames = frames;
+        return this;
     }
 
     public void addHardnessPerTool(MaurisItem item, int hardness){

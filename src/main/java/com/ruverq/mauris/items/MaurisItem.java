@@ -5,6 +5,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.ruverq.mauris.DataHelper;
 import com.ruverq.mauris.items.blocks.MaurisBlock;
+import com.ruverq.mauris.items.hud.MaurisHUD;
 import com.ruverq.mauris.items.icons.MaurisIcon;
 import lombok.Getter;
 import org.bukkit.Bukkit;
@@ -45,6 +46,8 @@ public class MaurisItem {
     String model;
 
     MaurisBlock maurisBlock;
+
+    boolean generated = false;
 
     @Getter
     File file;
@@ -129,6 +132,7 @@ public class MaurisItem {
 
             ConfigurationSection itemSection = cs.getConfigurationSection(name);
 
+            MaurisHUD.loadFromConfigurationSection(mb, itemSection);
             MaurisIcon.loadFromConfigurationSection(mb, itemSection);
             MaurisItem.loadFromConfigurationSection(mb, itemSection);
             MaurisBlock.loadFromConfigurationSection(mb, itemSection);
@@ -174,9 +178,17 @@ public class MaurisItem {
                 }
             }
         }
+
+        //Other thing without id
+        for(MaurisItem item : items.values()){
+            if(!item.generated)
+            item.generate();
+            item.generated = true;
+        }
     }
 
     public void generate(String parent){
+        generated = true;
 
         String folderName = getFolder().getName();
 
