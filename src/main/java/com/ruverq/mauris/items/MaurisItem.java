@@ -174,6 +174,8 @@ public class MaurisItem {
             if(otherSection.equalsIgnoreCase("items")) continue;
             for(String section : ids.getConfigurationSection(otherSection).getKeys(false)){
                 for(String otherItem : ids.getConfigurationSection(otherSection + "." + section).getKeys(false)){
+                    MaurisItem item = items.get(otherItem);
+                    if(item instanceof MaurisBlock) continue;
                     items.get(otherItem).generate();
                 }
             }

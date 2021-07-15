@@ -34,7 +34,7 @@ public class HUDTimer extends BukkitRunnable {
 
             p.spigot().sendMessage(ChatMessageType.ACTION_BAR, new TextComponent(buildRawHUD.toString()));
 
-            i++;
+            i = 1;
         }
 
     }
