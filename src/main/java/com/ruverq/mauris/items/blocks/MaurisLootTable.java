@@ -19,9 +19,9 @@ public class MaurisLootTable {
         loots.add(loot);
     }
 
-    public void dropAll(Location location, double luck){
+    public void dropAll(Location location, ItemStack tool, double luck){
         for(MaurisLoot maurisLoot : loots){
-            maurisLoot.dropWithChance(location);
+            maurisLoot.dropWithChance(location, tool, luck);
         }
     }
 
@@ -51,8 +51,8 @@ public class MaurisLootTable {
         return loot;
     }
 
-    public void dropAll(Location location){
-        dropAll(location, 1);
+    public void dropAll(Location location, ItemStack tool){
+        dropAll(location, tool, 1);
     }
 
     public static MaurisLootTable fromConfigSection(ConfigurationSection section){

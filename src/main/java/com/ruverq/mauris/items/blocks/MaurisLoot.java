@@ -1,6 +1,7 @@
 package com.ruverq.mauris.items.blocks;
 
 import com.ruverq.mauris.items.ItemsLoader;
+import com.ruverq.mauris.items.MaurisItem;
 import lombok.Getter;
 import lombok.Setter;
 import org.bukkit.Location;
@@ -8,6 +9,8 @@ import org.bukkit.World;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.inventory.ItemStack;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 import java.util.concurrent.ThreadLocalRandom;
 
@@ -28,6 +31,14 @@ public class MaurisLoot {
     @Getter
     @Setter
     int max;
+
+    @Getter
+    @Setter
+    List<String> allowTools = new ArrayList<>();
+
+    @Getter
+    @Setter
+    List<String> blockTools = new ArrayList<>();
 
     @Getter
     @Setter
@@ -59,13 +70,39 @@ public class MaurisLoot {
         world.dropItemNaturally(location, loot());
     }
 
-    public void dropWithChance(Location location, double luck){
-        if(!isWorked(luck)) return;
-        drop(location);
-    }
+    public void dropWithChance(Location location, ItemStack tool, double luck){
+        if(!allowTools.isEmpty()){
+            if(tool == null) return;
+            MaurisItem item = ItemsLoader.getMaurisItem(tool);
+            if(item == null){
 
-    public void dropWithChance(Location location){
-        if(!isWorked()) return;
+                boolean allow = false;
+                for(String toolS : allowTools){
+                    if(toolS.equalsIgnoreCase(tool.getType().name())){
+                        allow = true;
+                        break;
+                    }
+                }
+                if(!allow) return;
+
+            }else{
+                if(!allowTools.contains(item.getName())) return;
+            }
+        }
+
+        if(!blockTools.isEmpty()){
+            if(tool == null) return;
+            MaurisItem item = ItemsLoader.getMaurisItem(tool);
+            if(item == null){
+                for(String toolS : allowTools){
+                    if(toolS.equalsIgnoreCase(tool.getType().name())) return;
+                }
+            }else{
+                if(blockTools.contains(item.getName())) return;
+            }
+        }
+
+        if(!isWorked(luck)) return;
         drop(location);
     }
 
@@ -96,9 +133,14 @@ public class MaurisLoot {
         int min = section.getInt("min", 0);
         int max = section.getInt("max", 3);
 
+        List<String> allow_tools = section.getStringList("allow-tools");
+        List<String> block_tools = section.getStringList("block-tools");
+
         loot.setChance(chance);
         loot.setItem(itemS);
         loot.setMinNMaxValue(min,max);
+        loot.setAllowTools(allow_tools);
+        loot.setBlockTools(block_tools);
 
         loot.setName(section.getName());
 

@@ -13,6 +13,7 @@ import org.bukkit.event.block.BlockBreakEvent;
 import org.bukkit.event.block.BlockExplodeEvent;
 import org.bukkit.event.block.BlockIgniteEvent;
 import org.bukkit.event.entity.EntityExplodeEvent;
+import org.bukkit.inventory.ItemStack;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -50,7 +51,7 @@ public class MaurisBlockBreak implements Listener {
 
                 if(mb.getLootTable() == null) continue;
 
-                mb.getLootTable().dropAll(block.getLocation());
+                mb.getLootTable().dropAll(block.getLocation(), new ItemStack(Material.AIR));
             }
         }
 
@@ -82,7 +83,7 @@ public class MaurisBlockBreak implements Listener {
 
                 if(mb.getLootTable() == null) continue;
 
-                mb.getLootTable().dropAll(block.getLocation());
+                mb.getLootTable().dropAll(block.getLocation(), new ItemStack(Material.AIR));
             }
         }
 
@@ -106,7 +107,7 @@ public class MaurisBlockBreak implements Listener {
 
         if(mb.getLootTable() == null) return;
 
-        mb.getLootTable().dropAll(e.getBlock().getLocation());
+        mb.getLootTable().dropAll(e.getBlock().getLocation(), e.getPlayer().getInventory().getItemInMainHand());
     }
 
 }
