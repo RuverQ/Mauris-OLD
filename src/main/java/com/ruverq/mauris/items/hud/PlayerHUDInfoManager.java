@@ -39,6 +39,8 @@ public class PlayerHUDInfoManager implements Listener {
         for(MaurisHUD hud : ItemsLoader.getHuds().values()){
             playerHUDInfo.hudsFrame.put(hud, 0);
         }
+
+        System.out.println("added player " + p.getName());
         infos.put(p, playerHUDInfo);
     }
 

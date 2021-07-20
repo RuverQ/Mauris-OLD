@@ -94,7 +94,7 @@ public class MaurisBlockPlace implements Listener {
     }
 
     public BlockFace getBlockPlaceFace(Player player) {
-        List<Block> lastTwoTargetBlocks = player.getLastTwoTargetBlocks(null, 100);
+        List<Block> lastTwoTargetBlocks = player.getLastTwoTargetBlocks(null, 7);
         if (lastTwoTargetBlocks.size() != 2 || !lastTwoTargetBlocks.get(1).getType().isOccluding()) return null;
         Block targetBlock = lastTwoTargetBlocks.get(1);
         Block adjacentBlock = lastTwoTargetBlocks.get(0);
@@ -102,7 +102,7 @@ public class MaurisBlockPlace implements Listener {
     }
 
     public Block getBlockPlaceLocation(Player player) {
-        List<Block> lastTwoTargetBlocks = player.getLastTwoTargetBlocks(null, 100);
+        List<Block> lastTwoTargetBlocks = player.getLastTwoTargetBlocks(null, 7);
         if (lastTwoTargetBlocks.size() != 2 || !lastTwoTargetBlocks.get(1).getType().isOccluding()) return null;
         Block targetBlock = lastTwoTargetBlocks.get(1);
         Block adjacentBlock = lastTwoTargetBlocks.get(0);

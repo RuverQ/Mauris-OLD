@@ -4,6 +4,7 @@ import com.ruverq.mauris.DataHelper;
 import com.ruverq.mauris.items.blocks.MaurisBlock;
 import com.ruverq.mauris.items.hud.MaurisHUD;
 import com.ruverq.mauris.items.icons.MaurisIcon;
+import com.ruverq.mauris.items.icons.MaurisOffsetIcon;
 import lombok.Getter;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -66,6 +67,9 @@ public class ItemsLoader {
         deleteUnnecessaryIDs();
 
         MaurisItem.generate(items);
+
+        MaurisOffsetIcon.setUp();
+
         loadForStructure(items);
     }
 
@@ -138,7 +142,6 @@ public class ItemsLoader {
         }
 
         return maurisItem.getAsItemStack();
-
     }
 
     private static void loadForStructure(List<MaurisItem> items){
@@ -161,6 +164,8 @@ public class ItemsLoader {
         itemsByName.put(item.name, item);
 
         itemsByFullName.put(item.getFolder().getName() + ":" + item.getName(), item);
+
+        System.out.println(item.getName());
 
         if(item instanceof MaurisIcon) {
             icons.put(item.getName(), (MaurisIcon) item);

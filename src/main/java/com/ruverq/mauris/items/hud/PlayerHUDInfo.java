@@ -4,7 +4,11 @@ import com.ruverq.mauris.items.ItemsLoader;
 import lombok.Getter;
 import org.bukkit.entity.Player;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 public class PlayerHUDInfo {
 
@@ -21,6 +25,10 @@ public class PlayerHUDInfo {
         MaurisHUD hud = (MaurisHUD) ItemsLoader.getMaurisItem(huds);
         hudsFrame.remove(hud);
         hudsFrame.put(hud, frame);
+    }
+
+    public List<MaurisHUD> getHuds(){
+        return new ArrayList<>(hudsFrame.keySet());
     }
 
     void setFrame(MaurisHUD hud, int frame){

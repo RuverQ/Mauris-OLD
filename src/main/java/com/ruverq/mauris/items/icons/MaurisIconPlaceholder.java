@@ -2,6 +2,7 @@ package com.ruverq.mauris.items.icons;
 
 import com.ruverq.mauris.Mauris;
 import com.ruverq.mauris.items.ItemsLoader;
+import com.ruverq.mauris.items.MaurisBuilder;
 import com.ruverq.mauris.items.MaurisItem;
 import me.clip.placeholderapi.expansion.PlaceholderExpansion;
 import org.apache.commons.lang.StringEscapeUtils;
@@ -29,9 +30,11 @@ public class MaurisIconPlaceholder extends PlaceholderExpansion {
         for (MaurisItem mi : ItemsLoader.getItemsLoaded()) {
             if (!(mi instanceof MaurisIcon)) continue;
             MaurisIcon ic = (MaurisIcon) mi;
-
             icons.put(ic.getName(), ic);
         }
+
+        MaurisBuilder builder = new MaurisBuilder();
+
         if (current != null) current.unregister();
         current = new MaurisIconPlaceholder();
         current.register();

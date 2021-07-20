@@ -46,6 +46,18 @@ public class MaurisIcon extends MaurisItem {
     int yOffset;
 
     @Getter
+    int imageHeight;
+
+    @Getter
+    int imageWidth;
+
+    @Getter
+    int ascent;
+
+    @Getter
+    int height;
+
+    @Getter
     Character symbol;
 
     int symbolId;
@@ -106,8 +118,9 @@ public class MaurisIcon extends MaurisItem {
 
 
         BufferedImage bimage = ImageIO.read(textureFile);
-        int height = bimage.getHeight();
-        int ascent = 0;
+        height = bimage.getHeight();
+        imageHeight = bimage.getHeight();
+        imageWidth = bimage.getWidth();
 
         height = (int) (height * sizeMultiplier);
 

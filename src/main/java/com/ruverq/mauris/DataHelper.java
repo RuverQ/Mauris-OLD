@@ -252,11 +252,20 @@ public class DataHelper {
         return file.exists();
     }
 
-    public static File getFile(String path){
+    public static File getFile(String path, boolean withoutNull){
         String tempPath = path.replace("/", File.separator);
         File file = new File(dataPath + tempPath);
-        if(file.exists()) return file;
-        return null;
+
+        if(withoutNull){
+            return file;
+        }else{
+            if(file.exists()) return file;
+            return null;
+        }
+    }
+
+    public static File getFile(String path){
+        return getFile(path, false);
     }
 
     public static void createFolder(String path){
