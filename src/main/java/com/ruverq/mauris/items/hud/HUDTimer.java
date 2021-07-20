@@ -28,26 +28,18 @@ public class HUDTimer extends BukkitRunnable {
 
             PlayerHUDInfo hudInfo = PlayerHUDInfoManager.getInfo(p);
 
-            MaurisHUD hudBefore = null;
-
-            System.out.println("-------------------");
             for(MaurisHUD hud : hudInfo.getHuds()){
                 if(!hud.enabled) continue;
 
                 MaurisIcon icon = hud.getIcon(hudInfo.getFrame(hud));
                 if(icon == null) continue;
 
-                System.out.println(buildRawHUD.currentOffset);
                 buildRawHUD.getTo(hud.xOffset);
-                System.out.println(buildRawHUD.currentOffset);
 
                 hudInfo.setFrame(hud, 0);
                 buildRawHUD.addIcon(icon);
-                System.out.println(buildRawHUD.currentOffset);
 
                 buildRawHUD.getTo(0);
-
-                hudBefore = hud;
             }
 
 
