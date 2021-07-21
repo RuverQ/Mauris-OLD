@@ -2,12 +2,10 @@ package com.ruverq.mauris.items.blocks.blockhardness;
 
 import com.ruverq.mauris.items.ItemsLoader;
 import com.ruverq.mauris.items.blocks.MaurisBlock;
-import net.minecraft.server.level.EntityPlayer;
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
-import org.bukkit.craftbukkit.v1_17_R1.entity.CraftPlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
@@ -23,7 +21,6 @@ import org.bukkit.potion.PotionEffectType;
 
 import java.util.*;
 
-//From this https://www.spigotmc.org/threads/1-8-1-13-custom-block-breaking-change-block-hardness.362586/
 public class BlockCBBListener implements Listener {
 
     @EventHandler
@@ -38,21 +35,19 @@ public class BlockCBBListener implements Listener {
     @EventHandler
     public void onAnimation(PlayerAnimationEvent e){
 
-        EntityPlayer entityplayer = ((CraftPlayer) e.getPlayer()).getHandle();
+        Player player = e.getPlayer();
         Set<Material> transparentBlocks = new HashSet<>();
         transparentBlocks.add(Material.WATER);
         transparentBlocks.add(Material.AIR);
         transparentBlocks.add(Material.SNOW);
-        Block block = entityplayer.getBukkitEntity().getTargetBlock(transparentBlocks, 5);
+        Block block = player.getTargetBlock(transparentBlocks, 5);
         Location blockPosition = block.getLocation();
 
         if (!BrokenBlocksService.isBrokenBlock(blockPosition)) return;
 
-        Player player = entityplayer.getBukkitEntity();
-
-        double distanceX = blockPosition.getX() - entityplayer.locX();
-        double distanceY = blockPosition.getY() - entityplayer.locY();
-        double distanceZ = blockPosition.getZ() - entityplayer.locZ();
+        double distanceX = blockPosition.getX() - player.getLocation().getX();
+        double distanceY = blockPosition.getY() - player.getLocation().getY();
+        double distanceZ = blockPosition.getZ() - player.getLocation().getZ();
 
         if (distanceX * distanceX + distanceY * distanceY + distanceZ * distanceZ >= 1024.0D) return;
         BrokenBlock brokenBlock = BrokenBlocksService.getBrokenBlock(blockPosition);
