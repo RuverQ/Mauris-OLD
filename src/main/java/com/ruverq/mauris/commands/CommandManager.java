@@ -21,6 +21,7 @@ public class CommandManager implements TabExecutor {
         addCommand(new ReloadCommand());
         addCommand(new InfoCommand());
         addCommand(new BlockDataListCommand());
+        addCommand(new SetHUDFrameCommand());
     }
 
     public static String getMain() {

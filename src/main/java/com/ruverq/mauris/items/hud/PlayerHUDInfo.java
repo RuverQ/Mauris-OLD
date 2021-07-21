@@ -21,19 +21,21 @@ public class PlayerHUDInfo {
     @Getter
     Player player;
 
-    void setFrame(String huds, int frame){
+    public void setFrame(String huds, int frame){
         MaurisHUD hud = (MaurisHUD) ItemsLoader.getMaurisItem(huds);
         hudsFrame.remove(hud);
         hudsFrame.put(hud, frame);
+        HUDCheker.check(player);
     }
 
     public List<MaurisHUD> getHuds(){
         return new ArrayList<>(hudsFrame.keySet());
     }
 
-    void setFrame(MaurisHUD hud, int frame){
+    public void setFrame(MaurisHUD hud, int frame){
         hudsFrame.remove(hud);
         hudsFrame.put(hud, frame);
+        HUDCheker.check(player);
     }
 
     int getFrame(MaurisHUD hud){

@@ -56,8 +56,11 @@ public class MaurisBuilder {
     boolean isHUD;
     List<String> frames;
 
+    boolean vanillaIterator;
+    int vanillaIterate;
+
     public MaurisItem build(){
-        if(isHUD) return new MaurisHUD(folder, name, textures, displayName, lore, material, generateModel, model, isBlock, maurisBlock, file, xOffset, hudEnabled, frames);
+        if(isHUD) return new MaurisHUD(folder, name, textures, displayName, lore, material, generateModel, model, isBlock, maurisBlock, file, xOffset, hudEnabled, frames, vanillaIterator, vanillaIterate);
         if(isIcon) return new MaurisIcon(folder, name, textures, displayName, lore, material, generateModel, model, isBlock, maurisBlock, file, sizeMultiplier, align, yOffset);
         if(isBlock) return new MaurisBlock(folder,name,textures,displayName,lore,material,generateModel, model, true,maurisBlock,file, type, hardness, hardnessPerTool, sounds, lootTable, selfDrop, chanceToBeBlownUp);
         return new MaurisItem(folder,name,textures,displayName,lore,material,generateModel, model, false,maurisBlock, file);
@@ -69,6 +72,21 @@ public class MaurisBuilder {
 
     public MaurisBuilder setXOffset(int xOffset){
         this.xOffset = xOffset;
+        return this;
+    }
+
+    public MaurisBuilder setVanillaIterator(boolean vanilaIterator){
+        this.vanillaIterator = vanilaIterator;
+        return this;
+    }
+
+    public MaurisBuilder enableVanillaIterator(){
+        vanillaIterator = true;
+        return this;
+    }
+
+    public MaurisBuilder setVanillaIterate(int count){
+        vanillaIterate = count;
         return this;
     }
 

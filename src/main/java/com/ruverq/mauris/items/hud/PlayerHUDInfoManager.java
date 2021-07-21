@@ -13,7 +13,7 @@ import java.util.HashMap;
 
 public class PlayerHUDInfoManager implements Listener {
 
-    static HUDTimer currentTimer;
+    static HUDCheker currentTimer;
 
     public static void setUp(){
         infos.clear();
@@ -21,8 +21,8 @@ public class PlayerHUDInfoManager implements Listener {
             addDefaultPlayerInfo(p);
         }
         if(currentTimer != null) currentTimer.cancel();
-        currentTimer = new HUDTimer();
-        currentTimer.runTaskTimer(Mauris.getInstance(), 0, 1);
+        currentTimer = new HUDCheker();
+        currentTimer.runTaskTimer(Mauris.getInstance(), 0, 20);
     }
 
     static HashMap<Player, PlayerHUDInfo> infos = new HashMap<>();

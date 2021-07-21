@@ -74,6 +74,10 @@ public class MaurisBlockCancel implements Listener {
         if(MaurisBlockTypeManager.isEnabled(e.getClickedBlock().getType().name())) e.setCancelled(true);
     }
 
+    @EventHandler
+    public void onRedstone(BlockRedstoneEvent e){
+        System.out.println(e.getBlock());
+    }
 
 
     @EventHandler
@@ -89,10 +93,6 @@ public class MaurisBlockCancel implements Listener {
             }
 
             Block tripwireBlock = e.getBlock();
-
-            Powerable tripwire = (Powerable) tripwireBlock.getBlockData();
-            tripwire.setPowered(false);
-            tripwireBlock.setBlockData(tripwire);
         }
 
         if(MaurisBlockTypeManager.isEnabled("NOTE_BLOCK")){
