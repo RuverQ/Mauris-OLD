@@ -1,5 +1,7 @@
-package com.ruverq.mauris.gui;
+package com.ruverq.mauris.items.gui;
 
+import com.ruverq.mauris.guibase.GUI;
+import com.ruverq.mauris.guibase.slotGUI;
 import com.ruverq.mauris.items.ItemsLoader;
 import com.ruverq.mauris.items.MaurisItem;
 import com.ruverq.mauris.utils.ItemBuilder;
@@ -10,7 +12,7 @@ import org.bukkit.Material;
 import java.util.List;
 import java.util.Set;
 
-public class FoldersGUI extends GUI{
+public class FoldersGUI extends GUI {
 
     @Getter
     @Setter

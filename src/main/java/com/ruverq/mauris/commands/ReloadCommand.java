@@ -2,6 +2,7 @@ package com.ruverq.mauris.commands;
 
 import com.ruverq.mauris.DataHelper;
 import com.ruverq.mauris.Mauris;
+import com.ruverq.mauris.crafts.CraftingManager;
 import com.ruverq.mauris.items.ItemsLoader;
 import com.ruverq.mauris.items.hud.PlayerHUDInfoManager;
 import com.ruverq.mauris.items.icons.MaurisIconPlaceholder;
@@ -32,6 +33,9 @@ public class ReloadCommand implements SimpleCommand{
         PlayerHUDInfoManager.setUp();
 
         //ResourcePackHelper.setupRP();
+
+        CraftingManager.unloadCrafts();
+        CraftingManager.setUp(true);
 
         sender.sendMessage(CommandManager.getPrefix() + " Reloaded config!");
     }

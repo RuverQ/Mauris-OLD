@@ -40,7 +40,6 @@ public class PlayerHUDInfoManager implements Listener {
             playerHUDInfo.hudsFrame.put(hud, 0);
         }
 
-        System.out.println("added player " + p.getName());
         infos.put(p, playerHUDInfo);
     }
 

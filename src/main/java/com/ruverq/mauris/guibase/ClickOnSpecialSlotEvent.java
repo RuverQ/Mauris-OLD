@@ -1,4 +1,4 @@
-package com.ruverq.mauris.gui;
+package com.ruverq.mauris.guibase;
 
 import org.bukkit.event.inventory.ClickType;
 

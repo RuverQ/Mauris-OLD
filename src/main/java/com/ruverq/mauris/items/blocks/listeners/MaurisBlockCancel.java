@@ -75,12 +75,6 @@ public class MaurisBlockCancel implements Listener {
     }
 
     @EventHandler
-    public void onRedstone(BlockRedstoneEvent e){
-        System.out.println(e.getBlock());
-    }
-
-
-    @EventHandler
     public void onPhysics(BlockPhysicsEvent e){
 
         if(MaurisBlockTypeManager.isEnabled(e.getChangedType().name())){

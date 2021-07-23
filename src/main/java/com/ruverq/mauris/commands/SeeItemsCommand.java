@@ -1,6 +1,6 @@
 package com.ruverq.mauris.commands;
 
-import com.ruverq.mauris.gui.FoldersGUI;
+import com.ruverq.mauris.items.gui.FoldersGUI;
 import com.ruverq.mauris.items.ItemsLoader;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;

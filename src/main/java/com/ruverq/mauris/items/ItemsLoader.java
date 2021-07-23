@@ -165,8 +165,6 @@ public class ItemsLoader {
 
         itemsByFullName.put(item.getFolder().getName() + ":" + item.getName(), item);
 
-        System.out.println(item.getName());
-
         if(item instanceof MaurisIcon) {
             icons.put(item.getName(), (MaurisIcon) item);
             return;

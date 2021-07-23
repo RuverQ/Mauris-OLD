@@ -1,0 +1,53 @@
+
+ShapedTemplate:
+  enabled: true
+  type: shaped
+  result: paper
+  resultAmount: 2
+  discoverBy: playerjoin
+  craft:
+    shape:
+      '1': ' A '
+      '2': 'AAA'
+      '3': ' A '
+    ingredients:
+      A: sugar_cane
+
+ShapeLessTemplate:
+  enabled: true
+  type: shapeless
+  result: iron_ingot
+  discoverBy: playerjoin
+  craft:
+    ingredients:
+      - birch_sapling
+
+FurnaceTemplate:
+  enabled: true
+  type: furnace
+  result: sugar_cane
+  discoverBy: playerPickUp(item=sugar) # Not working yet
+  craft:
+    ingredient: potion
+    experience: 0.5
+    cookingTime: 20
+
+
+SmokerTemplate:
+  enabled: true
+  type: smoker
+  result: sugar_cane
+  discoverBy: playerjoin
+  craft:
+    ingredient: potion
+    experience: 0.5
+    cookingTime: 20
+
+SmithingTemplate:
+  enabled: true
+  type: smithing
+  result: sugar_cane
+  discoverBy: playerjoin
+  craft:
+    firstIngredient: potion
+    secondIngredient: gold_ingot

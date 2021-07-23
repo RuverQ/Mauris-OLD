@@ -2,6 +2,10 @@
 icons:
   placeholderSupport: true
 
+crafts:
+  disabledCrafts:
+    - iron_block
+
 block:
   sounds:
     stepSound:

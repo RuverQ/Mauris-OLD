@@ -1,4 +1,4 @@
-package com.ruverq.mauris.gui;
+package com.ruverq.mauris.guibase;
 
 import lombok.Getter;
 import net.md_5.bungee.api.ChatColor;
@@ -17,12 +17,12 @@ import java.util.regex.Pattern;
 
 public class GUI implements Listener {
 
-    Inventory inventory;
+    public Inventory inventory;
 
     @Getter
-    Player player;
+    public Player player;
 
-    String displayName;
+    public String displayName;
 
     public List<slotGUI> slots = new ArrayList<>();
     private HashMap<Integer, slotGUI> slotsWithIndes = new HashMap<>();
@@ -76,7 +76,7 @@ public class GUI implements Listener {
         return slotsWithIndes.get(i);
     }
 
-    int size;
+    public int size;
     public void setSize(int size){
         this.size = size;
     }

@@ -1,7 +1,9 @@
 package com.ruverq.mauris;
 
 import com.ruverq.mauris.commands.CommandManager;
-import com.ruverq.mauris.gui.GUI;
+import com.ruverq.mauris.crafts.CraftingManager;
+import com.ruverq.mauris.crafts.listeners.CraftCancel;
+import com.ruverq.mauris.guibase.GUI;
 import com.ruverq.mauris.items.ItemsLoader;
 import com.ruverq.mauris.items.hud.PlayerHUDInfoManager;
 import com.ruverq.mauris.items.icons.MaurisIconPlaceholder;
@@ -11,7 +13,6 @@ import com.ruverq.mauris.items.blocks.blocktypes.MaurisBlockTypeManager;
 import com.ruverq.mauris.items.blocks.listeners.MaurisBlockBreak;
 import com.ruverq.mauris.items.blocks.listeners.MaurisBlockCancel;
 import com.ruverq.mauris.items.blocks.listeners.MaurisBlockPlace;
-import com.ruverq.mauris.items.listeners.MaurisCraftCancel;
 import lombok.Setter;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -49,8 +50,6 @@ public final class Mauris extends JavaPlugin {
 
         Bukkit.getPluginManager().registerEvents(new GUI(), this);
 
-        Bukkit.getPluginManager().registerEvents(new MaurisCraftCancel(), this);
-
         Bukkit.getPluginManager().registerEvents(new MaurisBlockPlace(), this);
         Bukkit.getPluginManager().registerEvents(new MaurisBlockCancel(), this);
         Bukkit.getPluginManager().registerEvents(new MaurisBlockBreak(), this);
@@ -66,6 +65,9 @@ public final class Mauris extends JavaPlugin {
         if(Bukkit.getPluginManager().getPlugin("PlaceHolderAPI") != null){
             MaurisIconPlaceholder.loadAll();
         }
+
+        Bukkit.getPluginManager().registerEvents(new CraftCancel(), this);
+        CraftingManager.setUp(false);
 
     }
 
@@ -85,6 +87,8 @@ public final class Mauris extends JavaPlugin {
 
     @Override
     public void onDisable() {
+
+        CraftingManager.unloadCrafts();
 
         if(ResourcePackHelper.server != null){
             ResourcePackHelper.server.stop(0);
