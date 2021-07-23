@@ -2,6 +2,15 @@ bruh_hud:
   hud:
     enabled: true
     xOffset: 100
+    vanilaIterator:
+      enabled: true
+      amount: 10
     frames:
       - "exampleIcon"
       - "exampleIcon2"
+    visibility:
+      creative: true
+      survival: false
+      spectator: true
+      adventure: false
+      underwater: false

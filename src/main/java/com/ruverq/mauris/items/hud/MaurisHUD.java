@@ -3,6 +3,7 @@ package com.ruverq.mauris.items.hud;
 import com.ruverq.mauris.items.*;
 import com.ruverq.mauris.items.blocks.MaurisBlock;
 import com.ruverq.mauris.items.icons.MaurisIcon;
+import org.bukkit.GameMode;
 import org.bukkit.Material;
 import org.bukkit.configuration.ConfigurationSection;
 
@@ -17,17 +18,24 @@ public class MaurisHUD extends MaurisItem {
 
     List<String> frames;
 
-    public MaurisHUD(MaurisFolder folder, String name, MaurisTextures textures, String displayName, List<String> lore, Material material, boolean generateModel, String model, boolean isBlock, MaurisBlock maurisBlock, File file, int xOffset, boolean hudEnabled, List<String> frames, boolean vanillaIterator, int vanillaIterate) {
+    public MaurisHUD(MaurisFolder folder, String name, MaurisTextures textures, String displayName, List<String> lore, Material material, boolean generateModel, String model, boolean isBlock, MaurisBlock maurisBlock, File file, int xOffset, boolean hudEnabled, List<String> frames, boolean vanillaIterator, int vanillaIterate, List<GameModeChecker> gameModeCheckers, boolean undrwtrV) {
         super(folder, name, textures, displayName, lore, material, generateModel, model, isBlock, maurisBlock, file);
         this.xOffset = xOffset;
         this.enabled = hudEnabled;
         this.frames = frames;
         this.vanillaIterator = vanillaIterator;
         this.vanillaIterate = vanillaIterate;
+        this.gameModeCheckers = gameModeCheckers;
+        this.underwaterVisibility = undrwtrV;
     }
 
     boolean vanillaIterator;
     int vanillaIterate;
+
+
+    List<GameModeChecker> gameModeCheckers;
+
+    boolean underwaterVisibility;
 
     @Override
     public void generateId() { }
@@ -52,12 +60,22 @@ public class MaurisHUD extends MaurisItem {
         boolean vanillaIterator = hudkcs.getBoolean("vanillaIterator.enabled", false);
         int vanillaIterate = hudkcs.getInt("vanillaIterator.amount", 0);
 
+        List<GameModeChecker> gameModeCheckers = new ArrayList<>();
+        for(GameMode gameMode : GameMode.values()){
+            boolean visibility = hudkcs.getBoolean("visibility." + gameMode.name().toLowerCase(), true);
+            gameModeCheckers.add(new GameModeChecker(gameMode, visibility));
+        }
+
+        boolean underwaterVisibility = hudkcs.getBoolean("visibility.underwater", true);
+
         mb.setHUD(true)
                 .setXOffset(xOffset)
                 .setFrames(frames)
                 .setHudEnabled(enabled)
                 .setVanillaIterate(vanillaIterate)
-                .setVanillaIterator(vanillaIterator);
+                .setVanillaIterator(vanillaIterator)
+                .setGameModeCheckers(gameModeCheckers)
+                .setUnderwaterVisibility(underwaterVisibility);
     }
 
 }

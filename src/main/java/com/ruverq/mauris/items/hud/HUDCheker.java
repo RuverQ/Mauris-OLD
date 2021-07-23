@@ -9,6 +9,7 @@ import com.ruverq.mauris.items.icons.MaurisOffsetIcon;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.Bukkit;
+import org.bukkit.GameMode;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 
@@ -37,6 +38,8 @@ public class HUDCheker extends BukkitRunnable {
         for(MaurisHUD hud : hudInfo.getHuds()){
             if(hud == null) continue;
             if(!hud.enabled) continue;
+
+            if(!checkVisibility(hud, p)) continue;
 
             int frame = hudInfo.getFrame(hud);
             if(hud.vanillaIterator){
@@ -67,6 +70,20 @@ public class HUDCheker extends BukkitRunnable {
 
 
         p.spigot().sendMessage(ChatMessageType.ACTION_BAR, new TextComponent(buildRawHUD.toString()));
+    }
+
+    private static boolean checkVisibility(MaurisHUD hud, Player player){
+
+        boolean visible = false;
+
+        for(GameModeChecker checker : hud.gameModeCheckers){
+            visible = checker.check(player);
+            if(!visible) return false;
+        }
+
+        if(!hud.underwaterVisibility && player.getRemainingAir() < player.getMaximumAir()) visible = false;
+
+        return visible;
     }
 
     private int getMinOffset(List<MaurisHUD> huds){
