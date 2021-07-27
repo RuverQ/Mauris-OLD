@@ -1,11 +1,14 @@
 package com.ruverq.mauris.utils;
 
 import net.md_5.bungee.api.ChatColor;
+import net.minecraft.nbt.NBTTagCompound;
 import org.bukkit.Material;
+import org.bukkit.craftbukkit.v1_17_R1.inventory.CraftItemStack;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -15,6 +18,10 @@ public class ItemBuilder {
     String displayName = "ERROR";
     List<String> lore = new ArrayList<>();
     Material material = Material.SADDLE;
+    int customModelData = -1;
+
+    HashMap<String, String> nbtStringKeys = new HashMap<>();
+    HashMap<String, Integer> nbtIntegerKeys = new HashMap<>();
 
     public ItemBuilder setDisplayName(String displayName) {
         this.displayName = format(displayName);
@@ -23,6 +30,16 @@ public class ItemBuilder {
 
     public ItemBuilder addLore(String line) {
         lore.add(format(line));
+        return this;
+    }
+
+    public ItemBuilder addNBTTag(String key, String value){
+        nbtStringKeys.put(key, value);
+        return this;
+    }
+
+    public ItemBuilder addNBTTag(String key, int value){
+        nbtIntegerKeys.put(key, value);
         return this;
     }
 
@@ -38,6 +55,11 @@ public class ItemBuilder {
 
     public ItemBuilder setMaterial(String material) {
         this.material = Material.matchMaterial(material);
+        return this;
+    }
+
+    public ItemBuilder setCustomModelData(int customModelData) {
+        this.customModelData = customModelData;
         return this;
     }
 
@@ -63,8 +85,22 @@ public class ItemBuilder {
         ItemMeta meta = itemStack.getItemMeta();
         meta.setDisplayName(displayName);
         meta.setLore(lore);
+        if(customModelData > 0){
+            meta.setCustomModelData(customModelData);
+        }
 
         itemStack.setItemMeta(meta);
+
+        net.minecraft.world.item.ItemStack nmsItem = CraftItemStack.asNMSCopy(itemStack);
+        NBTTagCompound tag = (nmsItem.hasTag()) ? nmsItem.getTag() : new NBTTagCompound();
+        NBTTagCompound maurisCompound = new NBTTagCompound();
+
+        nbtStringKeys.forEach(maurisCompound::setString);
+        nbtIntegerKeys.forEach(maurisCompound::setInt);
+
+        tag.set("mauris", maurisCompound);
+
+        itemStack = CraftItemStack.asBukkitCopy(nmsItem);
 
         return itemStack;
     }

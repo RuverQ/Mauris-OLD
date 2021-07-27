@@ -7,6 +7,7 @@ import com.ruverq.mauris.DataHelper;
 import com.ruverq.mauris.items.blocks.MaurisBlock;
 import com.ruverq.mauris.items.hud.MaurisHUD;
 import com.ruverq.mauris.items.icons.MaurisIcon;
+import com.ruverq.mauris.utils.ItemBuilder;
 import lombok.Getter;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -74,15 +75,15 @@ public class MaurisItem {
 
     public ItemStack getAsItemStack(){
 
-        ItemStack itemStack = new ItemStack(material);
-        ItemMeta itemMeta = itemStack.getItemMeta();
-        itemMeta.setDisplayName(formatColor(displayName));
-        itemMeta.setLore(formatColorList(lore));
-        itemMeta.setCustomModelData(id);
+        ItemBuilder builder = new ItemBuilder();
+        builder.setDisplayName(displayName);
+        builder.setMaterial(material);
+        builder.setLore(lore);
+        builder.setCustomModelData(id);
+        builder.addNBTTag("name", name);
+        builder.addNBTTag("folder", getFolder().getName());
 
-        itemStack.setItemMeta(itemMeta);
-
-        return itemStack;
+        return builder.build();
     }
 
     public static void loadFromConfigurationSection(MaurisBuilder mb, ConfigurationSection cs){
@@ -105,7 +106,6 @@ public class MaurisItem {
                 .setMaterial(material)
                 .setGenerateModel(generateModel)
                 .setModel(model);
-
 
         return;
     }
