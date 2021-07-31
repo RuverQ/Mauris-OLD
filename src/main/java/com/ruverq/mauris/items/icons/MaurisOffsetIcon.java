@@ -28,7 +28,12 @@ public class MaurisOffsetIcon {
 
         String fontDefaultPath = "resource_pack/assets/minecraft/font/default.json";
         File file = DataHelper.getFile(fontDefaultPath);
-        JsonObject json = DataHelper.FileToJson(file);
+        JsonObject json;
+        if(file != null){
+            json = DataHelper.FileToJson(file);
+        }else{
+            json = new JsonObject();
+        }
 
         offsetBackward = createProvider(offsetSplitImageName, json, -3, -32768);
         offsetForward = createProvider(offsetSplitImageName, json, 0, -32768);
@@ -39,6 +44,9 @@ public class MaurisOffsetIcon {
 
     private static char createProvider(String name, JsonObject json, int height, int ascent){
         JsonArray providers = json.getAsJsonArray("providers");
+        if(providers == null){
+            providers = new JsonArray();
+        }
 
         JsonObject provider = new JsonObject();
         provider.addProperty("file", ".offset_icons/" + name + ".png");
@@ -66,7 +74,7 @@ public class MaurisOffsetIcon {
         BufferedImage img = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB_PRE);
         Graphics2D graphics = img.createGraphics();
 
-        graphics.setColor( new Color(0, 0, 0, 1) );
+        graphics.setColor( new Color(0, 0, 0, 255) );
         graphics.fillRect ( 0, 0, width, height );
 
         DataHelper.createFolder("resource_pack/assets/minecraft/textures/.offset_icons");

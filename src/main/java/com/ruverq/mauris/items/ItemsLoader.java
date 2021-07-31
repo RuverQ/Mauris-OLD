@@ -68,7 +68,9 @@ public class ItemsLoader {
 
         MaurisItem.generate(items);
 
-        MaurisOffsetIcon.setUp();
+        if(!huds.isEmpty()){
+            MaurisOffsetIcon.setUp();
+        }
 
         loadForStructure(items);
     }
