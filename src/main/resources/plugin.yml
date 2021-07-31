@@ -7,6 +7,7 @@ authors: [ RuverQ ]
 description: FREE plugin for custom block and custom items
 softdepend:
   - PlaceholderAPI
+  - MythicMobs
 commands:
   mauris:
     description: ebat
