@@ -3,9 +3,9 @@
 # Mauris | Spigot Plugin
 ##### Free and open source Custom Blocks/Decoration/Items manager
 
-##Depend
+## Depend
 
-###Maven
+### Maven
 ```xml
 <repositories>
     <repository>
