@@ -5,6 +5,7 @@ import com.ruverq.mauris.items.blocks.MaurisBlock;
 import com.ruverq.mauris.items.hud.MaurisHUD;
 import com.ruverq.mauris.items.icons.MaurisIcon;
 import com.ruverq.mauris.items.icons.MaurisOffsetIcon;
+import com.ruverq.mauris.utils.ItemBuilder;
 import lombok.Getter;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
@@ -124,7 +125,14 @@ public class ItemsLoader {
     }
 
     public static MaurisItem getMaurisItem(ItemStack itemStack){
-        return itemsByItemStack.get(itemStack);
+        MaurisItem item = itemsByItemStack.get(itemStack);
+        if(item == null){
+            String folder = ItemBuilder.getNBTTag(itemStack, "folder");
+            String name = ItemBuilder.getNBTTag(itemStack, "name");
+            if(folder == null || name == null) return null;
+            item = getMaurisItem(folder + ":" + name);
+        }
+        return item;
     }
 
     public static MaurisItem getMaurisItem(String name){

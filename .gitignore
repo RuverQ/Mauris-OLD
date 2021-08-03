@@ -1,3 +1,5 @@
+
+
 # User-specific stuff
 .idea/
 
@@ -111,3 +113,6 @@ buildNumber.properties
 
 # Common working directory
 run/
+
+# Exact files
+settings.xml

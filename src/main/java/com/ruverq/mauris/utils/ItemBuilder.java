@@ -1,6 +1,7 @@
 package com.ruverq.mauris.utils;
 
 import net.md_5.bungee.api.ChatColor;
+import net.minecraft.nbt.NBTBase;
 import net.minecraft.nbt.NBTTagCompound;
 import org.bukkit.Material;
 import org.bukkit.craftbukkit.v1_17_R1.inventory.CraftItemStack;
@@ -78,6 +79,15 @@ public class ItemBuilder {
 
         return this;
     }
+
+    public static String getNBTTag(ItemStack item, String key){
+        net.minecraft.world.item.ItemStack nmsItem = CraftItemStack.asNMSCopy(item);
+        if(!nmsItem.hasTag()) return null;
+        NBTTagCompound tag = nmsItem.getTag().getCompound("mauris");
+        if(tag == null) return null;
+        return tag.getString(key);
+    }
+
 
     public ItemStack build(){
         ItemStack itemStack = new ItemStack(material);

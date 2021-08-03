@@ -9,6 +9,7 @@ import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.block.data.Powerable;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.*;
 import org.bukkit.event.player.PlayerInteractEvent;
@@ -18,12 +19,12 @@ import java.util.List;
 
 public class MaurisBlockCancel implements Listener {
 
-    @EventHandler
+    @EventHandler(priority = EventPriority.HIGHEST)
     public void onNote(NotePlayEvent e){
         if(MaurisBlockTypeManager.isEnabled("NOTE_BLOCK")) e.setCancelled(true);
     }
 
-    @EventHandler
+    @EventHandler(priority = EventPriority.HIGHEST)
     public void onPiston(BlockPistonRetractEvent e){
 
         int maxPiston = 8;
@@ -41,7 +42,7 @@ public class MaurisBlockCancel implements Listener {
 
     }
 
-    @EventHandler
+    @EventHandler(priority = EventPriority.HIGHEST)
     public void onPiston(BlockPistonExtendEvent e){
 
         int maxPiston = 8;
@@ -59,22 +60,21 @@ public class MaurisBlockCancel implements Listener {
 
     }
 
-    @EventHandler
+    @EventHandler(priority = EventPriority.HIGHEST)
     public void onPlace(BlockPlaceEvent e){
         if(MaurisBlockTypeManager.isEnabled(e.getBlock().getType().name())) e.setCancelled(true);
     }
 
 
-    @EventHandler
+    @EventHandler(priority = EventPriority.HIGHEST)
     public void onClick(PlayerInteractEvent e){
 
         if(e.getAction() == Action.LEFT_CLICK_BLOCK) return;
-
         if(e.getClickedBlock() == null) return;
         if(MaurisBlockTypeManager.isEnabled(e.getClickedBlock().getType().name())) e.setCancelled(true);
     }
 
-    @EventHandler
+    @EventHandler(priority = EventPriority.HIGHEST)
     public void onPhysics(BlockPhysicsEvent e){
 
         if(MaurisBlockTypeManager.isEnabled(e.getChangedType().name())){
