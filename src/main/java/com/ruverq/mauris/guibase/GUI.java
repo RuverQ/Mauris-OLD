@@ -40,6 +40,14 @@ public class GUI implements Listener {
         guiS.put(inventory, this);
     }
 
+    public void clear(){
+        for(int i = 0; i < size; i++){
+            slotGUI slot = new slotGUI(this);
+            slot.setSlotNumber(i);
+            setItem(slot);
+        }
+    }
+
     public void createAndOpen(){
         if(inventory != null){
             guiS.remove(inventory);
@@ -112,6 +120,8 @@ public class GUI implements Listener {
         if(inventory == null){
             create();
         }
+
+        setFor(p);
 
         p.openInventory(inventory);
     }

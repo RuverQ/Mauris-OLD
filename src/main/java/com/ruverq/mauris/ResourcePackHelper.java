@@ -155,7 +155,7 @@ public class ResourcePackHelper implements Listener {
                 }
 
             }
-        }.runTaskLater(Mauris.getInstance(), 5);
+        }.runTaskLater(Mauris.getInstance(), 20);
 
     }
 
@@ -163,7 +163,7 @@ public class ResourcePackHelper implements Listener {
 
     @EventHandler
     public void onJoin(PlayerJoinEvent e){
-        e.getPlayer().setResourcePack(url);
+        this.sendTo(e.getPlayer());
     }
 
     public static boolean withResourcePack(Player player){
