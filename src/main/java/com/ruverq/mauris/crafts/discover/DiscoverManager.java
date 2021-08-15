@@ -2,6 +2,7 @@ package com.ruverq.mauris.crafts.discover;
 
 import com.ruverq.mauris.Mauris;
 import com.ruverq.mauris.crafts.discover.listeners.DLPlayerJoin;
+import com.ruverq.mauris.crafts.discover.listeners.DLPlayerPickup;
 import org.bukkit.Bukkit;
 import org.bukkit.NamespacedKey;
 
@@ -16,6 +17,7 @@ public class DiscoverManager {
 
     public static void setUp(boolean reload){
         addListener(new DLPlayerJoin(), reload);
+        addListener(new DLPlayerPickup(), reload);
     }
 
     public static void unload(){
@@ -29,13 +31,18 @@ public class DiscoverManager {
         if(!reload) Bukkit.getPluginManager().registerEvents(listener, Mauris.getInstance());
     }
 
-    public static void addToQueue(String name, NamespacedKey key){
+    public static void addToQueue(String line, NamespacedKey key){
+
+        String[] args = line.split(" ");
+        if(args.length == 0) return;
+
+        String name = args[0];
         name = name.toLowerCase();
+
         DiscoverListener listener = listenersByName.get(name);
         if(listener == null) return;
 
-
-        listener.addToQueue(key);
+        listener.addToQueue(line, key);
     }
 
 

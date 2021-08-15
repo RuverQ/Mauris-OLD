@@ -8,13 +8,13 @@ import org.bukkit.event.player.PlayerJoinEvent;
 public class DLPlayerJoin implements DiscoverListener {
     @Override
     public String name() {
-        return "playerjoin";
+        return "PLAYERJOIN";
     }
 
     @EventHandler
     public void onPlayerJoin(PlayerJoinEvent e){
         Player p = e.getPlayer();
-        p.discoverRecipes(queue);
+        p.discoverRecipes(queue.values());
     }
 
 }

@@ -17,7 +17,7 @@ ShapeLessTemplate:
   enabled: true
   type: shapeless
   result: iron_ingot
-  discoverBy: playerjoin
+  discoverBy: pickup iron_ingot sugar_cane
   craft:
     ingredients:
       - birch_sapling
@@ -26,7 +26,7 @@ FurnaceTemplate:
   enabled: true
   type: furnace
   result: sugar_cane
-  discoverBy: playerPickUp(item=sugar) # Not working yet
+  discoverBy: playerjoin
   craft:
     ingredient: potion
     experience: 0.5
