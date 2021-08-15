@@ -18,7 +18,7 @@
     <dependency>
         <groupId>com.ruverq</groupId>
         <artifactId>mauris</artifactId>
-        <version>0.1</version>
+        <version>0.2-Alpha</version>
         <scope>provided</scope>
     </dependency>
 </dependencies>
@@ -32,7 +32,7 @@ repositories {
 }
 
 dependencies {
-    implementation 'com.ruverq:mauris:0.1'
+    implementation 'com.ruverq:mauris:0.2-Alpha'
 }
 
 ```

@@ -1,5 +1,5 @@
 name: Mauris
-version: ${project.version}
+version: 0.2-Alpha
 main: com.ruverq.mauris.Mauris
 api-version: 1.16
 prefix: Mauris
@@ -10,4 +10,4 @@ softdepend:
   - MythicMobs
 commands:
   mauris:
-    description: ebat
+    description: General command fo mauris
