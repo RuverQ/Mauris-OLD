@@ -69,6 +69,27 @@ public class ItemBuilder {
         return this;
     }
 
+    public static ItemStack fastItemStatic(String displayName, Material material, String... lore){
+        ItemStack itemStack = new ItemStack(material);
+        return ItemBuilder.fastItemStatic(displayName, itemStack, lore);
+    }
+
+    public static ItemStack fastItemStatic(String displayName, ItemStack from, String... lore){
+        ItemStack item = from.clone();
+        ItemMeta itemMeta = item.getItemMeta();
+        itemMeta.setDisplayName(format(displayName));
+
+        List<String> loreList = new ArrayList<>();
+        for(String lorinka : lore){
+            loreList.add(format(lorinka));
+        }
+        itemMeta.setLore(loreList);
+
+        item.setItemMeta(itemMeta);
+
+        return item;
+    }
+
     public ItemBuilder fastItem(String displayName, Material material, String... lore){
         setDisplayName(displayName);
         setMaterial(material);
@@ -88,13 +109,14 @@ public class ItemBuilder {
         return tag.getString(key);
     }
 
-
     public ItemStack build(){
         ItemStack itemStack = new ItemStack(material);
 
         ItemMeta meta = itemStack.getItemMeta();
+
         meta.setDisplayName(displayName);
         meta.setLore(lore);
+
         if(customModelData > 0){
             meta.setCustomModelData(customModelData);
         }

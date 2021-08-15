@@ -8,6 +8,7 @@ import com.ruverq.mauris.utils.ItemBuilder;
 import lombok.Getter;
 import lombok.Setter;
 import org.bukkit.Material;
+import org.bukkit.inventory.ItemStack;
 
 import java.util.List;
 import java.util.Set;
@@ -27,14 +28,15 @@ public class FoldersGUI extends GUI {
         for(String folder : folders){
             List<MaurisItem> items =  ItemsLoader.getMaurisItems(folder);
             int count = items.size();
+            ItemStack item = items.get(0).getAsItemStack();
 
             slotGUI slot = new slotGUI(this);
             slot.setSlotNumber(i);
-            slot.setItem(new ItemBuilder().fastItem(
+            slot.setItem(ItemBuilder.fastItemStatic(
                     "#d777f2" + folder,
-                    Material.BOOK,
+                    item,
                     "#9c9c9c" + count + "#fcba03 entries"
-            ).build());
+            ));
             slot.setLock(true);
 
             slot.clickOn((e)->{
