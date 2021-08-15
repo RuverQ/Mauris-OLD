@@ -13,7 +13,7 @@ import java.util.List;
 
 public class ItemsGUI extends ItemsPageGUI {
 
-    public static final int itemsOnPage = 44;
+    public static final int itemsOnPage = 45;
 
     List<MaurisItem> maurisItems = ItemsLoader.getMaurisItems();
 
