@@ -1,7 +1,9 @@
 package com.ruverq.mauris.crafts.listeners;
 
 import com.ruverq.mauris.crafts.CraftingManager;
+import com.ruverq.mauris.crafts.events.CancelMaurisItemCraftEvent;
 import com.ruverq.mauris.items.ItemsLoader;
+import org.bukkit.Bukkit;
 import org.bukkit.Keyed;
 import org.bukkit.Material;
 import org.bukkit.event.EventHandler;
@@ -26,6 +28,10 @@ public class CraftCancel implements Listener {
                     String fullkey = keyed.getKey().getNamespace() + ":" + keyed.getKey().getKey();
                     if(CraftingManager.getNamespaceKeysOfRecipes().contains(fullkey)) return;
                 }
+
+                CancelMaurisItemCraftEvent MaurisItemCraftEvent = new CancelMaurisItemCraftEvent(e.getInventory(), e.getView(), e.isRepair());
+                Bukkit.getPluginManager().callEvent(MaurisItemCraftEvent);
+                if(MaurisItemCraftEvent.isCancelled()) return;
 
                 e.getInventory().setResult(new ItemStack(Material.AIR));
                 return;
