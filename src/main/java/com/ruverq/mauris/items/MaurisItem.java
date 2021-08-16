@@ -14,16 +14,11 @@ import org.bukkit.Material;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
-
-import static com.ruverq.mauris.utils.FormatUtils.formatColor;
-import static com.ruverq.mauris.utils.FormatUtils.formatColorList;
 
 public class MaurisItem {
 

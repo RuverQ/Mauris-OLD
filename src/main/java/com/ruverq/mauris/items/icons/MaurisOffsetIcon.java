@@ -4,7 +4,6 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.ruverq.mauris.DataHelper;
 import com.ruverq.mauris.utils.unicode.UnicodeUtils;
-import lombok.Data;
 import lombok.SneakyThrows;
 
 import javax.imageio.ImageIO;

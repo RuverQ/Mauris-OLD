@@ -2,7 +2,6 @@ package com.ruverq.mauris.crafts.listeners;
 
 import com.ruverq.mauris.crafts.CraftingManager;
 import com.ruverq.mauris.items.ItemsLoader;
-import org.bukkit.Bukkit;
 import org.bukkit.Keyed;
 import org.bukkit.Material;
 import org.bukkit.event.EventHandler;

@@ -1,13 +1,10 @@
 package com.ruverq.mauris.items.gui;
 
-import com.ruverq.mauris.guibase.GUI;
 import com.ruverq.mauris.guibase.slotGUI;
 import com.ruverq.mauris.items.ItemsLoader;
 import com.ruverq.mauris.items.MaurisItem;
 import com.ruverq.mauris.utils.ItemBuilder;
-import lombok.Setter;
 import org.bukkit.Material;
-import org.bukkit.entity.Player;
 
 import java.util.List;
 

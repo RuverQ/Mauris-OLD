@@ -1,11 +1,7 @@
 package com.ruverq.mauris.commands;
 
-import com.ruverq.mauris.Mauris;
 import com.ruverq.mauris.ResourcePackHelper;
-import org.bukkit.Bukkit;
 import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Player;
-import org.bukkit.scheduler.BukkitRunnable;
 
 public class RPZipCommand implements SimpleCommand{
 

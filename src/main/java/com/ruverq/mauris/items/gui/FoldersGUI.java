@@ -7,7 +7,6 @@ import com.ruverq.mauris.items.MaurisItem;
 import com.ruverq.mauris.utils.ItemBuilder;
 import lombok.Getter;
 import lombok.Setter;
-import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.List;

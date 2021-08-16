@@ -1,7 +1,6 @@
 package com.ruverq.mauris.commands;
 
 import com.ruverq.mauris.items.ItemsLoader;
-import com.ruverq.mauris.items.MaurisItem;
 import org.bukkit.command.CommandSender;
 
 import static com.ruverq.mauris.commands.CommandManager.format;

@@ -7,8 +7,6 @@ import org.bukkit.SoundCategory;
 import org.bukkit.SoundGroup;
 import org.bukkit.entity.Player;
 
-import java.util.Locale;
-
 public class BlockSounds {
 
     @Getter

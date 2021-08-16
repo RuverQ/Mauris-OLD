@@ -1,15 +1,10 @@
 package com.ruverq.mauris.items.hud;
 
-import com.mysql.jdbc.jdbc2.optional.SuspendableXAConnection;
-import com.ruverq.mauris.Mauris;
 import com.ruverq.mauris.ResourcePackHelper;
-import com.ruverq.mauris.items.ItemsLoader;
 import com.ruverq.mauris.items.icons.MaurisIcon;
-import com.ruverq.mauris.items.icons.MaurisOffsetIcon;
 import net.md_5.bungee.api.ChatMessageType;
 import net.md_5.bungee.api.chat.TextComponent;
 import org.bukkit.Bukkit;
-import org.bukkit.GameMode;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 

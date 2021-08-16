@@ -1,13 +1,11 @@
 package com.ruverq.mauris.items.blocks.listeners;
 
 import com.ruverq.mauris.items.ItemsLoader;
-import com.ruverq.mauris.items.blocks.MaurisBlock;
 import com.ruverq.mauris.items.blocks.blocktypes.MaurisBlockTypeManager;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
-import org.bukkit.block.data.Powerable;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;

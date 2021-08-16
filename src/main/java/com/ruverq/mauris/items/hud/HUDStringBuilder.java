@@ -4,9 +4,7 @@ import com.ruverq.mauris.items.icons.MaurisIcon;
 import com.ruverq.mauris.items.icons.MaurisOffsetIcon;
 import lombok.Getter;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 
 public class HUDStringBuilder{
 

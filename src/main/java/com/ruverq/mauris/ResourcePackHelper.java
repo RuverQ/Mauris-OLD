@@ -1,7 +1,6 @@
 package com.ruverq.mauris;
 
 import com.google.gson.JsonObject;
-import com.ruverq.mauris.utils.ZipUtils;
 import com.sun.net.httpserver.Headers;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;

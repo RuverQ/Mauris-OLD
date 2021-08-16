@@ -1,7 +1,6 @@
 package com.ruverq.mauris.utils;
 
 import net.md_5.bungee.api.ChatColor;
-import net.minecraft.nbt.NBTBase;
 import net.minecraft.nbt.NBTTagCompound;
 import org.bukkit.Material;
 import org.bukkit.craftbukkit.v1_17_R1.inventory.CraftItemStack;

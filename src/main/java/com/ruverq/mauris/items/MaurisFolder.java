@@ -2,7 +2,6 @@ package com.ruverq.mauris.items;
 
 import com.ruverq.mauris.DataHelper;
 import lombok.Getter;
-import org.bukkit.inventory.ItemStack;
 
 import java.io.File;
 import java.util.ArrayList;
