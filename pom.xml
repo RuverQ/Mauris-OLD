@@ -13,7 +13,7 @@
 
     <description>FREE plugin for custom block and custom items</description>
     <properties>
-        <java.version>1.16</java.version>
+        <java.version>16</java.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 
