@@ -179,12 +179,15 @@ public class ItemsLoader {
             icons.put(item.getName(), (MaurisIcon) item);
             return;
         }
+
         if(item instanceof MaurisHUD){
             huds.put(item.getName(), (MaurisHUD) item);
             return;
         }
 
-        itemsByItemStack.put(item.getAsItemStack(), item);
+        ItemStack itemStack = item.getAsItemStack();
+
+        itemsByItemStack.put(itemStack, item);
 
         if(item instanceof MaurisBlock){
             MaurisBlock block = (MaurisBlock) item;

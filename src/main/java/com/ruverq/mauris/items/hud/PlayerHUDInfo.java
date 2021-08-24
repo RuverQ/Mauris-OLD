@@ -23,7 +23,7 @@ public class PlayerHUDInfo {
         MaurisHUD hud = (MaurisHUD) ItemsLoader.getMaurisItem(huds);
         hudsFrame.remove(hud);
         hudsFrame.put(hud, frame);
-        HUDCheker.check(player);
+        HUDChecker.check(player);
     }
 
     public List<MaurisHUD> getHuds(){
@@ -33,7 +33,7 @@ public class PlayerHUDInfo {
     public void setFrame(MaurisHUD hud, int frame){
         hudsFrame.remove(hud);
         hudsFrame.put(hud, frame);
-        HUDCheker.check(player);
+        HUDChecker.check(player);
     }
 
     int getFrame(MaurisHUD hud){

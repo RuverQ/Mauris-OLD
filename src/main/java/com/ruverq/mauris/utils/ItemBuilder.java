@@ -24,6 +24,7 @@ public class ItemBuilder {
     HashMap<String, Integer> nbtIntegerKeys = new HashMap<>();
 
     public ItemBuilder setDisplayName(String displayName) {
+        if(displayName == null) displayName = "";
         this.displayName = format(displayName);
         return this;
     }
