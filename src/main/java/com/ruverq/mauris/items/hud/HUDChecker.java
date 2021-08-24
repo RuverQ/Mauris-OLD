@@ -10,7 +10,7 @@ import org.bukkit.scheduler.BukkitRunnable;
 
 import java.util.List;
 
-public class HUDCheker extends BukkitRunnable {
+public class HUDChecker extends BukkitRunnable {
 
     @Override
     public void run() {
