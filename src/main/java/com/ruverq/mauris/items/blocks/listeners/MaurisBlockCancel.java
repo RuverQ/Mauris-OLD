@@ -1,17 +1,22 @@
 package com.ruverq.mauris.items.blocks.listeners;
 
+import com.ruverq.mauris.Mauris;
 import com.ruverq.mauris.items.ItemsLoader;
+import com.ruverq.mauris.items.blocks.MaurisBlock;
 import com.ruverq.mauris.items.blocks.blocktypes.MaurisBlockTypeManager;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
+import org.bukkit.block.data.BlockData;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.*;
 import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.scheduler.BukkitRunnable;
 
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -75,18 +80,12 @@ public class MaurisBlockCancel implements Listener {
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onPhysics(BlockPhysicsEvent e){
 
-
         if(MaurisBlockTypeManager.isEnabled(e.getChangedType().name())){
             e.setCancelled(true);
         }
 
         if(MaurisBlockTypeManager.isEnabled("TRIPWIRE")){
-
-
-            if (e.getBlock().getType() == Material.TRIPWIRE) {
-
-            }
-
+            updateAndCheckSurroundings(e.getBlock().getLocation());
         }
 
         if(MaurisBlockTypeManager.isEnabled("NOTE_BLOCK")){
@@ -97,6 +96,39 @@ public class MaurisBlockCancel implements Listener {
                 e.setCancelled(true);
             }
         }
+    }
+
+    public void updateAndCheckSurroundings(Location location){
+        Block b = location.getBlock();
+
+        List<Block> blocksToCheck = new ArrayList<>();
+        Block north = b.getRelative(BlockFace.NORTH);
+        Block east = b.getRelative(BlockFace.EAST);
+        Block south = b.getRelative(BlockFace.SOUTH);
+        Block west = b.getRelative(BlockFace.WEST);
+        blocksToCheck.add(north);
+        blocksToCheck.add(east);
+        blocksToCheck.add(south);
+        blocksToCheck.add(west);
+
+        for(Block block : blocksToCheck){
+            if(block.getType() != Material.TRIPWIRE) continue;
+
+            BlockData bd = block.getBlockData();
+            MaurisBlock mb = ItemsLoader.getMaurisBlock(bd);
+
+            if(mb == null) return;
+
+            block.getState().update(true, true);
+
+            new BukkitRunnable() {
+                @Override
+                public void run() {
+                    block.setBlockData(bd);
+                }
+            }.runTaskLater(Mauris.getInstance(), 1);
+        }
+
     }
 
     // Author: MMoneyKiller | https://www.spigotmc.org/threads/prevent-noteblock-blockstate-updating.483242/
