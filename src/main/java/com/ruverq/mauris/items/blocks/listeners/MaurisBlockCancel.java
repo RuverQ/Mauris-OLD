@@ -60,7 +60,6 @@ public class MaurisBlockCancel implements Listener {
                 return;
             }
         }
-
     }
 
     @EventHandler(priority = EventPriority.HIGHEST)
@@ -85,7 +84,10 @@ public class MaurisBlockCancel implements Listener {
         }
 
         if(MaurisBlockTypeManager.isEnabled("TRIPWIRE")){
-            updateAndCheckSurroundings(e.getBlock().getLocation());
+            updateAndCheckSurroundings(e.getBlock().getLocation(), BlockFace.EAST);
+            updateAndCheckSurroundings(e.getBlock().getLocation(), BlockFace.NORTH);
+            updateAndCheckSurroundings(e.getBlock().getLocation(), BlockFace.WEST);
+            updateAndCheckSurroundings(e.getBlock().getLocation(), BlockFace.SOUTH);
         }
 
         if(MaurisBlockTypeManager.isEnabled("NOTE_BLOCK")){
@@ -98,37 +100,22 @@ public class MaurisBlockCancel implements Listener {
         }
     }
 
-    public void updateAndCheckSurroundings(Location location){
-        Block b = location.getBlock();
+    public void updateAndCheckSurroundings(Location location, BlockFace face){
+        Block b = location.getBlock().getRelative(face);
 
-        List<Block> blocksToCheck = new ArrayList<>();
-        Block north = b.getRelative(BlockFace.NORTH);
-        Block east = b.getRelative(BlockFace.EAST);
-        Block south = b.getRelative(BlockFace.SOUTH);
-        Block west = b.getRelative(BlockFace.WEST);
-        blocksToCheck.add(north);
-        blocksToCheck.add(east);
-        blocksToCheck.add(south);
-        blocksToCheck.add(west);
 
-        for(Block block : blocksToCheck){
-            if(block.getType() != Material.TRIPWIRE) continue;
+        if(b.getType() != Material.TRIPWIRE) return;
 
-            BlockData bd = block.getBlockData();
-            MaurisBlock mb = ItemsLoader.getMaurisBlock(bd);
+        BlockData bd = b.getBlockData();
+        new BukkitRunnable() {
+            @Override
+            public void run() {
+                BlockData newbd = b.getBlockData();
+                if(newbd.matches(bd)) return;
 
-            if(mb == null) return;
-
-            block.getState().update(true, true);
-
-            new BukkitRunnable() {
-                @Override
-                public void run() {
-                    block.setBlockData(bd);
-                }
-            }.runTaskLater(Mauris.getInstance(), 1);
-        }
-
+                b.setBlockData(bd, false);
+            }
+        }.runTaskLater(Mauris.getInstance(), 0);
     }
 
     // Author: MMoneyKiller | https://www.spigotmc.org/threads/prevent-noteblock-blockstate-updating.483242/
@@ -140,17 +127,4 @@ public class MaurisBlockCancel implements Listener {
         if (nextBlock.getType() == Material.NOTE_BLOCK)
             updateAndCheck(b);
     }
-
-    public static List<Block> getNearbyBlocks(Location location, int radius) {
-        List<Block> blocks = new ArrayList<>();
-        for(int x = location.getBlockX() - radius; x <= location.getBlockX() + radius; x++) {
-            for(int y = location.getBlockY() - radius; y <= location.getBlockY() + radius; y++) {
-                for(int z = location.getBlockZ() - radius; z <= location.getBlockZ() + radius; z++) {
-                    blocks.add(location.getWorld().getBlockAt(x, y, z));
-                }
-            }
-        }
-        return blocks;
-    }
-
 }
