@@ -75,16 +75,18 @@ public class MaurisBlockCancel implements Listener {
     @EventHandler(priority = EventPriority.HIGHEST)
     public void onPhysics(BlockPhysicsEvent e){
 
+
         if(MaurisBlockTypeManager.isEnabled(e.getChangedType().name())){
             e.setCancelled(true);
         }
 
         if(MaurisBlockTypeManager.isEnabled("TRIPWIRE")){
-            if (e.getBlock().getType() != Material.TRIPWIRE) {
-                return;
+
+
+            if (e.getBlock().getType() == Material.TRIPWIRE) {
+
             }
 
-            Block tripwireBlock = e.getBlock();
         }
 
         if(MaurisBlockTypeManager.isEnabled("NOTE_BLOCK")){
