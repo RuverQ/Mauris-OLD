@@ -1,0 +1,11 @@
+example:
+  displayname: "Example Music Disc"
+  material: paper
+  generateModel: true
+  lore:
+    - "&7RuverQ - Space Station"
+  textures:
+    - example_music_disc.png
+  musicdisc:
+    music: "custom.music.ruverq.spacestation"
+    displayname: "RuverQ - Space Station"

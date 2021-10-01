@@ -7,6 +7,7 @@ import com.ruverq.mauris.DataHelper;
 import com.ruverq.mauris.items.blocks.MaurisBlock;
 import com.ruverq.mauris.items.hud.MaurisHUD;
 import com.ruverq.mauris.items.icons.MaurisIcon;
+import com.ruverq.mauris.items.musicdisc.MaurisMusicDisc;
 import com.ruverq.mauris.utils.ItemBuilder;
 import lombok.Getter;
 import org.bukkit.Bukkit;
@@ -131,6 +132,7 @@ public class MaurisItem {
             MaurisIcon.loadFromConfigurationSection(mb, itemSection);
             MaurisItem.loadFromConfigurationSection(mb, itemSection);
             MaurisBlock.loadFromConfigurationSection(mb, itemSection);
+            MaurisMusicDisc.loadFromConfigurationSection(mb, itemSection);
 
             list.add(mb.build());
         }
@@ -263,6 +265,10 @@ public class MaurisItem {
         DataHelper.createFolder("resource_pack/assets/minecraft/models/item");
         DataHelper.deleteFile("resource_pack/assets/minecraft/models/item/" + material.name().toLowerCase() + ".json");
         DataHelper.createFile("resource_pack/assets/minecraft/models/item/" + material.name().toLowerCase() + ".json", itemJson.toString());
+    }
+
+    public String getFullName(){
+        return getFolder().getName() + ":" + getName();
     }
 
     private JsonObject getDefaultPaperObject(){

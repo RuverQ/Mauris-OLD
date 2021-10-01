@@ -7,6 +7,7 @@ import com.ruverq.mauris.items.blocks.blocktypes.MaurisBlockType;
 import com.ruverq.mauris.items.hud.GameModeChecker;
 import com.ruverq.mauris.items.hud.MaurisHUD;
 import com.ruverq.mauris.items.icons.MaurisIcon;
+import com.ruverq.mauris.items.musicdisc.MaurisMusicDisc;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 
@@ -47,6 +48,13 @@ public class MaurisBuilder {
 
     String model;
 
+    // Music Disc
+
+    boolean isMusicDisc;
+    String music;
+    String displayNameMusic;
+
+
     // ICON
 
     double sizeMultiplier;
@@ -72,11 +80,27 @@ public class MaurisBuilder {
         if(isHUD) return new MaurisHUD(folder, name, textures, displayName, lore, material, generateModel, model, isBlock, maurisBlock, file, xOffset, hudEnabled, frames, vanillaIterator, vanillaIterate, gameModeCheckers, underwaterVisibility);
         if(isIcon) return new MaurisIcon(folder, name, textures, displayName, lore, material, generateModel, model, isBlock, maurisBlock, file, sizeMultiplier, align, yOffset);
         if(isBlock) return new MaurisBlock(folder,name,textures,displayName,lore,material,generateModel, model, true,maurisBlock,file, type, hardness, hardnessPerTool, sounds, lootTable, selfDrop, chanceToBeBlownUp);
+        if(isMusicDisc) return new MaurisMusicDisc(folder,name,textures,displayName,lore,material,generateModel, model, false,maurisBlock, file, music, displayNameMusic);
         return new MaurisItem(folder,name,textures,displayName,lore,material,generateModel, model, false,maurisBlock, file);
     }
 
     public void addHardnessPerTool(ItemStack itemStack, int hardness){
         hardnessPerTool.put(itemStack, hardness);
+    }
+
+    public MaurisBuilder setMusicDisc(boolean enabled){
+        this.isMusicDisc = enabled;
+        return this;
+    }
+
+    public MaurisBuilder setMusicDisplayName(String displayName){
+        this.displayNameMusic = displayName;
+        return this;
+    }
+
+    public MaurisBuilder setMusic(String music){
+        this.music = music;
+        return this;
     }
 
     public MaurisBuilder setGameModeCheckers(List<GameModeChecker> gameModeCheckers) {

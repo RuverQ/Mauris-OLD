@@ -14,6 +14,7 @@ import com.ruverq.mauris.items.blocks.blocktypes.MaurisBlockTypeManager;
 import com.ruverq.mauris.items.blocks.listeners.MaurisBlockBreak;
 import com.ruverq.mauris.items.blocks.listeners.MaurisBlockCancel;
 import com.ruverq.mauris.items.blocks.listeners.MaurisBlockPlace;
+import com.ruverq.mauris.items.musicdisc.listeners.MusicDiscListener;
 import lombok.Setter;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -55,6 +56,8 @@ public final class Mauris extends JavaPlugin {
         Bukkit.getPluginManager().registerEvents(new MaurisBlockBreak(), this);
 
         Bukkit.getPluginManager().registerEvents(new BlockCBBListener(), this);
+
+        Bukkit.getPluginManager().registerEvents(new MusicDiscListener(), this);
 
         PlayerHUDInfoManager infoManager = new PlayerHUDInfoManager();
         PlayerHUDInfoManager.setUp();
