@@ -18,8 +18,10 @@ public class RTMShaped implements RecipeType{
     }
 
     @Override
-    public Recipe loadFromConfigurationSection(ConfigurationSection cs, ItemStack result, NamespacedKey namespace) {
-        ShapedRecipe shapedRecipe = new ShapedRecipe(namespace, result);
+    public Recipe loadFromConfigurationSection(RecipePreloadInformation rpi) {
+        ConfigurationSection cs = rpi.getCraftCS();
+
+        ShapedRecipe shapedRecipe = new ShapedRecipe(rpi.getKey(), rpi.getResult());
 
         String s1 = cs.getString("shape.1");
         String s2 = cs.getString("shape.2");
@@ -50,6 +52,10 @@ public class RTMShaped implements RecipeType{
             }else{
                 shapedRecipe.setIngredient(charkey.toCharArray()[0], new RecipeChoice.ExactChoice(mItem.getAsItemStack()));
             }
+        }
+
+        if(rpi.getGroup() != null && !rpi.getGroup().isEmpty()){
+            shapedRecipe.setGroup(rpi.getGroup());
         }
 
         return shapedRecipe;

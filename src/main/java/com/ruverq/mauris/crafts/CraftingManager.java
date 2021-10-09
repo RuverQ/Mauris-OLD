@@ -2,6 +2,7 @@ package com.ruverq.mauris.crafts;
 
 import com.ruverq.mauris.Mauris;
 import com.ruverq.mauris.crafts.discover.DiscoverManager;
+import com.ruverq.mauris.crafts.types.RecipePreloadInformation;
 import com.ruverq.mauris.crafts.types.RecipeType;
 import com.ruverq.mauris.crafts.types.RecipeTypeManager;
 import com.ruverq.mauris.items.ItemsLoader;
@@ -177,12 +178,16 @@ public class CraftingManager {
         discoverByS = discoverByS.toUpperCase();
         mRecipe.setDiscoverBy(discoverByS);
 
+        String group = s.getString("group");
+
         NamespacedKey namespace = new NamespacedKey(Mauris.getInstance(), mRecipe.getName());
 
         ConfigurationSection craftCS = s.getConfigurationSection("craft");
         if(craftCS == null) return null;
 
-        Recipe recipe = RecipeTypeManager.getFromName(typeS).loadFromConfigurationSection(craftCS, result, namespace);
+        RecipePreloadInformation rpi = new RecipePreloadInformation(result, craftCS, namespace, group);
+
+        Recipe recipe = type.loadFromConfigurationSection(rpi);
 
         mRecipe.setRecipe(recipe);
 

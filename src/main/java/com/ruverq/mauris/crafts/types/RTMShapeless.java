@@ -17,10 +17,11 @@ public class RTMShapeless implements RecipeType{
     }
 
     @Override
-    public Recipe loadFromConfigurationSection(ConfigurationSection cs, ItemStack result, NamespacedKey namespace) {
-        ShapelessRecipe shapelessRecipe = new ShapelessRecipe(namespace, result);
+    public Recipe loadFromConfigurationSection(RecipePreloadInformation rpi) {
 
-        for(String ingredient : cs.getStringList("ingredients")){
+        ShapelessRecipe shapelessRecipe = new ShapelessRecipe(rpi.getKey(), rpi.getResult());
+
+        for(String ingredient : rpi.getCraftCS().getStringList("ingredients")){
 
             MaurisItem mItem = ItemsLoader.getMaurisItem(ingredient);
 
@@ -32,7 +33,10 @@ public class RTMShapeless implements RecipeType{
             }else{
                 shapelessRecipe.addIngredient(new RecipeChoice.ExactChoice(mItem.getAsItemStack()));
             }
+        }
 
+        if(rpi.getGroup() != null && !rpi.getGroup().isEmpty()){
+            shapelessRecipe.setGroup(rpi.getGroup());
         }
 
         return shapelessRecipe;

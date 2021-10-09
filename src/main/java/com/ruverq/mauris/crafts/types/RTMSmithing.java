@@ -15,7 +15,9 @@ public class RTMSmithing implements RecipeType{
     }
 
     @Override
-    public Recipe loadFromConfigurationSection(ConfigurationSection cs, ItemStack result, NamespacedKey namespace) {
+    public Recipe loadFromConfigurationSection(RecipePreloadInformation rpi) {
+        ConfigurationSection cs = rpi.getCraftCS();
+
         String fingrS = cs.getString("firstIngredient");
         String singrS = cs.getString("secondIngredient");
 
@@ -25,7 +27,7 @@ public class RTMSmithing implements RecipeType{
         Material second = Material.matchMaterial(singrS);
         if(first == null || second == null) return null;
 
-        SmithingRecipe smithingRecipe = new SmithingRecipe(namespace, result, new RecipeChoice.MaterialChoice(first), new RecipeChoice.MaterialChoice(second));
+        SmithingRecipe smithingRecipe = new SmithingRecipe(rpi.getKey(), rpi.getResult(), new RecipeChoice.MaterialChoice(first), new RecipeChoice.MaterialChoice(second));
         return smithingRecipe;
     }
 

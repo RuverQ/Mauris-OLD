@@ -14,21 +14,28 @@ public class RTMCampfire implements RecipeType{
     }
 
     @Override
-    public Recipe loadFromConfigurationSection(ConfigurationSection cs, ItemStack result, NamespacedKey namespace) {
+    public Recipe loadFromConfigurationSection(RecipePreloadInformation rpi) {
+        ConfigurationSection cs = rpi.getCraftCS();
+
         float experience = (float) cs.getDouble("experience", 20);
         int cookingTime = cs.getInt("cookingTime", 20);
         String ingrS = cs.getString("ingredient");
         if(ingrS == null) return null;
 
         MaurisItem mItem = ItemsLoader.getMaurisItem(ingrS);
+        CampfireRecipe recipe = null;
         if(mItem == null){
             Material ingr = Material.matchMaterial(ingrS);
             if(ingr == null) return null;
 
-            return new CampfireRecipe(namespace, result, ingr, experience, cookingTime);
+            recipe = new CampfireRecipe(rpi.getKey(), rpi.getResult(), ingr, experience, cookingTime);
         }else{
-            return new CampfireRecipe(namespace, result, new RecipeChoice.ExactChoice(mItem.getAsItemStack()), experience, cookingTime);
+            recipe = new CampfireRecipe(rpi.getKey(), rpi.getResult(), new RecipeChoice.ExactChoice(mItem.getAsItemStack()), experience, cookingTime);
         }
+        if(rpi.getGroup() != null && !rpi.getGroup().isEmpty()){
+            recipe.setGroup(rpi.getGroup());
+        }
+        return recipe;
     }
 
 }

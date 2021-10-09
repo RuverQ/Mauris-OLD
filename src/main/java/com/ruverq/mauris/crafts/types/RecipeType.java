@@ -9,6 +9,6 @@ public interface RecipeType {
 
     String name();
 
-    Recipe loadFromConfigurationSection(ConfigurationSection cs, ItemStack result, NamespacedKey namespace);
+    Recipe loadFromConfigurationSection(RecipePreloadInformation rpi);
 
 }

@@ -3,6 +3,7 @@ ShapedTemplate:
   enabled: true
   type: shaped
   result: paper
+  group: "lolkekw"
   resultAmount: 2
   discoverBy: playerjoin
   craft:
