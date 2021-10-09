@@ -58,7 +58,7 @@ public class CommandManager implements TabExecutor {
     public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
 
         if(args.length < 1){
-            sender.sendMessage(getPrefix() + "Недостаточно аргументов");
+            sender.sendMessage(getPrefix() + "Not enough arguments");
             return true;
         }
 
@@ -66,15 +66,15 @@ public class CommandManager implements TabExecutor {
         SimpleCommand sc = getCommand(sSubCommand);
 
         if(sc == null){
-            sender.sendMessage(getPrefix() + "Ошибка");
+            sender.sendMessage(getPrefix() + "Error");
             return true;
         }
         if(sc.onlyPlayer() && !(sender instanceof Player)){
-            sender.sendMessage(getPrefix() + "Эту команду нельзя возпроизвести из консоли");
+            sender.sendMessage(getPrefix() + "You can't run this command from console");
             return true;
         }
         if(!sender.hasPermission(sc.permission())){
-            sender.sendMessage(getPrefix() + "Нет прав");
+            sender.sendMessage(getPrefix() + "Not enough permissions");
             return true;
         }
 
