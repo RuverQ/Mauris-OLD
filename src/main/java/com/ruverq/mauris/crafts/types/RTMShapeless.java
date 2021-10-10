@@ -10,6 +10,9 @@ import org.bukkit.inventory.Recipe;
 import org.bukkit.inventory.RecipeChoice;
 import org.bukkit.inventory.ShapelessRecipe;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class RTMShapeless implements RecipeType{
     @Override
     public String name() {
@@ -23,16 +26,12 @@ public class RTMShapeless implements RecipeType{
 
         for(String ingredient : rpi.getCraftCS().getStringList("ingredients")){
 
-            MaurisItem mItem = ItemsLoader.getMaurisItem(ingredient);
+            String[] choices = ingredient.split(" ");
 
-            if(mItem == null){
-                Material material = Material.matchMaterial(ingredient);
-                if(material == null) continue;
+            ChoiceUnit cu = new ChoiceUnit();
+            cu.addItems(choices);
 
-                shapelessRecipe.addIngredient(material);
-            }else{
-                shapelessRecipe.addIngredient(new RecipeChoice.ExactChoice(mItem.getAsItemStack()));
-            }
+            shapelessRecipe.addIngredient(cu.buildChoice());
         }
 
         if(rpi.getGroup() != null && !rpi.getGroup().isEmpty()){

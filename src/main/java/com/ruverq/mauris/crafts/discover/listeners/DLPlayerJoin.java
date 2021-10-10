@@ -14,6 +14,7 @@ public class DLPlayerJoin implements DiscoverListener {
     @EventHandler
     public void onPlayerJoin(PlayerJoinEvent e){
         Player p = e.getPlayer();
+        
         p.discoverRecipes(queue.values());
     }
 

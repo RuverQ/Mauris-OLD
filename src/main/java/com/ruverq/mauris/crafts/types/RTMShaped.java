@@ -42,16 +42,13 @@ public class RTMShaped implements RecipeType{
         for(String charkey : cs.getConfigurationSection("ingredients").getKeys(false)){
             String materialS = cs.getString("ingredients." + charkey);
             if(materialS == null) continue;
-            MaurisItem mItem = ItemsLoader.getMaurisItem(materialS);
 
-            if(mItem == null){
-                Material material = Material.matchMaterial(materialS);
-                if(material == null) continue;
+            String[] choices = materialS.split(" ");
 
-                shapedRecipe.setIngredient(charkey.toCharArray()[0], material);
-            }else{
-                shapedRecipe.setIngredient(charkey.toCharArray()[0], new RecipeChoice.ExactChoice(mItem.getAsItemStack()));
-            }
+            ChoiceUnit unit = new ChoiceUnit();
+            unit.addItems(choices);
+            
+            shapedRecipe.setIngredient(charkey.toCharArray()[0], unit.buildChoice());
         }
 
         if(rpi.getGroup() != null && !rpi.getGroup().isEmpty()){
