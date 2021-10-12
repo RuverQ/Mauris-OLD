@@ -8,10 +8,16 @@ import com.ruverq.mauris.items.hud.GameModeChecker;
 import com.ruverq.mauris.items.hud.MaurisHUD;
 import com.ruverq.mauris.items.icons.MaurisIcon;
 import com.ruverq.mauris.items.musicdisc.MaurisMusicDisc;
+import com.ruverq.mauris.utils.ItemBuilder;
 import org.bukkit.Material;
+import org.bukkit.attribute.Attribute;
+import org.bukkit.attribute.AttributeModifier;
+import org.bukkit.enchantments.Enchantment;
+import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -76,16 +82,23 @@ public class MaurisBuilder {
     List<GameModeChecker> gameModeCheckers;
     boolean underwaterVisibility;
 
+    ItemCharacteristics itemCharacteristics = new ItemCharacteristics();
+
     public MaurisItem build(){
-        if(isHUD) return new MaurisHUD(folder, name, textures, displayName, lore, material, generateModel, model, isBlock, maurisBlock, file, xOffset, hudEnabled, frames, vanillaIterator, vanillaIterate, gameModeCheckers, underwaterVisibility);
-        if(isIcon) return new MaurisIcon(folder, name, textures, displayName, lore, material, generateModel, model, isBlock, maurisBlock, file, sizeMultiplier, align, yOffset);
-        if(isBlock) return new MaurisBlock(folder,name,textures,displayName,lore,material,generateModel, model, true,maurisBlock,file, type, hardness, hardnessPerTool, sounds, lootTable, selfDrop, chanceToBeBlownUp);
-        if(isMusicDisc) return new MaurisMusicDisc(folder,name,textures,displayName,lore,material,generateModel, model, false,maurisBlock, file, music, displayNameMusic);
-        return new MaurisItem(folder,name,textures,displayName,lore,material,generateModel, model, false,maurisBlock, file);
+        if(isHUD) return new MaurisHUD(folder, name, textures,itemCharacteristics, generateModel, model, isBlock, maurisBlock, file, xOffset, hudEnabled, frames, vanillaIterator, vanillaIterate, gameModeCheckers, underwaterVisibility);
+        if(isIcon) return new MaurisIcon(folder, name, textures,itemCharacteristics, generateModel, model, isBlock, maurisBlock, file, sizeMultiplier, align, yOffset);
+        if(isBlock) return new MaurisBlock(folder,name,textures,itemCharacteristics, generateModel, model, true,maurisBlock,file, type, hardness, hardnessPerTool, sounds, lootTable, selfDrop, chanceToBeBlownUp);
+        if(isMusicDisc) return new MaurisMusicDisc(folder,name,textures,itemCharacteristics, generateModel, model, false,maurisBlock, file, music, displayNameMusic);
+        return new MaurisItem(folder,name,textures,itemCharacteristics,generateModel, model, false,maurisBlock, file);
     }
 
     public void addHardnessPerTool(ItemStack itemStack, int hardness){
         hardnessPerTool.put(itemStack, hardness);
+    }
+
+    public MaurisBuilder setItemCharacteristics(ItemCharacteristics itemCharacteristics){
+        this.itemCharacteristics = itemCharacteristics;
+        return this;
     }
 
     public MaurisBuilder setMusicDisc(boolean enabled){
@@ -216,16 +229,6 @@ public class MaurisBuilder {
         return this;
     }
 
-    public MaurisBuilder setDisplayName(String displayName){
-        this.displayName = displayName;
-        return this;
-    }
-
-    public MaurisBuilder addLore(String line){
-        lore.add(line);
-        return this;
-    }
-
     public MaurisBuilder setTextures(MaurisTextures textures){
         this.textures = textures;
         return this;
@@ -240,22 +243,6 @@ public class MaurisBuilder {
         MaurisTextures mTextures = new MaurisTextures();
         mTextures.setTextures(textures);
         this.textures = mTextures;
-        return this;
-    }
-
-    public MaurisBuilder setLore(List<String> lines){
-        this.lore = lines;
-        return this;
-    }
-
-    public MaurisBuilder setMaterial(Material material){
-        this.material = material;
-        return this;
-    }
-
-    public MaurisBuilder setMaterial(String material){
-        if(material == null) return this;
-        this.material = Material.matchMaterial(material);
         return this;
     }
 

@@ -2,6 +2,12 @@ example:
   displayname: "Example Item"
   material: paper
   generateModel: true
+  enchantments:
+    - KNOCKBACK 10
+  itemFlags:
+    - HIDE_ENCHANTS
+  attributes:
+    - GENERIC_MAX_HEALTH 10 ADD_NUMBER
   lore:
     - "&7bruh"
   textures:

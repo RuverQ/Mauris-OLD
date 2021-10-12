@@ -1,9 +1,6 @@
 package com.ruverq.mauris.items.musicdisc;
 
-import com.ruverq.mauris.items.MaurisBuilder;
-import com.ruverq.mauris.items.MaurisFolder;
-import com.ruverq.mauris.items.MaurisItem;
-import com.ruverq.mauris.items.MaurisTextures;
+import com.ruverq.mauris.items.*;
 import com.ruverq.mauris.items.blocks.MaurisBlock;
 import lombok.Getter;
 import org.bukkit.Material;
@@ -14,8 +11,8 @@ import java.util.List;
 
 public class MaurisMusicDisc extends MaurisItem {
 
-    public MaurisMusicDisc(MaurisFolder folder, String name, MaurisTextures textures, String displayName, List<String> lore, Material material, boolean generateModel, String model, boolean isBlock, MaurisBlock maurisBlock, File file, String music, String displayMusicName) {
-        super(folder, name, textures, displayName, lore, material, generateModel, model, isBlock, maurisBlock, file);
+    public MaurisMusicDisc(MaurisFolder folder, String name, MaurisTextures textures, ItemCharacteristics itemCharacteristics, boolean generateModel, String model, boolean isBlock, MaurisBlock maurisBlock, File file, String music, String displayMusicName) {
+        super(folder, name, textures, itemCharacteristics, generateModel, model, isBlock, maurisBlock, file);
 
         this.music = music;
         this.displayMusicName = displayMusicName;

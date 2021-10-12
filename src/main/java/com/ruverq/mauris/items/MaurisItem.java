@@ -14,6 +14,7 @@ import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemStack;
 
 import java.io.File;
@@ -55,14 +56,18 @@ public class MaurisItem {
     @Getter
     protected int id;
 
-    public MaurisItem(MaurisFolder folder, String name, MaurisTextures textures, String displayName, List<String> lore, Material material, boolean generateModel, String model, boolean isBlock, MaurisBlock maurisBlock, File file) {
+    @Getter
+    ItemCharacteristics itemC;
+
+    public MaurisItem(MaurisFolder folder, String name, MaurisTextures textures, ItemCharacteristics itemC, boolean generateModel, String model, boolean isBlock, MaurisBlock maurisBlock, File file) {
         this.folder = folder;
         this.name = name;
         this.textures = textures;
-        this.displayName = displayName;
-        this.lore = lore;
+        this.displayName = itemC.getDisplayName();
+        this.lore = itemC.getLore();
         this.model = model;
-        this.material = material;
+        this.itemC = itemC;
+        this.material = itemC.getMaterial();
         this.generateModel = generateModel;
         this.maurisBlock = maurisBlock;
         this.isBlock = isBlock;
@@ -76,6 +81,9 @@ public class MaurisItem {
         builder.setMaterial(material);
         builder.setLore(lore);
         builder.setCustomModelData(id);
+        builder.setItemFlags(itemC.getItemFlags());
+        builder.setAttributes(itemC.getAttributes());
+        builder.setEnchantmentList(itemC.getEnchantments());
         builder.addNBTTag("name", name);
         builder.addNBTTag("folder", getFolder().getName());
 
@@ -91,19 +99,27 @@ public class MaurisItem {
         List<String> lore = cs.getStringList("lore");
         List<String> textures = cs.getStringList("textures");
 
+        List<String> enchants = cs.getStringList("enchantments");
+        List<String> itemFlags = cs.getStringList("itemFlags");
+        List<String> attributes = cs.getStringList("attributes");
+
         if(model != null) generateModel = false;
+
+        ItemCharacteristics itemC = new ItemCharacteristics();
+        itemC.setDisplayName(displayname);
+        itemC.setLore(lore);
+        itemC.setMaterial(material);
+        itemC.addAttributes(attributes);
+        itemC.addEnchantments(enchants);
+        itemC.addItemFlags(itemFlags);
 
         mb.setTextures(textures);
 
         mb
-                .setDisplayName(displayname)
-                .setLore(lore)
+                .setItemCharacteristics(itemC)
                 .setName(cs.getName())
-                .setMaterial(material)
                 .setGenerateModel(generateModel)
                 .setModel(model);
-
-        return;
     }
 
     public MaurisBlock getAsMaurisBlock(){

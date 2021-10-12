@@ -2,8 +2,15 @@ package com.ruverq.mauris.utils;
 
 import net.md_5.bungee.api.ChatColor;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.world.item.ItemGlassBottle;
+import org.apache.commons.lang.StringUtils;
 import org.bukkit.Material;
+import org.bukkit.NamespacedKey;
+import org.bukkit.attribute.Attribute;
+import org.bukkit.attribute.AttributeModifier;
 import org.bukkit.craftbukkit.v1_17_R1.inventory.CraftItemStack;
+import org.bukkit.enchantments.Enchantment;
+import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 
@@ -13,6 +20,7 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+// cringe class
 public class ItemBuilder {
 
     String displayName = "ERROR";
@@ -23,11 +31,46 @@ public class ItemBuilder {
     HashMap<String, String> nbtStringKeys = new HashMap<>();
     HashMap<String, Integer> nbtIntegerKeys = new HashMap<>();
 
+    HashMap<Enchantment, Integer> enchantments = new HashMap<>();
+    List<ItemFlag> itemFlags = new ArrayList<>();
+    HashMap<Attribute, AttributeModifier> attributes = new HashMap<>();
+
     public ItemBuilder setDisplayName(String displayName) {
         if(displayName == null) displayName = "";
         this.displayName = format(displayName);
         return this;
     }
+
+    public ItemBuilder setAttributes(HashMap<Attribute, AttributeModifier> attributes){
+        this.attributes = attributes;
+        return this;
+    }
+
+    public ItemBuilder addAttribute(Attribute attribute, AttributeModifier attributeModifier){
+        attributes.put(attribute, attributeModifier);
+        return this;
+    }
+
+    public ItemBuilder setEnchantmentList(HashMap<Enchantment, Integer> enchantments){
+        this.enchantments = enchantments;
+        return this;
+    }
+
+    public ItemBuilder addItemFlag(ItemFlag itemFlag){
+        itemFlags.add(itemFlag);
+        return this;
+    }
+
+    public ItemBuilder setItemFlags(List<ItemFlag> itemFlags){
+        this.itemFlags = itemFlags;
+        return this;
+    }
+
+    public ItemBuilder addEnchantment(Enchantment enchantment, int level){
+        enchantments.put(enchantment, level);
+        return this;
+    }
+
 
     public ItemBuilder addLore(String line) {
         lore.add(format(line));
@@ -119,6 +162,20 @@ public class ItemBuilder {
 
         if(customModelData > 0){
             meta.setCustomModelData(customModelData);
+        }
+
+        for(Enchantment enchantment : enchantments.keySet()){
+            int level = enchantments.get(enchantment);
+            meta.addEnchant(enchantment, level, true);
+        }
+
+        for(ItemFlag flag : itemFlags){
+            meta.addItemFlags(flag);
+        }
+
+        for(Attribute attribute : attributes.keySet()){
+            AttributeModifier attributeModifier = attributes.get(attribute);
+            meta.addAttributeModifier(attribute, attributeModifier);
         }
 
         itemStack.setItemMeta(meta);
