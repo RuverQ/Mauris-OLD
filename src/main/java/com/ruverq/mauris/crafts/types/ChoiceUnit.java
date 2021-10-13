@@ -41,8 +41,6 @@ public class ChoiceUnit {
         }
     }
 
-
-
     public RecipeChoice buildChoice(){
         if(itemStacks.isEmpty() && !materialList.isEmpty()){
             return new RecipeChoice.MaterialChoice(materialList);

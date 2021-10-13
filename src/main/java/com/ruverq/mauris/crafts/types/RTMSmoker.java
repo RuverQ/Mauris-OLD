@@ -22,17 +22,11 @@ public class RTMSmoker implements RecipeType{
         String ingrS = cs.getString("ingredient");
         if(ingrS == null) return null;
 
-        MaurisItem mItem = ItemsLoader.getMaurisItem(ingrS);
+        ChoiceUnit cu = new ChoiceUnit();
+        String[] splitted = ingrS.split(" ");
+        cu.addItems(splitted);
 
-        SmokingRecipe recipe = null;
-        if(mItem == null){
-            Material ingr = Material.matchMaterial(ingrS);
-            if(ingr == null) return null;
-
-            recipe = new SmokingRecipe(rpi.getKey(), rpi.getResult(), ingr, experience, cookingTime);
-        }else{
-            recipe = new SmokingRecipe(rpi.getKey(), rpi.getResult(), new RecipeChoice.ExactChoice(mItem.getAsItemStack()), experience, cookingTime);
-        }
+        SmokingRecipe recipe = new SmokingRecipe(rpi.getKey(), rpi.getResult(), cu.buildChoice(), experience, cookingTime);
 
         if(rpi.getGroup() != null && !rpi.getGroup().isEmpty()){
             recipe.setGroup(rpi.getGroup());

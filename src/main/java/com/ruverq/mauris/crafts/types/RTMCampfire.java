@@ -22,19 +22,16 @@ public class RTMCampfire implements RecipeType{
         String ingrS = cs.getString("ingredient");
         if(ingrS == null) return null;
 
-        MaurisItem mItem = ItemsLoader.getMaurisItem(ingrS);
-        CampfireRecipe recipe = null;
-        if(mItem == null){
-            Material ingr = Material.matchMaterial(ingrS);
-            if(ingr == null) return null;
+        ChoiceUnit cu = new ChoiceUnit();
+        String[] splitted = ingrS.split(" ");
+        cu.addItems(splitted);
 
-            recipe = new CampfireRecipe(rpi.getKey(), rpi.getResult(), ingr, experience, cookingTime);
-        }else{
-            recipe = new CampfireRecipe(rpi.getKey(), rpi.getResult(), new RecipeChoice.ExactChoice(mItem.getAsItemStack()), experience, cookingTime);
-        }
+        CampfireRecipe recipe = new CampfireRecipe(rpi.getKey(), rpi.getResult(), cu.buildChoice(), experience, cookingTime);
+
         if(rpi.getGroup() != null && !rpi.getGroup().isEmpty()){
             recipe.setGroup(rpi.getGroup());
         }
+
         return recipe;
     }
 

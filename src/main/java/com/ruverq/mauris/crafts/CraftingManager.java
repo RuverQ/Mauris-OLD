@@ -133,7 +133,7 @@ public class CraftingManager {
         }
     }
 
-    public static void loadCraft(MaurisRecipe recipe){
+    public static void  loadCraft(MaurisRecipe recipe){
 
         try{
             Bukkit.getServer().addRecipe(recipe.getRecipe());
