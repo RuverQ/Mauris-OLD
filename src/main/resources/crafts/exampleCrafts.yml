@@ -5,6 +5,8 @@ ShapedTemplate:
   result: paper
   group: "lolkekw"
   resultAmount: 2
+  returnItems:
+    - iron_ingot
   discoverBy: playerjoin
   craft:
     shape:

@@ -133,7 +133,7 @@ public class CraftingManager {
         }
     }
 
-    public static void  loadCraft(MaurisRecipe recipe){
+    public static void loadCraft(MaurisRecipe recipe){
 
         try{
             Bukkit.getServer().addRecipe(recipe.getRecipe());
@@ -150,6 +150,16 @@ public class CraftingManager {
 
         DiscoverManager.addToQueue(recipe.getDiscoverBy(), key);
         loadedRecipes.add(recipe);
+    }
+
+    public static MaurisRecipe getRecipeByName(String name){
+        for(MaurisRecipe recipe : getLoadedRecipes()){
+            if(recipe.getName().equalsIgnoreCase(name)){
+                return recipe;
+            }
+        }
+
+        return null;
     }
 
     public static MaurisRecipe getFRPRecipeFromYAML(String craftN, ConfigurationSection s) {
@@ -179,6 +189,9 @@ public class CraftingManager {
         mRecipe.setDiscoverBy(discoverByS);
 
         String group = s.getString("group");
+
+        List<String> returnItems = s.getStringList("returnItems");
+        mRecipe.addItems(returnItems);
 
         NamespacedKey namespace = new NamespacedKey(Mauris.getInstance(), mRecipe.getName());
 

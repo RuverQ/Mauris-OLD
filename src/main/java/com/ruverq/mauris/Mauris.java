@@ -4,6 +4,7 @@ import com.ruverq.mauris.commands.CommandManager;
 import com.ruverq.mauris.compatibility.MythicMobsLoot;
 import com.ruverq.mauris.crafts.CraftingManager;
 import com.ruverq.mauris.crafts.listeners.CraftCancel;
+import com.ruverq.mauris.crafts.listeners.CraftListener;
 import com.ruverq.mauris.guibase.GUI;
 import com.ruverq.mauris.items.ItemsLoader;
 import com.ruverq.mauris.items.hud.PlayerHUDInfoManager;
@@ -68,6 +69,7 @@ public final class Mauris extends JavaPlugin {
         }
 
         Bukkit.getPluginManager().registerEvents(new CraftCancel(), this);
+        Bukkit.getPluginManager().registerEvents(new CraftListener(), this);
         CraftingManager.setUp(false);
 
 
