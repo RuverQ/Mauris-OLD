@@ -23,6 +23,7 @@ public class CommandManager implements TabExecutor {
         addCommand(new BlockDataListCommand());
         addCommand(new SetHUDFrameCommand());
         addCommand(new CreateCraftCommand());
+        addCommand(new GiveCommand());
     }
 
     public static String getMain() {
@@ -93,11 +94,17 @@ public class CommandManager implements TabExecutor {
             }
             return commands;
         }else{
-
             SimpleCommand scS = getCommand(args[0]);
             if(scS == null) return new ArrayList<>();
+            List<String> tabCompleter = scS.tabCompleter(args);
+            List<String> tabCompleterBruh = new ArrayList<>();
+            String currentArg = args[1];
 
-            return scS.tabCompleter(args);
+            for(String bruh : tabCompleter){
+                if(bruh.contains(currentArg)) tabCompleterBruh.add(bruh);
+            }
+
+            return tabCompleterBruh;
         }
     }
 }
