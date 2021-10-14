@@ -32,7 +32,6 @@ public class DiscoverManager {
     }
 
     public static void addToQueue(String line, NamespacedKey key){
-
         String[] args = line.split(" ");
         if(args.length == 0) return;
 

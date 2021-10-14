@@ -33,7 +33,6 @@ public class CraftListener implements Listener {
         String name = keyed.getKey().getKey();
         MaurisRecipe mRecipe = CraftingManager.getRecipeByName(name);
 
-
         MaurisCraftEvent mce = new MaurisCraftEvent(e.getRecipe(), e.getView(), e.getSlotType(), e.getSlot(), e.getClick(), e.getAction(), mRecipe);
         Bukkit.getPluginManager().callEvent(mce);
         if(mce.isCancelled()) e.setCancelled(true);

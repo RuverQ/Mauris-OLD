@@ -2,6 +2,7 @@ package com.ruverq.mauris.crafts.types;
 
 import com.ruverq.mauris.items.ItemsLoader;
 import com.ruverq.mauris.items.MaurisItem;
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.RecipeChoice;
@@ -27,7 +28,10 @@ public class ChoiceUnit {
 
         if(mItem == null){
             Material material = Material.matchMaterial(name);
-            if(material == null) return;
+            if(material == null) {
+                Bukkit.getLogger().warning("Can't find " + name + " for the ingredient");
+                return;
+            }
 
             addItem(material);
         }else{
@@ -42,6 +46,7 @@ public class ChoiceUnit {
     }
 
     public RecipeChoice buildChoice(){
+
         if(itemStacks.isEmpty() && !materialList.isEmpty()){
             return new RecipeChoice.MaterialChoice(materialList);
         }

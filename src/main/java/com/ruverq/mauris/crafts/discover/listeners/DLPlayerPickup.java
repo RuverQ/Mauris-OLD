@@ -23,8 +23,8 @@ public class DLPlayerPickup implements DiscoverListener {
 
     @Override
     public void addToQueue(String line, NamespacedKey key) {
-        queue.put(line, key);
-        System.out.println(" loadas das");
+        QueueInformation qi = new QueueInformation(line, key);
+        queue.add(qi);
 
         String[] args = line.split(" ");
         if(args.length < 2) return;
