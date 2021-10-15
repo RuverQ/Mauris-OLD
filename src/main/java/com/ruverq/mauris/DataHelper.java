@@ -22,7 +22,6 @@ public class DataHelper {
     public static void setUp(){
 
         createFolder("mauris");
-        createFolder("mauris/namespace");
 
         createFolder("resource_pack/assets/minecraft");
         createFile("ids.yml", "");

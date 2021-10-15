@@ -7,6 +7,7 @@ import com.ruverq.mauris.crafts.listeners.CraftCancel;
 import com.ruverq.mauris.crafts.listeners.CraftListener;
 import com.ruverq.mauris.guibase.GUI;
 import com.ruverq.mauris.items.ItemsLoader;
+import com.ruverq.mauris.items.blocks.MaurisLootTable;
 import com.ruverq.mauris.items.hud.PlayerHUDInfoManager;
 import com.ruverq.mauris.items.icons.MaurisIconPlaceholder;
 import com.ruverq.mauris.items.blocks.blockhardness.BlockCBBListener;
@@ -41,6 +42,9 @@ public final class Mauris extends JavaPlugin {
         MaurisBlockTypeManager.setUp();
 
         DataHelper.setUp();
+
+        MaurisLootTable.loadLootTables();
+
         ItemsLoader.load();
 
         CommandManager.setUp();

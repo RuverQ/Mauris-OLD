@@ -133,7 +133,15 @@ public class MaurisBlock extends MaurisItem {
             }
         }
 
-        MaurisLootTable lootTable = MaurisLootTable.fromConfigSection(blockcs.getConfigurationSection("lootTable"));
+        MaurisLootTable lootTable = null;
+        if(blockcs.isConfigurationSection("lootTable")){
+            lootTable = MaurisLootTable.fromConfigSection(blockcs.getConfigurationSection("lootTable"));
+        }else{
+            String name = blockcs.getString("lootTable");
+            if(name == null) return;
+            lootTable = MaurisLootTable.getLootTableByName(name);
+        }
+
         mb.setLootTable(lootTable);
     }
 
