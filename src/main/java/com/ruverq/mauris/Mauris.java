@@ -8,6 +8,7 @@ import com.ruverq.mauris.crafts.listeners.CraftListener;
 import com.ruverq.mauris.guibase.GUI;
 import com.ruverq.mauris.items.ItemsLoader;
 import com.ruverq.mauris.items.blocks.MaurisLootTable;
+import com.ruverq.mauris.items.blocks.listeners.MaurisMiddleClickOnBlock;
 import com.ruverq.mauris.items.hud.PlayerHUDInfoManager;
 import com.ruverq.mauris.items.icons.MaurisIconPlaceholder;
 import com.ruverq.mauris.items.blocks.blockhardness.BlockCBBListener;
@@ -59,6 +60,7 @@ public final class Mauris extends JavaPlugin {
         Bukkit.getPluginManager().registerEvents(new MaurisBlockPlace(), this);
         Bukkit.getPluginManager().registerEvents(new MaurisBlockCancel(), this);
         Bukkit.getPluginManager().registerEvents(new MaurisBlockBreak(), this);
+        new MaurisMiddleClickOnBlock().setTimer();
 
         Bukkit.getPluginManager().registerEvents(new BlockCBBListener(), this);
 
