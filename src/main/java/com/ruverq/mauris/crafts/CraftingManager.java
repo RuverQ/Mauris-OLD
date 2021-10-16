@@ -122,15 +122,16 @@ public class CraftingManager {
 
                 MaurisRecipe recipe = getFRPRecipeFromYAML(craftN, s);
                 if(recipe == null){
-                    System.out.println("Cannot load craft" + craftN + " from " + craftfile.getName());
+                    Bukkit.getLogger().warning("Cannot load craft" + craftN + " from " + craftfile.getName());
                     continue;
                 }
                 recipe.setFile(craftfile);
 
                 loadCraft(recipe);
             }
-
         }
+
+        Bukkit.getLogger().info("Loaded " + loadedRecipes.size() + " recipes");
     }
 
     public static void loadCraft(MaurisRecipe recipe){
@@ -171,14 +172,26 @@ public class CraftingManager {
         typeS = typeS.toUpperCase(Locale.ROOT);
 
         RecipeType type = RecipeTypeManager.getFromName(typeS);
+        if(type == null){
+            Bukkit.getLogger().warning("Type " + typeS + " from " + craftN + " does not exists");
+            return null;
+        }
 
         String resultS = s.getString("result");
-        if(resultS == null) return null;
+
+        if(resultS == null) {
+            Bukkit.getLogger().warning("Result from " + craftN + " is null");
+            return null;
+        }
 
         int resultAmount = s.getInt("resultAmount", 1);
 
         ItemStack result = ItemsLoader.getMaurisItem(resultS, true);
-        if(result == null) return null;
+
+        if(result == null) {
+            Bukkit.getLogger().warning("Result " + resultS + " from " + craftN + " does not exists");
+            return null;
+        }
         result.setAmount(resultAmount);
 
         String discoverByS = s.getString("discoverBy");
@@ -196,11 +209,15 @@ public class CraftingManager {
         NamespacedKey namespace = new NamespacedKey(Mauris.getInstance(), mRecipe.getName());
 
         ConfigurationSection craftCS = s.getConfigurationSection("craft");
-        if(craftCS == null) return null;
+        if(craftCS == null) {
+            Bukkit.getLogger().warning("CraftCS " + craftCS.getName() + " is null");
+            return null;
+        }
 
         RecipePreloadInformation rpi = new RecipePreloadInformation(result, craftCS, namespace, group);
 
         Recipe recipe = type.loadFromConfigurationSection(rpi);
+        if(recipe == null) return null;
 
         mRecipe.setRecipe(recipe);
 
