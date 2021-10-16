@@ -27,17 +27,15 @@ public class MaurisMiddleClickOnBlock implements Listener {
                 for(Player p : Bukkit.getOnlinePlayers()){
                     if(p.getGameMode() != GameMode.CREATIVE) continue;
 
-                    if(p.getGameMode() != GameMode.CREATIVE) return;
-
                     ItemStack heldItem = p.getInventory().getItemInMainHand();
-                    if(!MaurisBlockTypeManager.isEnabled(heldItem.getType().name())) return;
+                    if(!MaurisBlockTypeManager.isEnabled(heldItem.getType().name())) continue;
 
                     Block b = p.getTargetBlockExact(10, FluidCollisionMode.NEVER);
                     BlockData bd = b.getBlockData();
 
                     MaurisBlock mb = ItemsLoader.getMaurisBlock(bd);
 
-                    if(mb == null) return;
+                    if(mb == null) continue;
 
 
                     p.getInventory().setItemInMainHand(mb.getAsItemStack());
