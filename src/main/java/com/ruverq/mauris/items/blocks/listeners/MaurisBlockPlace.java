@@ -55,7 +55,6 @@ public class MaurisBlockPlace implements Listener {
             BlockDataCreator.placeBlock(e.getPlayer(), newBlock, itemInteract);
 
             if(!newBlock.getType().isAir()) newBlock.getLocation().getWorld().playSound(newBlock.getLocation(), itemInteract.getType().createBlockData().getSoundGroup().getPlaceSound(), SoundCategory.BLOCKS, 1, 1);
-
         }else{
             MaurisBlock mb = item.getAsMaurisBlock();
             BlockData bd = mb.getAsBlockData();
@@ -64,7 +63,7 @@ public class MaurisBlockPlace implements Listener {
             mb.getSounds().executePlaceSound(newBlock.getLocation());
         }
 
-        if(e.getPlayer().getGameMode() != GameMode.CREATIVE && !newBlock.getType().isAir()){
+        if(e.getPlayer().getGameMode() != GameMode.CREATIVE && !newBlock.getType().isAir() && item != null && item.isBlock()){
             e.getItem().setAmount(e.getItem().getAmount() - 1);
             e.getPlayer().updateInventory();
         }
