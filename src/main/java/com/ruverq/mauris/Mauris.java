@@ -18,6 +18,7 @@ import com.ruverq.mauris.items.blocks.listeners.MaurisBlockBreak;
 import com.ruverq.mauris.items.blocks.listeners.MaurisBlockCancel;
 import com.ruverq.mauris.items.blocks.listeners.MaurisBlockPlace;
 import com.ruverq.mauris.items.musicdisc.listeners.MusicDiscListener;
+import lombok.Getter;
 import lombok.Setter;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -31,14 +32,20 @@ public final class Mauris extends JavaPlugin {
 
     static File config;
 
+    @Getter
+    static MaurisLogger logger;
+
     @Override
     public void onEnable() {
         //TODO Reformat this below pls
-
         setInstance(this);
 
         config = setupConfig();
         reloadConfig();
+
+        //Logger
+        logger = new MaurisLogger("main");
+        //
 
         MaurisBlockTypeManager.setUp();
 
@@ -78,11 +85,12 @@ public final class Mauris extends JavaPlugin {
         Bukkit.getPluginManager().registerEvents(new CraftListener(), this);
         CraftingManager.setUp(false);
 
-
         // Compatibility with other plugins
         if(Bukkit.getPluginManager().getPlugin("MythicMobs") != null){
             Bukkit.getPluginManager().registerEvents(new MythicMobsLoot(), this);
         }
+
+        logger.info("✔ Successfully loaded!");
     }
 
     public static Mauris getInstance() {

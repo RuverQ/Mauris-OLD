@@ -24,8 +24,6 @@ public class RTMFurnace implements RecipeType{
         String ingrS = cs.getString("ingredient");
         if(ingrS == null) return null;
 
-        System.out.println(rpi.getKey().toString());
-
         ChoiceUnit cu = new ChoiceUnit();
         String[] splitted = ingrS.split(" ");
         cu.addItems(splitted);

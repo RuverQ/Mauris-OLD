@@ -91,7 +91,6 @@ public class MaurisBlockBreak implements Listener {
         }
 
         e.blockList().removeAll(blocksToRemove);
-
     }
 
 

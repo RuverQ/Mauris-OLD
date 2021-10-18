@@ -4,6 +4,7 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.ruverq.mauris.DataHelper;
+import com.ruverq.mauris.Mauris;
 import com.ruverq.mauris.items.blocks.MaurisBlock;
 import com.ruverq.mauris.items.hud.MaurisHUD;
 import com.ruverq.mauris.items.icons.MaurisIcon;
@@ -87,7 +88,15 @@ public class MaurisItem {
         builder.addNBTTag("name", name);
         builder.addNBTTag("folder", getFolder().getName());
 
-        return builder.build();
+        try{
+            ItemStack item = builder.build();
+            return item;
+        }catch (Exception e){
+            Mauris.getLogger().error("Can't load " + name + " for some reason in " + folder.getName() + "/" + file.getName());
+            e.printStackTrace();
+            return null;
+        }
+
     }
 
     public static void loadFromConfigurationSection(MaurisBuilder mb, ConfigurationSection cs){
