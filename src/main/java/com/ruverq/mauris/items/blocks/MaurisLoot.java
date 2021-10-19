@@ -34,6 +34,10 @@ public class MaurisLoot {
 
     @Getter
     @Setter
+    int amount;
+
+    @Getter
+    @Setter
     List<String> allowTools = new ArrayList<>();
 
     @Getter
@@ -45,20 +49,30 @@ public class MaurisLoot {
     int min;
 
     public ItemStack loot(){
-        int randomAmount = ThreadLocalRandom.current().nextInt(min, max);
+        int amount;
+        if(min < 0 || max < 0){
+            amount = getAmount();
+        }else{
+            amount = ThreadLocalRandom.current().nextInt(min, max);
+        }
 
         ItemStack item = getItemStack().clone();
-        item.setAmount(randomAmount);
+        item.setAmount(amount);
 
         return item;
     }
 
     public ItemStack randomLoot(double luck){
         if(!isWorked(luck)) return null;
-        int randomAmount = ThreadLocalRandom.current().nextInt(min, max);
+        int amount;
+        if(min < 0 || max < 0){
+            amount = getAmount();
+        }else{
+            amount = ThreadLocalRandom.current().nextInt(min, max);
+        }
 
         ItemStack item = getItemStack().clone();
-        item.setAmount(randomAmount);
+        item.setAmount(amount);
 
         return item;
     }
@@ -130,8 +144,10 @@ public class MaurisLoot {
 
         String itemS = section.getString("item");
 
-        int min = section.getInt("min", 0);
-        int max = section.getInt("max", 3);
+        int min = section.getInt("min", -1);
+        int max = section.getInt("max", -1);
+
+        int amount = section.getInt("amount", 1);
 
         List<String> allow_tools = section.getStringList("allow-tools");
         List<String> block_tools = section.getStringList("block-tools");
@@ -141,6 +157,7 @@ public class MaurisLoot {
         loot.setMinNMaxValue(min,max);
         loot.setAllowTools(allow_tools);
         loot.setBlockTools(block_tools);
+        loot.setAmount(amount);
 
         loot.setName(section.getName());
 

@@ -122,7 +122,7 @@ public class CraftingManager {
 
                 MaurisRecipe recipe = getFRPRecipeFromYAML(craftN, s);
                 if(recipe == null){
-                    Mauris.getLogger().warning("Cannot load craft" + craftN + " from " + craftfile.getName());
+                    Mauris.getMLogger().warning("Cannot load craft" + craftN + " from " + craftfile.getName());
                     continue;
                 }
                 recipe.setFile(craftfile);
@@ -131,7 +131,7 @@ public class CraftingManager {
             }
         }
 
-        Mauris.getLogger().info("✔ Loaded " + loadedRecipes.size() + " recipes");
+        Mauris.getMLogger().info("✔ Loaded " + loadedRecipes.size() + " recipes");
     }
 
     public static void loadCraft(MaurisRecipe recipe){
@@ -173,14 +173,14 @@ public class CraftingManager {
 
         RecipeType type = RecipeTypeManager.getFromName(typeS);
         if(type == null){
-            Mauris.getLogger().warning("Type " + typeS + " from " + craftN + " does not exists");
+            Mauris.getMLogger().warning("Type " + typeS + " from " + craftN + " does not exists");
             return null;
         }
 
         String resultS = s.getString("result");
 
         if(resultS == null) {
-            Mauris.getLogger().warning("Result from " + craftN + " is null");
+            Mauris.getMLogger().warning("Result from " + craftN + " is null");
             return null;
         }
 
@@ -189,7 +189,7 @@ public class CraftingManager {
         ItemStack result = ItemsLoader.getMaurisItem(resultS, true);
 
         if(result == null) {
-            Mauris.getLogger().warning("Result " + resultS + " from " + craftN + " does not exists");
+            Mauris.getMLogger().warning("Result " + resultS + " from " + craftN + " does not exists");
             return null;
         }
         result.setAmount(resultAmount);
@@ -210,7 +210,7 @@ public class CraftingManager {
 
         ConfigurationSection craftCS = s.getConfigurationSection("craft");
         if(craftCS == null) {
-            Mauris.getLogger().warning("CraftCS " + craftCS.getName() + " is null");
+            Mauris.getMLogger().warning("CraftCS " + craftCS.getName() + " is null");
             return null;
         }
 

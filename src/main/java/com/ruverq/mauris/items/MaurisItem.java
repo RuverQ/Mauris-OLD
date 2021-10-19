@@ -92,7 +92,7 @@ public class MaurisItem {
             ItemStack item = builder.build();
             return item;
         }catch (Exception e){
-            Mauris.getLogger().error("Can't load " + name + " for some reason in " + folder.getName() + "/" + file.getName());
+            Mauris.getMLogger().error("Can't load " + name + " for some reason in " + folder.getName() + "/" + file.getName());
             e.printStackTrace();
             return null;
         }

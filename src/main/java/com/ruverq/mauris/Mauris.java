@@ -33,7 +33,7 @@ public final class Mauris extends JavaPlugin {
     static File config;
 
     @Getter
-    static MaurisLogger logger;
+    public static MaurisLogger mLogger;
 
     @Override
     public void onEnable() {
@@ -44,7 +44,7 @@ public final class Mauris extends JavaPlugin {
         reloadConfig();
 
         //Logger
-        logger = new MaurisLogger("main");
+        mLogger = new MaurisLogger("main");
         //
 
         MaurisBlockTypeManager.setUp();
@@ -90,7 +90,7 @@ public final class Mauris extends JavaPlugin {
             Bukkit.getPluginManager().registerEvents(new MythicMobsLoot(), this);
         }
 
-        logger.info("✔ Successfully loaded!");
+        mLogger.info("✔ Successfully loaded!");
     }
 
     public static Mauris getInstance() {
