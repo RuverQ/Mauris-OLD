@@ -21,13 +21,20 @@ public class MaurisLootTable {
     @Getter
     List<MaurisLoot> loots = new ArrayList<>();
 
+    @Getter
+    @Setter
+    int max = -1;
+
     public void addLoot(MaurisLoot loot){
         loots.add(loot);
     }
 
     public void dropAll(Location location, ItemStack tool, double luck){
+        int i = 0;
         for(MaurisLoot maurisLoot : loots){
-            maurisLoot.dropWithChance(location, tool, luck);
+            if(max > 0 && i >= max) break;
+            boolean worked = maurisLoot.dropWithChance(location, tool, luck);
+            if(worked) i++;
         }
     }
 
@@ -65,6 +72,7 @@ public class MaurisLootTable {
         if(section == null) return null;
 
         MaurisLootTable table = new MaurisLootTable();
+        table.setMax(section.getInt("max", -1));
 
         for(String lootS : section.getKeys(false)){
             ConfigurationSection lootSection = section.getConfigurationSection(lootS);
@@ -73,6 +81,8 @@ public class MaurisLootTable {
             MaurisLoot maurisLoot = MaurisLoot.fromConfigSection(lootSection);
             table.addLoot(maurisLoot);
         }
+
+        //table.getLoots().sort((l, l2) -> Double.compare(l2.getChance(), l.getChance()));
 
         return table;
     }

@@ -7,45 +7,32 @@ import lombok.Setter;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.configuration.ConfigurationSection;
+import org.bukkit.enchantments.Enchantment;
 import org.bukkit.inventory.ItemStack;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
+import java.util.*;
 import java.util.concurrent.ThreadLocalRandom;
 
+@Getter
+@Setter
 public class MaurisLoot {
 
-    @Getter
-    @Setter
     String name;
 
-    @Getter
-    @Setter
     double chance;
 
-    @Getter
-    @Setter
     String item;
 
-    @Getter
-    @Setter
     int max;
 
-    @Getter
-    @Setter
     int amount;
 
-    @Getter
-    @Setter
     List<String> allowTools = new ArrayList<>();
 
-    @Getter
-    @Setter
     List<String> blockTools = new ArrayList<>();
 
-    @Getter
-    @Setter
+    List<String> enchantmentList = new ArrayList<>();
+
     int min;
 
     public ItemStack loot(){
@@ -84,9 +71,9 @@ public class MaurisLoot {
         world.dropItemNaturally(location, loot());
     }
 
-    public void dropWithChance(Location location, ItemStack tool, double luck){
+    public boolean dropWithChance(Location location, ItemStack tool, double luck){
         if(!allowTools.isEmpty()){
-            if(tool == null) return;
+            if(tool == null) return false;
             MaurisItem item = ItemsLoader.getMaurisItem(tool);
             if(item == null){
 
@@ -97,27 +84,38 @@ public class MaurisLoot {
                         break;
                     }
                 }
-                if(!allow) return;
+                if(!allow) return false;
 
             }else{
-                if(!allowTools.contains(item.getName())) return;
+                if(!allowTools.contains(item.getName())) return false;
             }
         }
 
         if(!blockTools.isEmpty()){
-            if(tool == null) return;
+            if(tool == null) return false;
             MaurisItem item = ItemsLoader.getMaurisItem(tool);
             if(item == null){
                 for(String toolS : allowTools){
-                    if(toolS.equalsIgnoreCase(tool.getType().name())) return;
+                    if(toolS.equalsIgnoreCase(tool.getType().name())) return false;
                 }
             }else{
-                if(blockTools.contains(item.getName())) return;
+                if(blockTools.contains(item.getName())) return false;
             }
         }
 
-        if(!isWorked(luck)) return;
+        if(!enchantmentList.isEmpty()){
+            if(tool == null) return false;
+            Set<Enchantment> toolEnchantments = tool.getEnchantments().keySet();
+            Set<Enchantment> ourEnchantments = new HashSet<>();
+            for(String enchS : enchantmentList){
+                ourEnchantments.add(Enchantment.getByName(enchS.toUpperCase()));
+            }
+            if(!toolEnchantments.containsAll(ourEnchantments)) return false;
+        }
+
+        if(!isWorked(luck)) return false;
         drop(location);
+        return true;
     }
 
     public boolean isWorked(double luck){
@@ -141,13 +139,14 @@ public class MaurisLoot {
         MaurisLoot loot = new MaurisLoot();
 
         double chance = section.getDouble("chance", 1);
-
         String itemS = section.getString("item");
 
         int min = section.getInt("min", -1);
         int max = section.getInt("max", -1);
 
         int amount = section.getInt("amount", 1);
+
+        List<String> enchantments = section.getStringList("enchantments");
 
         List<String> allow_tools = section.getStringList("allow-tools");
         List<String> block_tools = section.getStringList("block-tools");
@@ -158,6 +157,7 @@ public class MaurisLoot {
         loot.setAllowTools(allow_tools);
         loot.setBlockTools(block_tools);
         loot.setAmount(amount);
+        loot.setEnchantmentList(enchantments);
 
         loot.setName(section.getName());
 

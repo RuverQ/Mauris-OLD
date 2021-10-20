@@ -31,6 +31,8 @@ example_block:
         allow-tools:
           - diamond_pickaxe
           - netherite_pickaxe
+        enchantments:
+          - SILK_TOUCH
         chance: 0.1
         item: ruverqBlock
         min: 1
