@@ -16,7 +16,7 @@
 <dependency>
     <groupId>com.github.RuverQ</groupId>
     <artifactId>Mauris</artifactId>
-    <version>0.3-Alpha</version>
+    <version>0.4-Alpha</version>
 </dependency>
 ```
 
@@ -28,5 +28,5 @@ allprojects {
     }
 }
 
-implementation 'com.github.RuverQ:Mauris:0.3-Alpha'
+implementation 'com.github.RuverQ:Mauris:0.4-Alpha'
 ```
