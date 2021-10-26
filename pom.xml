@@ -6,7 +6,7 @@
 
     <groupId>com.ruverq</groupId>
     <artifactId>Mauris</artifactId>
-    <version>0.3-Alpha</version>
+    <version>0.4-Alpha</version>
     <packaging>jar</packaging>
 
     <name>Mauris</name>
