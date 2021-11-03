@@ -21,6 +21,7 @@ import java.io.*;
 import java.net.InetSocketAddress;
 import java.nio.file.Files;
 import java.util.*;
+import java.util.concurrent.Executors;
 
 import static com.ruverq.mauris.commands.CommandManager.format;
 
@@ -94,7 +95,7 @@ public class ResourcePackHelper implements Listener {
         server = HttpServer.create(new InetSocketAddress(port), 0);
 
         server.createContext("/rp.zip", new HHandler(file.getPath() + File.separator + "rp.zip"));
-        server.setExecutor(null);
+        server.setExecutor(Executors.newCachedThreadPool());
 
         server.start();
 

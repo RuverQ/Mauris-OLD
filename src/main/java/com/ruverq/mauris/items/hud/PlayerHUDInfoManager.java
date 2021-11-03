@@ -22,7 +22,7 @@ public class PlayerHUDInfoManager implements Listener {
         }
         if(currentTimer != null) currentTimer.cancel();
         currentTimer = new HUDChecker();
-        currentTimer.runTaskTimer(Mauris.getInstance(), 0, 5);
+        currentTimer.runTaskTimer(Mauris.getInstance(), 0, 20);
     }
 
     static HashMap<Player, PlayerHUDInfo> infos = new HashMap<>();
