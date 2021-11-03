@@ -24,4 +24,9 @@ kick-on-decline:
 self-host:
   enabled: true
   ip: localhost
-  port: 8090
+  ports:
+    - 8090
+    - 8091
+    - 8092
+    - 8093
+    - 8094

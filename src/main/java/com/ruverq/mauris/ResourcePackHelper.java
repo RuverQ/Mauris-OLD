@@ -26,11 +26,10 @@ import static com.ruverq.mauris.commands.CommandManager.format;
 
 public class ResourcePackHelper implements Listener {
 
-    static int port = 8232;
+    static List<Integer> ports;
 
     static String ip = "localhost";
     static String randomUUID;
-    static String url = "http://" + ip + ":" + port + "/rp.zip";
     boolean isHosted;
     boolean isZiped;
 
@@ -41,8 +40,9 @@ public class ResourcePackHelper implements Listener {
 
     static HttpServer server;
 
-
     public void sendTo(Player player){
+        String url = "http://" + ip + ":" + ports.get(new Random().nextInt(ports.size())) + "/rp.zip#" + randomUUID;
+
         player.setResourcePack(url);
     }
 
@@ -75,16 +75,21 @@ public class ResourcePackHelper implements Listener {
         DataHelper.createFile("resource_pack/pack.mcmeta", jsonObject.toString());
     }
 
+    HashMap<Integer, HttpServer> httpServerHashMap = new HashMap<>();
+
     @SneakyThrows
-    public void hostResourcePack(){
+    public void hostResourcePack(int port){
         File file = DataHelper.getDir("resource_pack");
+
+        HttpServer server = httpServerHashMap.get(port);
+
         if(server != null){
             server.stop(0);
-            server = null;
+            httpServerHashMap.remove(port);
         }
 
         randomUUID = UUID.randomUUID().toString();
-        url = "http://" + ip + ":" + port + "/rp.zip#" + randomUUID;
+        String url = "http://" + ip + ":" + port + "/rp.zip#" + randomUUID;
 
         server = HttpServer.create(new InetSocketAddress(port), 0);
 
@@ -92,6 +97,8 @@ public class ResourcePackHelper implements Listener {
         server.setExecutor(null);
 
         server.start();
+
+        httpServerHashMap.put(port, server);
 
         Bukkit.getLogger().info("Hosted on " + url);
 
@@ -141,9 +148,11 @@ public class ResourcePackHelper implements Listener {
         if(!enabled) return;
 
         ip = config.getString("self-host.ip", Bukkit.getServer().getIp());
-        port = config.getInt("self-host.port", 8080);
+        ports = config.getIntegerList("self-host.ports");
 
-        rph.hostResourcePack();
+        for(int port : ports){
+            rph.hostResourcePack(port);
+        }
 
         new BukkitRunnable() {
             @Override
