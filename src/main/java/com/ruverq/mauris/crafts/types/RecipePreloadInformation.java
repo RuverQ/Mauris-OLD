@@ -16,5 +16,6 @@ public class RecipePreloadInformation {
     ConfigurationSection craftCS;
     NamespacedKey key;
     String group;
+    boolean onlyItemStacks;
 
 }

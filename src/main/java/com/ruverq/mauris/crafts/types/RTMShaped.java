@@ -45,7 +45,7 @@ public class RTMShaped implements RecipeType{
 
             String[] choices = materialS.split(" ");
 
-            ChoiceUnit unit = new ChoiceUnit();
+            ChoiceUnit unit = new ChoiceUnit(rpi.isOnlyItemStacks());
             unit.addItems(choices);
             
             shapedRecipe.setIngredient(charkey.toCharArray()[0], unit.buildChoice());

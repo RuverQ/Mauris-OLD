@@ -22,7 +22,7 @@ public class RTMCampfire implements RecipeType{
         String ingrS = cs.getString("ingredient");
         if(ingrS == null) return null;
 
-        ChoiceUnit cu = new ChoiceUnit();
+        ChoiceUnit cu = new ChoiceUnit(rpi.isOnlyItemStacks());
         String[] splitted = ingrS.split(" ");
         cu.addItems(splitted);
 

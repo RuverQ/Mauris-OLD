@@ -28,7 +28,7 @@ public class RTMShapeless implements RecipeType{
 
             String[] choices = ingredient.split(" ");
 
-            ChoiceUnit cu = new ChoiceUnit();
+            ChoiceUnit cu = new ChoiceUnit(rpi.isOnlyItemStacks());
             cu.addItems(choices);
 
             shapelessRecipe.addIngredient(cu.buildChoice());

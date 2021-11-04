@@ -33,6 +33,7 @@ public class CraftingManager {
 
     @Getter
     private static File crafts;
+    private static boolean default_onlyItemStacks;
 
     @SneakyThrows
     public static void setUp(boolean reload){
@@ -40,6 +41,7 @@ public class CraftingManager {
         RecipeTypeManager.setUp();
 
         crafts = new File(Mauris.getInstance().getDataFolder() + File.separator + "crafts");;
+        default_onlyItemStacks = Mauris.getInstance().getConfig().getBoolean("crafts.onlyItemStacks", true);
 
         DiscoverManager.unload();
         DiscoverManager.setUp(reload);
@@ -203,6 +205,8 @@ public class CraftingManager {
 
         String group = s.getString("group");
 
+        boolean onlyItemStacks = s.getBoolean("onlyItemStacks", default_onlyItemStacks);
+
         List<String> returnItems = s.getStringList("returnItems");
         mRecipe.addItems(returnItems);
 
@@ -214,7 +218,7 @@ public class CraftingManager {
             return null;
         }
 
-        RecipePreloadInformation rpi = new RecipePreloadInformation(result, craftCS, namespace, group);
+        RecipePreloadInformation rpi = new RecipePreloadInformation(result, craftCS, namespace, group, onlyItemStacks);
 
         Recipe recipe = type.loadFromConfigurationSection(rpi);
         if(recipe == null) return null;

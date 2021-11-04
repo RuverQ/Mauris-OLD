@@ -3,6 +3,8 @@ icons:
   placeholderSupport: true
 
 crafts:
+  defaults:
+    onlyItemStacks: true # Recipe Choices will only trigger by item stack and not material
   disabledCrafts:
     - iron_block
 

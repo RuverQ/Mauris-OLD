@@ -15,6 +15,16 @@ public class ChoiceUnit {
     List<Material> materialList = new ArrayList<>();
     List<ItemStack> itemStacks = new ArrayList<>();
 
+    public ChoiceUnit() {
+
+    }
+
+    public ChoiceUnit(boolean onlyItemStacks) {
+        this.onlyItemStacks = onlyItemStacks;
+    }
+
+    boolean onlyItemStacks;
+
     public void addItem(Material material) {
         materialList.add(material);
     }
@@ -33,7 +43,8 @@ public class ChoiceUnit {
                 return;
             }
 
-            addItem(material);
+            if(onlyItemStacks) addItem(new ItemStack(material));
+            else addItem(material);
         }else{
             addItem(mItem.getAsItemStack());
         }

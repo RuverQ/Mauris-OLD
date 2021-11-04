@@ -23,7 +23,6 @@ public class RecipeTypeManager {
         types.put(rt.name().toLowerCase(), rt);
     }
 
-
     public static RecipeType getFromName(String name){
         name = name.toLowerCase();
         return types.get(name);
