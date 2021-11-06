@@ -17,6 +17,7 @@ import com.ruverq.mauris.items.blocks.blocktypes.MaurisBlockTypeManager;
 import com.ruverq.mauris.items.blocks.listeners.MaurisBlockBreak;
 import com.ruverq.mauris.items.blocks.listeners.MaurisBlockCancel;
 import com.ruverq.mauris.items.blocks.listeners.MaurisBlockPlace;
+import com.ruverq.mauris.items.listeners.ItemPlantCancel;
 import com.ruverq.mauris.items.musicdisc.listeners.MusicDiscListener;
 import lombok.Getter;
 import lombok.Setter;
@@ -64,6 +65,10 @@ public final class Mauris extends JavaPlugin {
 
         Bukkit.getPluginManager().registerEvents(new GUI(), this);
 
+        //Items
+        Bukkit.getPluginManager().registerEvents(new ItemPlantCancel(), this);
+
+        // Blocks
         Bukkit.getPluginManager().registerEvents(new MaurisBlockPlace(), this);
         Bukkit.getPluginManager().registerEvents(new MaurisBlockCancel(), this);
         Bukkit.getPluginManager().registerEvents(new MaurisBlockBreak(), this);
@@ -73,14 +78,17 @@ public final class Mauris extends JavaPlugin {
 
         Bukkit.getPluginManager().registerEvents(new MusicDiscListener(), this);
 
+        //HUD
         PlayerHUDInfoManager infoManager = new PlayerHUDInfoManager();
         PlayerHUDInfoManager.setUp();
         Bukkit.getPluginManager().registerEvents(infoManager, this);
 
+        //Dependency
         if(Bukkit.getPluginManager().getPlugin("PlaceHolderAPI") != null){
             MaurisIconPlaceholder.loadAll();
         }
 
+        // Crafts
         Bukkit.getPluginManager().registerEvents(new CraftCancel(), this);
         Bukkit.getPluginManager().registerEvents(new CraftListener(), this);
         CraftingManager.setUp(false);
