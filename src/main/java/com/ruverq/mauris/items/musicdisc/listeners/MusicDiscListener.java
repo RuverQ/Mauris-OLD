@@ -59,8 +59,9 @@ public class MusicDiscListener implements Listener {
             DataContainerUtil.clearData(cblock);
             for(Entity entity : ejectLocation.getWorld().getNearbyEntities(ejectLocation, 15, 15, 15)){
                 if(!(entity instanceof Player)) return;
+
                 Player p = (Player) entity;
-                p.stopSound(discMauris.getMusic(), SoundCategory.RECORDS);
+                p.stopSound(discMauris.getMusic());
             }
             return;
         }

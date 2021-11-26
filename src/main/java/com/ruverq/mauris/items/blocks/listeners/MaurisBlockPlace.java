@@ -20,6 +20,7 @@ import org.bukkit.inventory.ItemStack;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Set;
 
 public class MaurisBlockPlace implements Listener {
 
@@ -33,7 +34,6 @@ public class MaurisBlockPlace implements Listener {
         if(itemInteract.getType() == Material.NOTE_BLOCK) return;
         itemInteract = itemInteract.clone();
         itemInteract.setAmount(1);
-
 
         Block newBlock = getBlockPlaceLocation(e.getPlayer());
         if(newBlock == null) return;
@@ -53,7 +53,6 @@ public class MaurisBlockPlace implements Listener {
             if(!itemInteract.getType().isBlock()) return;
 
             BlockDataCreator.placeBlock(e.getPlayer(), newBlock, itemInteract);
-
             if(!newBlock.getType().isAir()) newBlock.getLocation().getWorld().playSound(newBlock.getLocation(), itemInteract.getType().createBlockData().getSoundGroup().getPlaceSound(), SoundCategory.BLOCKS, 1, 1);
         }else{
             MaurisBlock mb = item.getAsMaurisBlock();
@@ -86,15 +85,20 @@ public class MaurisBlockPlace implements Listener {
         return targetBlock.getFace(adjacentBlock);
     }
 
+    private final Set<Material> transparentPlacement = Set.of(Material.WATER, Material.LAVA,
+            Material.AIR, Material.CAVE_AIR,
+            Material.DEAD_BUSH, Material.WEEPING_VINES,
+            Material.GRASS, Material.TALL_GRASS, Material.FERN,
+            Material.SEAGRASS, Material.TALL_SEAGRASS);
+
     public Block getBlockPlaceLocation(Player player) {
-        List<Block> lastTwoTargetBlocks = player.getLastTwoTargetBlocks(null, 7);
+        List<Block> lastTwoTargetBlocks = player.getLastTwoTargetBlocks(transparentPlacement, 7);
         if (lastTwoTargetBlocks.size() != 2 || !lastTwoTargetBlocks.get(1).getType().isOccluding()) return null;
         Block targetBlock = lastTwoTargetBlocks.get(1);
         Block adjacentBlock = lastTwoTargetBlocks.get(0);
         BlockFace blockFace = targetBlock.getFace(adjacentBlock);
         return targetBlock.getRelative(blockFace);
     }
-
 
     //For very strange double placing bug
     static HashMap<Player, Long> playerCooldownBlock = new HashMap<>();

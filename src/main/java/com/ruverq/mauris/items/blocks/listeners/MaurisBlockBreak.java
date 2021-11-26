@@ -8,21 +8,25 @@ import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
+import org.bukkit.block.BlockState;
 import org.bukkit.block.data.BlockData;
+import org.bukkit.entity.Entity;
+import org.bukkit.entity.EntityType;
+import org.bukkit.entity.Item;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
-import org.bukkit.event.block.BlockBreakEvent;
-import org.bukkit.event.block.BlockExplodeEvent;
-import org.bukkit.event.block.BlockIgniteEvent;
+import org.bukkit.event.block.*;
 import org.bukkit.event.entity.EntityExplodeEvent;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Random;
 
 public class MaurisBlockBreak implements Listener {
+
 
     @EventHandler
     public void onIgnite(BlockIgniteEvent e){
@@ -48,9 +52,9 @@ public class MaurisBlockBreak implements Listener {
                 if(!isWorked(mb.getChanceToBeBlownUp())) continue;
                 block.setType(Material.AIR);
 
-                drop(block, e.getLocation(), new ItemStack(Material.AIR));
+                drop(block.getState(), e.getLocation(), new ItemStack(Material.AIR));
             }else{
-                boolean dropped = drop(block, block.getLocation(), new ItemStack(Material.AIR));
+                boolean dropped = drop(block.getState(), block.getLocation(), new ItemStack(Material.AIR));
                 if(dropped){
                     blocksToRemove.add(block);
                     block.setType(Material.AIR);
@@ -80,9 +84,9 @@ public class MaurisBlockBreak implements Listener {
                 if(!isWorked(mb.getChanceToBeBlownUp())) continue;
                 block.setType(Material.AIR);
 
-                drop(block, block.getLocation(), new ItemStack(Material.AIR));
+                drop(block.getState(), block.getLocation(), new ItemStack(Material.AIR));
             }else{
-                boolean dropped = drop(block, block.getLocation(), new ItemStack(Material.AIR));
+                boolean dropped = drop(block.getState(), block.getLocation(), new ItemStack(Material.AIR));
                 if(dropped){
                     blocksToRemove.add(block);
                     block.setType(Material.AIR);
@@ -93,17 +97,21 @@ public class MaurisBlockBreak implements Listener {
         e.blockList().removeAll(blocksToRemove);
     }
 
+    public static boolean drop(Material material, Location location, ItemStack item){
 
-    public boolean drop(Block b, Location location, ItemStack item){
+        MaurisLootTable mlt = MaurisLootTable.getLootTableByName(material.name());
+        if(mlt == null) return false;
+        mlt.dropAll(location, item);
+        return true;
+    }
+
+    public static boolean drop(BlockState b, Location location, ItemStack item){
 
         BlockData bd = b.getBlockData();
         MaurisBlock mb = ItemsLoader.getMaurisBlock(bd);
 
         if(mb == null){
-            MaurisLootTable mlt = MaurisLootTable.getLootTableByName(b.getType().name());
-            if(mlt == null) return false;
-            mlt.dropAll(location, item);
-            return true;
+            return drop(b.getType(), location, item);
         }
 
         if(mb.isSelfDrop()){
@@ -120,7 +128,7 @@ public class MaurisBlockBreak implements Listener {
     public void onBreak(BlockBreakEvent e){
         if(e.getPlayer().getGameMode() == GameMode.CREATIVE) return;
 
-        boolean dropped = drop(e.getBlock(), e.getBlock().getLocation(), e.getPlayer().getInventory().getItemInMainHand());
+        boolean dropped = drop(e.getBlock().getState(), e.getBlock().getLocation(), e.getPlayer().getInventory().getItemInMainHand());
         if(dropped) e.setDropItems(false);
     }
 
