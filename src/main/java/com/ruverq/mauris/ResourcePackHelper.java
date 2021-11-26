@@ -5,6 +5,7 @@ import com.sun.net.httpserver.Headers;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 import com.sun.net.httpserver.HttpServer;
+import lombok.Getter;
 import lombok.SneakyThrows;
 import net.lingala.zip4j.ZipFile;
 import org.bukkit.Bukkit;
@@ -38,8 +39,6 @@ public class ResourcePackHelper implements Listener {
     static String kickMessage = "bruh";
     static String kickMessageFailure = "bruh";
     static String bypassKickPermission = "";
-
-    static HttpServer server;
 
     public void sendTo(Player player){
         String url = "http://" + ip + ":" + ports.get(new Random().nextInt(ports.size())) + "/rp.zip#" + randomUUID;
@@ -75,6 +74,9 @@ public class ResourcePackHelper implements Listener {
 
         DataHelper.createFile("resource_pack/pack.mcmeta", jsonObject.toString());
     }
+
+    @Getter
+    static ResourcePackHelper current;
 
     HashMap<Integer, HttpServer> httpServerHashMap = new HashMap<>();
 
@@ -132,6 +134,8 @@ public class ResourcePackHelper implements Listener {
 
     public static void setupRP(){
 
+        if(current != null) current.stopAll();
+
         ResourcePackHelper rph = new ResourcePackHelper();
 
         rph.zipResourcePack();
@@ -166,6 +170,8 @@ public class ResourcePackHelper implements Listener {
             }
         }.runTaskLater(Mauris.getInstance(), 20);
 
+        current = rph;
+
     }
 
     static List<Player> withResourcePack = new ArrayList<>();
@@ -182,6 +188,15 @@ public class ResourcePackHelper implements Listener {
     @EventHandler
     public void onQuit(PlayerQuitEvent e){
         withResourcePack.remove(e.getPlayer());
+    }
+
+    public static void stopAll(){
+        getCurrent().stop();
+    }
+
+    public void stop(){
+        httpServerHashMap.values().forEach((httpServer -> {httpServer.stop(0);}));
+        httpServerHashMap.clear();
     }
 
     @EventHandler

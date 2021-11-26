@@ -9,6 +9,7 @@ import com.ruverq.mauris.guibase.GUI;
 import com.ruverq.mauris.items.ItemsLoader;
 import com.ruverq.mauris.items.blocks.MaurisLootTable;
 import com.ruverq.mauris.items.blocks.listeners.MaurisMiddleClickOnBlock;
+import com.ruverq.mauris.items.blocks.listeners.paper.PaperMaurisBlockBreak;
 import com.ruverq.mauris.items.hud.PlayerHUDInfoManager;
 import com.ruverq.mauris.items.icons.MaurisIconPlaceholder;
 import com.ruverq.mauris.items.blocks.blockhardness.BlockCBBListener;
@@ -19,6 +20,7 @@ import com.ruverq.mauris.items.blocks.listeners.MaurisBlockCancel;
 import com.ruverq.mauris.items.blocks.listeners.MaurisBlockPlace;
 import com.ruverq.mauris.items.listeners.ItemPlantCancel;
 import com.ruverq.mauris.items.musicdisc.listeners.MusicDiscListener;
+import com.ruverq.mauris.utils.VersionChecker;
 import lombok.Getter;
 import lombok.Setter;
 import org.bukkit.Bukkit;
@@ -72,6 +74,8 @@ public final class Mauris extends JavaPlugin {
         Bukkit.getPluginManager().registerEvents(new MaurisBlockPlace(), this);
         Bukkit.getPluginManager().registerEvents(new MaurisBlockCancel(), this);
         Bukkit.getPluginManager().registerEvents(new MaurisBlockBreak(), this);
+        if(VersionChecker.isPaper()) Bukkit.getPluginManager().registerEvents(new PaperMaurisBlockBreak(), this);
+
         new MaurisMiddleClickOnBlock().setTimer();
 
         Bukkit.getPluginManager().registerEvents(new BlockCBBListener(), this);
@@ -99,6 +103,9 @@ public final class Mauris extends JavaPlugin {
         }
 
         mLogger.info("✔ Successfully loaded!");
+        if(!VersionChecker.isPaper()){
+            mLogger.warning("Paper is not detected some features would not work");
+        }
     }
 
     public static Mauris getInstance() {
@@ -117,13 +124,8 @@ public final class Mauris extends JavaPlugin {
 
     @Override
     public void onDisable() {
-
         CraftingManager.unloadCrafts();
-
-        if(ResourcePackHelper.server != null){
-            ResourcePackHelper.server.stop(0);
-        }
-
+        ResourcePackHelper.stopAll();
     }
 
 
