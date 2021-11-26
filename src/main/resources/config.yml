@@ -24,11 +24,8 @@ kick-on-decline:
   failureMessage: "strange........."
 
 self-host:
+  overrideUrl: "https://frp.plo.su/rp.zip"
   enabled: true
   ip: localhost
   ports:
-    - 8090
-    - 8091
-    - 8092
-    - 8093
-    - 8094
+    - 8095

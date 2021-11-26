@@ -35,6 +35,7 @@ public class ResourcePackHelper implements Listener {
     boolean isHosted;
     boolean isZiped;
 
+    static String overrideUrl;
     static boolean kickEnabled;
     static String kickMessage = "bruh";
     static String kickMessageFailure = "bruh";
@@ -42,6 +43,7 @@ public class ResourcePackHelper implements Listener {
 
     public void sendTo(Player player){
         String url = "http://" + ip + ":" + ports.get(new Random().nextInt(ports.size())) + "/rp.zip#" + randomUUID;
+        if(overrideUrl != null) url = overrideUrl + "#" + randomUUID;
 
         player.setResourcePack(url);
     }
@@ -92,7 +94,9 @@ public class ResourcePackHelper implements Listener {
         }
 
         randomUUID = UUID.randomUUID().toString();
+
         String url = "http://" + ip + ":" + port + "/rp.zip#" + randomUUID;
+        if(overrideUrl != null) url = overrideUrl + "#" + randomUUID;
 
         server = HttpServer.create(new InetSocketAddress(port), 0);
 
@@ -103,7 +107,7 @@ public class ResourcePackHelper implements Listener {
 
         httpServerHashMap.put(port, server);
 
-        Bukkit.getLogger().info("Hosted on " + url);
+        Bukkit.getLogger().info("Host URL " + url);
 
         isHosted = true;
     }
@@ -154,6 +158,8 @@ public class ResourcePackHelper implements Listener {
 
         ip = config.getString("self-host.ip", Bukkit.getServer().getIp());
         ports = config.getIntegerList("self-host.ports");
+        overrideUrl = config.getString("self-host.overrideUrl", null);
+        if(overrideUrl != null && overrideUrl.isEmpty()) overrideUrl = null;
 
         for(int port : ports){
             rph.hostResourcePack(port);
