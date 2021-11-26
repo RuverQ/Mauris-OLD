@@ -17,16 +17,23 @@ import org.bukkit.block.data.type.Stairs;
 import org.bukkit.craftbukkit.v1_17_R1.entity.CraftPlayer;
 import org.bukkit.craftbukkit.v1_17_R1.inventory.CraftItemStack;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.util.RayTraceResult;
 
 // Thanks MoneyKiller123 https://www.spigotmc.org/threads/block-placing-facing-an-interactable-block-without-sneaking.492559/
 public class BlockDataCreator {
 
-    public static void placeBlock(Player player, Block newBlock, ItemStack itemPlace){
+    public static void placeBlock(Player player, Block newBlock, ItemStack itemPlace, EquipmentSlot spigothand){
         EntityHuman entityHuman = ((CraftPlayer)player).getHandle();
 
-        EnumHand hand = EnumHand.a;
+        EnumHand hand;
+
+        if(spigothand == EquipmentSlot.HAND){
+            hand = EnumHand.a;
+        }else{
+            hand = EnumHand.b;
+        }
 
         MovingObjectPositionBlock movingObjectPositionBlock = new MovingObjectPositionBlock(LocToVec(player.getEyeLocation()), entityHuman.getDirection(), BlockToBlockPos(newBlock), false);
         ItemActionContext itemActionContext = new ItemActionContext(entityHuman, hand, movingObjectPositionBlock);
@@ -49,8 +56,7 @@ public class BlockDataCreator {
         }else if (Tag.STAIRS.isTagged(itemPlace.getType())) {
             CraftItemStack.asNMSCopy(itemPlace).placeItem(itemActionContext, hand);
             Stairs data = ((Stairs) newBlock.getBlockData());
-            data.setHalf(
-                    (interactionPoint.getY() < 0.5d && interactionPoint.getY() >= 0.0d) ? Bisected.Half.BOTTOM : Bisected.Half.TOP);
+            data.setHalf((interactionPoint.getY() < 0.5d && interactionPoint.getY() >= 0.0d) ? Bisected.Half.BOTTOM : Bisected.Half.TOP);
             newBlock.setBlockData(data);
         }
         else{

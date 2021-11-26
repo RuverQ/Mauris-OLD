@@ -16,6 +16,7 @@ import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.Action;
 import org.bukkit.event.player.PlayerInteractEvent;
+import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.inventory.ItemStack;
 
 import java.util.HashMap;
@@ -29,8 +30,27 @@ public class MaurisBlockPlace implements Listener {
 
         if(e.getAction() != Action.RIGHT_CLICK_BLOCK) return;
 
-        ItemStack itemInteract = e.getItem();
-        if(itemInteract == null) return;
+        if(e.getClickedBlock() == null) return;
+        if(isOnCooldown(e.getPlayer())) return;
+
+        EquipmentSlot hand = e.getHand();
+
+        ItemStack itemStack = e.getItem();
+        ItemStack itemInteract = itemStack;
+
+        if(itemInteract == null && hand == EquipmentSlot.OFF_HAND) {
+            return;
+        }
+
+        //If block in left hand
+        if(itemInteract == null || !itemStack.getType().isBlock()){
+            itemStack = e.getPlayer().getInventory().getItemInOffHand();
+            itemInteract = itemStack;
+
+            hand = EquipmentSlot.OFF_HAND;
+        }
+
+        if(itemInteract.getType().isAir()) return;
         if(itemInteract.getType() == Material.NOTE_BLOCK) return;
         itemInteract = itemInteract.clone();
         itemInteract.setAmount(1);
@@ -38,21 +58,19 @@ public class MaurisBlockPlace implements Listener {
         Block newBlock = getBlockPlaceLocation(e.getPlayer());
         if(newBlock == null) return;
 
-        if(e.getClickedBlock() == null) return;
-
-        if(isOnCooldown(e.getPlayer())) return;
-
         if(isInside(e.getPlayer(), newBlock)) return;
 
         MaurisItem item = ItemsLoader.getMaurisItem(itemInteract);
         MaurisBlock mbclick = ItemsLoader.getMaurisBlock(e.getClickedBlock().getBlockData());
 
-        if(mbclick == null && item == null) return;
+        if(mbclick == null && item == null) {
+            return;
+        }
 
         if(item == null || !item.isBlock()) {
             if(!itemInteract.getType().isBlock()) return;
 
-            BlockDataCreator.placeBlock(e.getPlayer(), newBlock, itemInteract);
+            BlockDataCreator.placeBlock(e.getPlayer(), newBlock, itemInteract, hand);
             if(!newBlock.getType().isAir()) newBlock.getLocation().getWorld().playSound(newBlock.getLocation(), itemInteract.getType().createBlockData().getSoundGroup().getPlaceSound(), SoundCategory.BLOCKS, 1, 1);
         }else{
             MaurisBlock mb = item.getAsMaurisBlock();
@@ -63,12 +81,14 @@ public class MaurisBlockPlace implements Listener {
         }
 
         if(e.getPlayer().getGameMode() != GameMode.CREATIVE && !newBlock.getType().isAir() && item != null && item.isBlock()){
-            e.getItem().setAmount(e.getItem().getAmount() - 1);
+            itemStack.setAmount(itemStack.getAmount() - 1);
             e.getPlayer().updateInventory();
         }
 
         setCooldown(e.getPlayer());
-        e.getPlayer().swingMainHand();
+
+        if(hand == EquipmentSlot.HAND) e.getPlayer().swingMainHand();
+        if(hand == EquipmentSlot.OFF_HAND) e.getPlayer().swingOffHand();
     }
 
     private boolean isInside(Player player, Block block) {
