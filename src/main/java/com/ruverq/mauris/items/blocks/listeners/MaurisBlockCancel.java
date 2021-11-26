@@ -105,10 +105,10 @@ public class MaurisBlockCancel implements Listener {
         }
     }
 
+    // Author: MMoneyKiller | https://github.com/MMonkeyKiller/CustomBlocks
     private void checkDoor(Block b){
         Block bottomBlock = b.getRelative(BlockFace.DOWN);
-        if (Tag.DOORS.isTagged(b.getType()) && b.getBlockData() instanceof Door) {
-            Door data = (Door) b.getBlockData();
+        if (Tag.DOORS.isTagged(b.getType()) && b.getBlockData() instanceof Door data) {
             if (!data.getHalf().equals(Bisected.Half.TOP)) return;
             Door d = (Door) bottomBlock.getBlockData();
             d.setOpen(data.isOpen());

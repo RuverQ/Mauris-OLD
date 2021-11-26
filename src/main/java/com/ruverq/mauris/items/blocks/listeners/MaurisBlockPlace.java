@@ -89,7 +89,8 @@ public class MaurisBlockPlace implements Listener {
             Material.AIR, Material.CAVE_AIR,
             Material.DEAD_BUSH, Material.WEEPING_VINES,
             Material.GRASS, Material.TALL_GRASS, Material.FERN,
-            Material.SEAGRASS, Material.TALL_SEAGRASS);
+            Material.SEAGRASS, Material.TALL_SEAGRASS,
+            Material.SNOW);
 
     public Block getBlockPlaceLocation(Player player) {
         List<Block> lastTwoTargetBlocks = player.getLastTwoTargetBlocks(transparentPlacement, 7);
