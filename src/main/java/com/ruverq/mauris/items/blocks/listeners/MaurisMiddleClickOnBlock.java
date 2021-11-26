@@ -31,6 +31,7 @@ public class MaurisMiddleClickOnBlock implements Listener {
                     if(!MaurisBlockTypeManager.isEnabled(heldItem.getType().name())) continue;
 
                     Block b = p.getTargetBlockExact(10, FluidCollisionMode.NEVER);
+                    if(b == null) continue;
                     BlockData bd = b.getBlockData();
 
                     MaurisBlock mb = ItemsLoader.getMaurisBlock(bd);

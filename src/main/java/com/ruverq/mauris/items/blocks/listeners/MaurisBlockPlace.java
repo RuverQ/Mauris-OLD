@@ -87,14 +87,14 @@ public class MaurisBlockPlace implements Listener {
 
     private final Set<Material> transparentPlacement = Set.of(Material.WATER, Material.LAVA,
             Material.AIR, Material.CAVE_AIR,
-            Material.DEAD_BUSH, Material.WEEPING_VINES,
+            Material.DEAD_BUSH, Material.WEEPING_VINES, Material.WEEPING_VINES_PLANT,
             Material.GRASS, Material.TALL_GRASS, Material.FERN,
             Material.SEAGRASS, Material.TALL_SEAGRASS,
             Material.SNOW);
 
     public Block getBlockPlaceLocation(Player player) {
         List<Block> lastTwoTargetBlocks = player.getLastTwoTargetBlocks(transparentPlacement, 7);
-        if (lastTwoTargetBlocks.size() != 2 || !lastTwoTargetBlocks.get(1).getType().isOccluding()) return null;
+        //if (lastTwoTargetBlocks.size() != 2 || (!lastTwoTargetBlocks.get(1).getType().isOccluding()) || lastTwoTargetBlocks.get(1).getType().) return null;
         Block targetBlock = lastTwoTargetBlocks.get(1);
         Block adjacentBlock = lastTwoTargetBlocks.get(0);
         BlockFace blockFace = targetBlock.getFace(adjacentBlock);
