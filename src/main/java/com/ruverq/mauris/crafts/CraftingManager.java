@@ -124,7 +124,7 @@ public class CraftingManager {
 
                 MaurisRecipe recipe = getFRPRecipeFromYAML(craftN, s);
                 if(recipe == null){
-                    Mauris.getMLogger().warning("Cannot load craft" + craftN + " from " + craftfile.getName());
+                    Mauris.getMLogger().warning("Cannot load recipe " + craftN + " from " + craftfile.getName());
                     continue;
                 }
                 recipe.setFile(craftfile);

@@ -2,6 +2,7 @@ package com.ruverq.mauris.crafts.types;
 
 import com.ruverq.mauris.items.ItemsLoader;
 import com.ruverq.mauris.items.MaurisItem;
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.configuration.ConfigurationSection;
@@ -26,7 +27,12 @@ public class RTMSmoker implements RecipeType{
         String[] splitted = ingrS.split(" ");
         cu.addItems(splitted);
 
-        SmokingRecipe recipe = new SmokingRecipe(rpi.getKey(), rpi.getResult(), cu.buildChoice(), experience, cookingTime);
+        RecipeChoice choice = cu.buildChoice();
+        if(choice == null) {
+            return null;
+        }
+
+        SmokingRecipe recipe = new SmokingRecipe(rpi.getKey(), rpi.getResult(), choice, experience, cookingTime);
 
         if(rpi.getGroup() != null && !rpi.getGroup().isEmpty()){
             recipe.setGroup(rpi.getGroup());

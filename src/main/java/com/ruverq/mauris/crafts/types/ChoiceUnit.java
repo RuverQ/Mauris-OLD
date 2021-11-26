@@ -1,5 +1,6 @@
 package com.ruverq.mauris.crafts.types;
 
+import com.ruverq.mauris.Mauris;
 import com.ruverq.mauris.items.ItemsLoader;
 import com.ruverq.mauris.items.MaurisItem;
 import org.bukkit.Bukkit;
@@ -39,7 +40,7 @@ public class ChoiceUnit {
         if(mItem == null){
             Material material = Material.matchMaterial(name);
             if(material == null) {
-                Bukkit.getLogger().warning("Can't find " + name + " for the ingredient");
+                Mauris.getMLogger().warning("Can't find " + name + " as the ingredient");
                 return;
             }
 
@@ -66,6 +67,11 @@ public class ChoiceUnit {
         allIngredients.addAll(itemStacks);
         for(Material material : materialList){
             allIngredients.add(new ItemStack(material));
+        }
+
+        if(allIngredients.isEmpty()) {
+            Mauris.getMLogger().warning("Ingredients is null");
+            return null;
         }
 
         return new RecipeChoice.ExactChoice(itemStacks);

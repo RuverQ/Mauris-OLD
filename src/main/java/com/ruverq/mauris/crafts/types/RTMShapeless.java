@@ -2,6 +2,7 @@ package com.ruverq.mauris.crafts.types;
 
 import com.ruverq.mauris.items.ItemsLoader;
 import com.ruverq.mauris.items.MaurisItem;
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.configuration.ConfigurationSection;
@@ -31,7 +32,12 @@ public class RTMShapeless implements RecipeType{
             ChoiceUnit cu = new ChoiceUnit(rpi.isOnlyItemStacks());
             cu.addItems(choices);
 
-            shapelessRecipe.addIngredient(cu.buildChoice());
+            RecipeChoice choice = cu.buildChoice();
+            if(choice == null) {
+                return null;
+            }
+
+            shapelessRecipe.addIngredient(choice);
         }
 
         if(rpi.getGroup() != null && !rpi.getGroup().isEmpty()){

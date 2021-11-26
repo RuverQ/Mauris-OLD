@@ -2,6 +2,7 @@ package com.ruverq.mauris.crafts.types;
 
 import com.ruverq.mauris.items.ItemsLoader;
 import com.ruverq.mauris.items.MaurisItem;
+import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.NamespacedKey;
 import org.bukkit.configuration.ConfigurationSection;
@@ -47,8 +48,13 @@ public class RTMShaped implements RecipeType{
 
             ChoiceUnit unit = new ChoiceUnit(rpi.isOnlyItemStacks());
             unit.addItems(choices);
-            
-            shapedRecipe.setIngredient(charkey.toCharArray()[0], unit.buildChoice());
+
+            RecipeChoice choice = unit.buildChoice();
+            if(choice == null) {
+                return null;
+            }
+
+            shapedRecipe.setIngredient(charkey.toCharArray()[0], choice);
         }
 
         if(rpi.getGroup() != null && !rpi.getGroup().isEmpty()){
