@@ -6,9 +6,12 @@ import com.ruverq.mauris.items.blocks.MaurisBlock;
 import com.ruverq.mauris.items.blocks.blocktypes.MaurisBlockTypeManager;
 import org.bukkit.Location;
 import org.bukkit.Material;
+import org.bukkit.Tag;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
+import org.bukkit.block.data.Bisected;
 import org.bukkit.block.data.BlockData;
+import org.bukkit.block.data.type.Door;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
@@ -96,13 +99,26 @@ public class MaurisBlockCancel implements Listener {
             if(blockAbove.getType() == Material.NOTE_BLOCK){
                 updateAndCheck(e.getBlock());
                 e.setCancelled(true);
+
+                checkDoor(e.getBlock());
             }
+        }
+    }
+
+    private void checkDoor(Block b){
+        Block bottomBlock = b.getRelative(BlockFace.DOWN);
+        if (Tag.DOORS.isTagged(b.getType()) && b.getBlockData() instanceof Door) {
+            Door data = (Door) b.getBlockData();
+            if (!data.getHalf().equals(Bisected.Half.TOP)) return;
+            Door d = (Door) bottomBlock.getBlockData();
+            d.setOpen(data.isOpen());
+            bottomBlock.setBlockData(d);
+            bottomBlock.getState().update(true, false);
         }
     }
 
     public void updateAndCheckSurroundings(Location location, BlockFace face){
         Block b = location.getBlock().getRelative(face);
-
 
         if(b.getType() != Material.TRIPWIRE) return;
 
