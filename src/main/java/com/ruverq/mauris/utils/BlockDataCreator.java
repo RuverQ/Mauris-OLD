@@ -39,7 +39,7 @@ public class BlockDataCreator {
         ItemActionContext itemActionContext = new ItemActionContext(entityHuman, hand, movingObjectPositionBlock);
 
         RayTraceResult rtr = newBlock.getWorld().rayTraceBlocks(player.getEyeLocation(),
-                player.getLocation().getDirection(), 8, FluidCollisionMode.NEVER, true);
+                player.getLocation().getDirection(), 8, FluidCollisionMode.NEVER, false);
 
         Location interactionPoint = rtr.getHitPosition().subtract(rtr.getHitBlock().getLocation().toVector())
                 .toLocation(player.getWorld());

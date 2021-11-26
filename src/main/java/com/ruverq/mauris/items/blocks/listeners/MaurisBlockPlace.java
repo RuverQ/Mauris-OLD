@@ -42,8 +42,9 @@ public class MaurisBlockPlace implements Listener {
             return;
         }
 
+        MaurisItem item = ItemsLoader.getMaurisItem(itemInteract);
         //If block in left hand
-        if(itemInteract == null || !itemStack.getType().isBlock()){
+        if(itemInteract == null || (item == null && !itemStack.getType().isBlock())){
             itemStack = e.getPlayer().getInventory().getItemInOffHand();
             itemInteract = itemStack;
 
@@ -60,7 +61,7 @@ public class MaurisBlockPlace implements Listener {
 
         if(isInside(e.getPlayer(), newBlock)) return;
 
-        MaurisItem item = ItemsLoader.getMaurisItem(itemInteract);
+        item = ItemsLoader.getMaurisItem(itemInteract);
         MaurisBlock mbclick = ItemsLoader.getMaurisBlock(e.getClickedBlock().getBlockData());
 
         if(mbclick == null && item == null) {
@@ -114,7 +115,7 @@ public class MaurisBlockPlace implements Listener {
 
     public Block getBlockPlaceLocation(Player player) {
         List<Block> lastTwoTargetBlocks = player.getLastTwoTargetBlocks(transparentPlacement, 7);
-        //if (lastTwoTargetBlocks.size() != 2 || (!lastTwoTargetBlocks.get(1).getType().isOccluding()) || lastTwoTargetBlocks.get(1).getType().) return null;
+        if (lastTwoTargetBlocks.size() != 2) return null;
         Block targetBlock = lastTwoTargetBlocks.get(1);
         Block adjacentBlock = lastTwoTargetBlocks.get(0);
         BlockFace blockFace = targetBlock.getFace(adjacentBlock);
