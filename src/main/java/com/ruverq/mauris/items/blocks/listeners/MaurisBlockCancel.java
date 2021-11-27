@@ -11,6 +11,7 @@ import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.block.data.Bisected;
 import org.bukkit.block.data.BlockData;
+import org.bukkit.block.data.type.Bed;
 import org.bukkit.block.data.type.Door;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -96,6 +97,11 @@ public class MaurisBlockCancel implements Listener {
         if(MaurisBlockTypeManager.isEnabled("NOTE_BLOCK")){
             Block blockAbove = e.getBlock().getRelative(BlockFace.UP);
 
+            if (checkBed(e.getBlock())) {
+                e.setCancelled(true);
+                return;
+            }
+
             if(blockAbove.getType() == Material.NOTE_BLOCK){
                 updateAndCheck(e.getBlock());
                 e.setCancelled(true);
@@ -103,6 +109,28 @@ public class MaurisBlockCancel implements Listener {
                 checkDoor(e.getBlock());
             }
         }
+    }
+
+    private boolean checkBed(Block b){
+        if(Tag.BEDS.isTagged(b.getType())){
+            Block blockAbove = b.getRelative(BlockFace.UP);
+
+            Bed bed = (Bed) b.getBlockData();
+            Block blockfacing = b.getRelative(bed.getFacing());
+            Block anotherBlockAbove = blockfacing.getRelative(BlockFace.UP);
+
+            if(anotherBlockAbove.getType() == Material.NOTE_BLOCK){
+                updateAndCheck(blockfacing);
+            }
+
+            if(blockAbove.getType() == Material.NOTE_BLOCK){
+                updateAndCheck(b);
+            }
+
+
+            return true;
+        }
+        return false;
     }
 
     // Author: MMoneyKiller | https://github.com/MMonkeyKiller/CustomBlocks

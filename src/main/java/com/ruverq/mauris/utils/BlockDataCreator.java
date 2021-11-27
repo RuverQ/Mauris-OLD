@@ -1,17 +1,19 @@
 package com.ruverq.mauris.utils;
 
+import com.sun.jna.platform.win32.OaIdl;
 import net.minecraft.core.BlockPosition;
 import net.minecraft.world.EnumHand;
 import net.minecraft.world.entity.player.EntityHuman;
 import net.minecraft.world.item.context.ItemActionContext;
 import net.minecraft.world.phys.MovingObjectPositionBlock;
 import net.minecraft.world.phys.Vec3D;
-import org.bukkit.FluidCollisionMode;
-import org.bukkit.Location;
-import org.bukkit.Tag;
-import org.bukkit.World;
+import org.bukkit.*;
 import org.bukkit.block.Block;
+import org.bukkit.block.BlockFace;
 import org.bukkit.block.data.Bisected;
+import org.bukkit.block.data.Directional;
+import org.bukkit.block.data.Orientable;
+import org.bukkit.block.data.Rotatable;
 import org.bukkit.block.data.type.Slab;
 import org.bukkit.block.data.type.Stairs;
 import org.bukkit.craftbukkit.v1_17_R1.entity.CraftPlayer;
@@ -53,14 +55,35 @@ public class BlockDataCreator {
             Slab data = (Slab) newBlock.getBlockData();
             data.setType(dataType);
             newBlock.setBlockData(data);
-        }else if (Tag.STAIRS.isTagged(itemPlace.getType())) {
+        } else if (Tag.STAIRS.isTagged(itemPlace.getType())) {
             CraftItemStack.asNMSCopy(itemPlace).placeItem(itemActionContext, hand);
+
             Stairs data = ((Stairs) newBlock.getBlockData());
-            data.setHalf((interactionPoint.getY() < 0.5d && interactionPoint.getY() >= 0.0d) ? Bisected.Half.BOTTOM : Bisected.Half.TOP);
+            if(rtr.getHitBlockFace() == BlockFace.UP) {
+                data.setHalf(Bisected.Half.BOTTOM);
+            }else if(rtr.getHitBlockFace() == BlockFace.DOWN){
+                data.setHalf(Bisected.Half.TOP);
+            }else{
+                data.setHalf((interactionPoint.getY() < 0.5d && interactionPoint.getY() >= 0.0d) ? Bisected.Half.BOTTOM : Bisected.Half.TOP);
+            }
+
             newBlock.setBlockData(data);
         }
+
         else{
             CraftItemStack.asNMSCopy(itemPlace).placeItem(itemActionContext, hand);
+
+            if(newBlock.getBlockData() instanceof Orientable d){
+
+                BlockFace facing = rtr.getHitBlockFace();
+                Axis axis;
+                if(facing == BlockFace.DOWN || facing == BlockFace.UP) axis = Axis.Y;
+                else axis = (facing == BlockFace.EAST || facing == BlockFace.WEST) ? Axis.X : Axis.Z;
+
+                d.setAxis(axis);
+
+                newBlock.setBlockData(d);
+            }
         }
 
     }
