@@ -98,17 +98,9 @@ public class MaurisBlockPlace implements Listener {
         return playerLoc.getBlockX() == blockLoc.getBlockX() && (playerLoc.getBlockY() == blockLoc.getBlockY() || playerLoc.getBlockY() + 1 == blockLoc.getBlockY()) && playerLoc.getBlockZ() == blockLoc.getBlockZ();
     }
 
-    public BlockFace getBlockPlaceFace(Player player) {
-        List<Block> lastTwoTargetBlocks = player.getLastTwoTargetBlocks(null, 7);
-        if (lastTwoTargetBlocks.size() != 2 || !lastTwoTargetBlocks.get(1).getType().isOccluding()) return null;
-        Block targetBlock = lastTwoTargetBlocks.get(1);
-        Block adjacentBlock = lastTwoTargetBlocks.get(0);
-        return targetBlock.getFace(adjacentBlock);
-    }
-
     private final Set<Material> transparentPlacement = Set.of(Material.WATER, Material.LAVA,
             Material.AIR, Material.CAVE_AIR,
-            Material.DEAD_BUSH, Material.WEEPING_VINES, Material.WEEPING_VINES_PLANT,
+            Material.DEAD_BUSH, Material.WEEPING_VINES, Material.WEEPING_VINES_PLANT, Material.VINE,
             Material.GRASS, Material.TALL_GRASS, Material.FERN,
             Material.SEAGRASS, Material.TALL_SEAGRASS,
             Material.SNOW);
