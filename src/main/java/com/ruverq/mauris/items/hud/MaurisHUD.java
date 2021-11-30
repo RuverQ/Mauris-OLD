@@ -18,8 +18,8 @@ public class MaurisHUD extends MaurisItem {
 
     List<String> frames;
 
-    public MaurisHUD(MaurisFolder folder, String name, MaurisTextures textures, ItemCharacteristics itemCharacteristics, boolean generateModel, String model, boolean isBlock, MaurisBlock maurisBlock, File file, int xOffset, boolean hudEnabled, List<String> frames, boolean vanillaIterator, int vanillaIterate, List<GameModeChecker> gameModeCheckers, boolean undrwtrV) {
-        super(folder, name, textures, itemCharacteristics, generateModel, model, isBlock, maurisBlock, file);
+    public MaurisHUD(MaurisFolder folder, String name, MaurisTextures textures, ItemCharacteristics itemCharacteristics, boolean generateModel, String model, MaurisBlock maurisBlock, File file, int xOffset, boolean hudEnabled, List<String> frames, boolean vanillaIterator, int vanillaIterate, List<GameModeChecker> gameModeCheckers, boolean undrwtrV) {
+        super(folder, name, textures, itemCharacteristics, generateModel, model, maurisBlock, file);
         this.xOffset = xOffset;
         this.enabled = hudEnabled;
         this.frames = frames;

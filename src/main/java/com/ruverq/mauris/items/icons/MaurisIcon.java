@@ -27,8 +27,8 @@ public class MaurisIcon extends MaurisItem {
         TOP;
     }
 
-    public MaurisIcon(MaurisFolder folder, String name, MaurisTextures textures, ItemCharacteristics itemCharacteristics, boolean generateModel, String model, boolean isBlock, MaurisBlock maurisBlock, File file, double sizeMultiplier, IconAlign align, int yOffset) {
-        super(folder, name, textures, itemCharacteristics, generateModel, model, isBlock, maurisBlock, file);
+    public MaurisIcon(MaurisFolder folder, String name, MaurisTextures textures, ItemCharacteristics itemCharacteristics, boolean generateModel, String model, MaurisBlock maurisBlock, File file, double sizeMultiplier, IconAlign align, int yOffset) {
+        super(folder, name, textures, itemCharacteristics, generateModel, model, maurisBlock, file);
         this.sizeMultiplier = sizeMultiplier;
         this.align = align;
         this.yOffset = yOffset;

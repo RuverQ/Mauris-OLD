@@ -11,8 +11,8 @@ import java.util.List;
 
 public class MaurisMusicDisc extends MaurisItem {
 
-    public MaurisMusicDisc(MaurisFolder folder, String name, MaurisTextures textures, ItemCharacteristics itemCharacteristics, boolean generateModel, String model, boolean isBlock, MaurisBlock maurisBlock, File file, String music, String displayMusicName) {
-        super(folder, name, textures, itemCharacteristics, generateModel, model, isBlock, maurisBlock, file);
+    public MaurisMusicDisc(MaurisFolder folder, String name, MaurisTextures textures, ItemCharacteristics itemCharacteristics, boolean generateModel, String model, MaurisBlock maurisBlock, File file, String music, String displayMusicName) {
+        super(folder, name, textures, itemCharacteristics, generateModel, model, maurisBlock, file);
 
         this.music = music;
         this.displayMusicName = displayMusicName;

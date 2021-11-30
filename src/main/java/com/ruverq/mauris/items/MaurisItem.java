@@ -52,7 +52,10 @@ public class MaurisItem {
     File file;
 
     @Getter
-    boolean isBlock;
+    protected boolean isBlock;
+
+    @Getter
+    protected boolean isPlaceable;
 
     @Getter
     protected int id;
@@ -60,7 +63,7 @@ public class MaurisItem {
     @Getter
     ItemCharacteristics itemC;
 
-    public MaurisItem(MaurisFolder folder, String name, MaurisTextures textures, ItemCharacteristics itemC, boolean generateModel, String model, boolean isBlock, MaurisBlock maurisBlock, File file) {
+    public MaurisItem(MaurisFolder folder, String name, MaurisTextures textures, ItemCharacteristics itemC, boolean generateModel, String model, MaurisBlock maurisBlock, File file) {
         this.folder = folder;
         this.name = name;
         this.textures = textures;
@@ -71,7 +74,6 @@ public class MaurisItem {
         this.material = itemC.getMaterial();
         this.generateModel = generateModel;
         this.maurisBlock = maurisBlock;
-        this.isBlock = isBlock;
         this.file = file;
     }
 
