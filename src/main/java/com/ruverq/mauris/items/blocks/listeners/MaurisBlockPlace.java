@@ -1,6 +1,7 @@
 package com.ruverq.mauris.items.blocks.listeners;
 
 import com.ruverq.mauris.items.ItemsLoader;
+import com.ruverq.mauris.items.MaurisPlaceable;
 import com.ruverq.mauris.items.blocks.MaurisBlock;
 import com.ruverq.mauris.items.MaurisItem;
 import com.ruverq.mauris.utils.BlockDataCreator;
@@ -68,17 +69,13 @@ public class MaurisBlockPlace implements Listener {
             return;
         }
 
-        if(item == null || !item.isBlock()) {
+        if(!(item instanceof MaurisPlaceable mp)) {
             if(!itemInteract.getType().isBlock()) return;
 
             BlockDataCreator.placeBlock(e.getPlayer(), newBlock, itemInteract, hand);
             if(!newBlock.getType().isAir()) newBlock.getLocation().getWorld().playSound(newBlock.getLocation(), itemInteract.getType().createBlockData().getSoundGroup().getPlaceSound(), SoundCategory.BLOCKS, 1, 1);
         }else{
-            MaurisBlock mb = item.getAsMaurisBlock();
-            BlockData bd = mb.getAsBlockData();
-            newBlock.setBlockData(bd);
-
-            mb.getSounds().executePlaceSound(newBlock.getLocation());
+            mp.place(newBlock);
         }
 
         if(e.getPlayer().getGameMode() != GameMode.CREATIVE && !newBlock.getType().isAir() && item != null && item.isBlock()){

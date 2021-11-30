@@ -10,6 +10,7 @@ import com.ruverq.mauris.utils.BlockProperty;
 import com.ruverq.mauris.utils.BlockStateParser;
 import lombok.Getter;
 import org.bukkit.Material;
+import org.bukkit.block.Block;
 import org.bukkit.block.data.BlockData;
 import org.bukkit.configuration.ConfigurationSection;
 import org.bukkit.inventory.ItemStack;
@@ -18,10 +19,12 @@ import java.io.File;
 import java.util.HashMap;
 import java.util.List;
 
-public class MaurisBlock extends MaurisItem {
+public class MaurisBlock extends MaurisItem implements MaurisPlaceable{
 
-    public MaurisBlock(MaurisFolder folder, String name, MaurisTextures textures, ItemCharacteristics itemCharacteristics, boolean generateModel, String model, boolean isBlock, MaurisBlock maurisBlock, File file, MaurisBlockType type, int hardness, HashMap<ItemStack, Integer> hardnessPerTool, BlockSounds sounds, MaurisLootTable lootTable, boolean selfDrop, double chanceToBeBlownUp) {
-        super(folder, name, textures, itemCharacteristics, generateModel, model, isBlock, maurisBlock, file);
+    public MaurisBlock(MaurisFolder folder, String name, MaurisTextures textures, ItemCharacteristics itemCharacteristics, boolean generateModel, String model, MaurisBlock maurisBlock, File file, MaurisBlockType type, int hardness, HashMap<ItemStack, Integer> hardnessPerTool, BlockSounds sounds, MaurisLootTable lootTable, boolean selfDrop, double chanceToBeBlownUp) {
+        super(folder, name, textures, itemCharacteristics, generateModel, model, maurisBlock, file);
+        this.isBlock = true;
+        this.isPlaceable = true;
         this.type = type;
         this.hardness = hardness;
         this.hardnessPerTool = hardnessPerTool;
@@ -199,5 +202,11 @@ public class MaurisBlock extends MaurisItem {
         DataHelper.deleteFile(blockstatePath);
         DataHelper.createFolder("resource_pack/assets/minecraft/blockstates/");
         DataHelper.createFile(blockstatePath, generalBSObject.toString());
+    }
+
+    @Override
+    public void place(Block block) {
+        block.setBlockData(getAsBlockData());
+        getSounds().executePlaceSound(block.getLocation());
     }
 }

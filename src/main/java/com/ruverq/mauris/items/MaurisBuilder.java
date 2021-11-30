@@ -29,9 +29,6 @@ public class MaurisBuilder {
     String name;
 
     MaurisTextures textures;
-    String displayName;
-    List<String> lore;
-    Material material;
     boolean generateModel;
 
     boolean isBlock;
@@ -85,11 +82,11 @@ public class MaurisBuilder {
     ItemCharacteristics itemCharacteristics = new ItemCharacteristics();
 
     public MaurisItem build(){
-        if(isHUD) return new MaurisHUD(folder, name, textures,itemCharacteristics, generateModel, model, isBlock, maurisBlock, file, xOffset, hudEnabled, frames, vanillaIterator, vanillaIterate, gameModeCheckers, underwaterVisibility);
-        if(isIcon) return new MaurisIcon(folder, name, textures,itemCharacteristics, generateModel, model, isBlock, maurisBlock, file, sizeMultiplier, align, yOffset);
-        if(isBlock) return new MaurisBlock(folder,name,textures,itemCharacteristics, generateModel, model, true,maurisBlock,file, type, hardness, hardnessPerTool, sounds, lootTable, selfDrop, chanceToBeBlownUp);
-        if(isMusicDisc) return new MaurisMusicDisc(folder,name,textures,itemCharacteristics, generateModel, model, false,maurisBlock, file, music, displayNameMusic);
-        return new MaurisItem(folder,name,textures,itemCharacteristics,generateModel, model, false,maurisBlock, file);
+        if(isHUD) return new MaurisHUD(folder, name, textures,itemCharacteristics, generateModel, model, maurisBlock, file, xOffset, hudEnabled, frames, vanillaIterator, vanillaIterate, gameModeCheckers, underwaterVisibility);
+        if(isIcon) return new MaurisIcon(folder, name, textures,itemCharacteristics, generateModel, model, maurisBlock, file, sizeMultiplier, align, yOffset);
+        if(isBlock) return new MaurisBlock(folder,name,textures,itemCharacteristics, generateModel, model,maurisBlock,file, type, hardness, hardnessPerTool, sounds, lootTable, selfDrop, chanceToBeBlownUp);
+        if(isMusicDisc) return new MaurisMusicDisc(folder,name,textures,itemCharacteristics, generateModel, model,maurisBlock, file, music, displayNameMusic);
+        return new MaurisItem(folder,name,textures,itemCharacteristics,generateModel, model,maurisBlock, file);
     }
 
     public void addHardnessPerTool(ItemStack itemStack, int hardness){
