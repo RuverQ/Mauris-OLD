@@ -1,0 +1,25 @@
+model_thing:
+  displayname: "Model for thing"
+  material: paper
+  model: "thing"
+  hiddenFromGUI: true #TODO
+
+decoration_thing:
+  displayname: "Thing"
+  material: paper
+  generateModel: true
+  textures:
+    - "thing"
+  decoration:
+    enabled: true
+    modelItem: model_thing
+    canWalkThrough: false
+    gravity: true
+    selfDrop: true
+    small: true
+    sounds:
+      place:
+      break:
+      step:
+      hit:
+    lootTable:
